@@ -26,6 +26,7 @@ Após abrir as configurações copie e cole todos codigos a baixo.
 
 ### Blockquotes
 
+<pre>
 {
 // Define o tema do VSCode
 "workbench.colorTheme": "Dracula",
@@ -98,3 +99,4 @@ Após abrir as configurações copie e cole todos codigos a baixo.
 "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
 }
+</pre>
