@@ -24,6 +24,8 @@ Voce precisa ter os plugins instalados:<br>
 Ctrl + Shift + P = Digite Open Settings para abrir as configurações Json do VSCODE <br>
 Após abrir as configurações copie e cole todos codigos a baixo.
 
+### Blockquotes
+
 {
 // Define o tema do VSCode
 "workbench.colorTheme": "Dracula",
