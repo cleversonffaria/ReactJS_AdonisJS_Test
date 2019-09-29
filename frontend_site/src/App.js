@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from "react";
+import { Provider } from "react-redux";
+
+import store from "./store";
+import CourseList from "./component/CourseList";
 
 export default function App() {
   return (
-    <div />
+    <Provider store={store}>
+      <CourseList />
+    </Provider>
   );
 }
+ 
