@@ -7,7 +7,12 @@ class ProductSchema extends Schema {
   up() {
     this.create("products", table => {
       table.increments();
-      table.integer("subcategory_id");
+      table.integer("subcategory_id").unsigned().notNullable();
+      table
+        .foreign("subcategory_id")
+        .references("subcategories.id")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
       table.string("name");
       table.text("description");
       table.string("brand");

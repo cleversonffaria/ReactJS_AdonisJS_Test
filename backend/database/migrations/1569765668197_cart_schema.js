@@ -3,10 +3,18 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use("Schema");
 
-class AddressSchema extends Schema {
+class CartSchema extends Schema {
   up() {
-    this.create("addresses", table => {
+    this.create("carts", table => {
       table.increments();
+      table
+        .integer("product_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("products")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
       table
         .integer("user_id")
         .unsigned()
@@ -15,20 +23,13 @@ class AddressSchema extends Schema {
         .inTable("users")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table.string("street");
-      table.integer("number");
-      table.string("reference");
-      table.string("district");
-      table.string("city");
-      table.string("uf");
-      table.integer("cep");
       table.timestamps();
     });
   }
 
   down() {
-    this.drop("addresses");
+    this.drop("carts");
   }
 }
 
-module.exports = AddressSchema;
+module.exports = CartSchema;

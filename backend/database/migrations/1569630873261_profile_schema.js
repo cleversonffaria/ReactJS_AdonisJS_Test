@@ -11,15 +11,16 @@ class ProfileSchema extends Schema {
       table
         .foreign("users_id")
         .references("users.id")
-        .onDelete("cascade");
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
       table.string("fristname");
       table.string("lastname");
       table.text("image");
       table.integer("age");
       table.string("company");
       table.text("description");
-      table.string("cnpj");
-      table.string("cpf");
+      table.integer("cnpj");
+      table.integer("cpf");
       table.timestamps();
     });
   }
