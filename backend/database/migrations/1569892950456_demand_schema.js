@@ -23,9 +23,9 @@ class DemandSchema extends Schema {
         .inTable("products")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table.boolean("status_demand"); // status do pedido      true / false
-      table.boolean("status_payment"); // status do pagamento   true / false
-      table.string("status_delivery"); // status da entrega    Preparando,Em trânsito,Entregue
+      table.boolean("status_demand").notNullable(); // status do pedido      True = Realizado / False = Cancelado
+      table.boolean("status_payment").notNullable(); // status do pagamento   true / false
+      table.string("status_delivery"); // status da entrega    Preparando / Em trânsito / Entregue
       table.timestamps();
     });
   }

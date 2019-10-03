@@ -1,62 +1,77 @@
 "use strict";
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
+const Profile = use("App/Models/Profile");
 
-/**
- * Resourceful controller for interacting with profiles
- */
 class ProfileController {
   /**
-   * Show a list of all profiles.
-   * GET profiles
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
+   * Show a list of all profilees.
+   * GET profile
    */
-  async index({ request, response, view }) {}
-
+  async index({ request, response, auth }) {
+    const profile = await Profile.findBy("user_id", auth.user.id);
+    if (!profile) {
+      return response
+        .status(401)
+        .send({ message: "Não existe perfil cadastrado para esse usuário!" });
+    }
+    return profile;
+  }
   /**
    * Create/save a new profile.
-   * POST profiles
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
+   * POST profilees
    */
-  async store({ request, response }) {}
-
-  /**
-   * Display a single profile.
-   * GET profiles/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show({ params, request, response, view }) {}
+  async store({ request, response, auth }) {
+    try {
+      const data = request.all();
+      const profile = await Profile.findBy("user_id", auth.user.id);
+      if (!profile) {        
+        await Profile.create({ user_id: auth.user.id, ...data });
+        return response.status(200).send({ messsage: "Perfil cadastrado!" });
+      }
+      return response
+        .status(200)
+        .send({ messsage: "Você ja possue um perfil cadastrado!" });
+    } catch (error) {
+      return response.status(500).send({ error: `Erro:${error.message}` });
+    }
+  }
   /**
    * Update profile details.
-   * PUT or PATCH profiles/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
+   * PUT or PATCH profilees/:id
    */
-  async update({ params, request, response }) {}
-
+  async update({ auth, request, response }) {
+    try {
+      const data = request.all();
+      const profile = await Profile.findBy("user_id", auth.user.id);
+      if (!profile) {
+        return response
+          .status(200)
+          .send({ messsage: "Nenhum perfil cadastrado!" });
+      }
+      await profile.merge(data);
+      await profile.save();
+      return response.status(200).send({ messsage: "Perfil editado!" });
+    } catch (error) {
+      return response.status(500).send({ error: `Erro:${error.message}` });
+    }
+  }
   /**
    * Delete a profile with id.
-   * DELETE profiles/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
+   * DELETE profile/:id
    */
-  async destroy({ params, request, response }) {}
+  async destroy({ auth, request, response }) {
+    try {
+      const profile = await Profile.findBy("user_id", auth.user.id);
+      if (!profile) {
+        return response
+          .status(401)
+          .send({ message: "Nenhum registro localizado" });
+      }
+      await profile.delete();
+      return response.status(200).send({ message: "Perfil excluido!" });
+    } catch (error) {
+      return response.status(500).send({ error: `Erro:${error.message}` });
+    }
+  }
 }
 
 module.exports = ProfileController;

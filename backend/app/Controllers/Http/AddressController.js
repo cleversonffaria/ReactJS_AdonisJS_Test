@@ -1,93 +1,77 @@
-'use strict'
+"use strict";
+const Address = use("App/Models/address");
 
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
-
-/**
- * Resourceful controller for interacting with addresses
- */
 class AddressController {
   /**
    * Show a list of all addresses.
    * GET addresses
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
+  async index({ request, response, auth }) {
+    const address = await Address.findBy("user_id", auth.user.id);
+    if (!address) {
+      return response
+        .status(401)
+        .send({ message: "Não existe endereço cadastrado para esse usuário!" });
+    }
+    return address;
   }
-
-  /**
-   * Render a form to be used for creating a new address.
-   * GET addresses/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
-
   /**
    * Create/save a new address.
    * POST addresses
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store({ request, response, auth }) {
+    try {
+      const data = request.all();
+      const address = await Address.findBy("user_id", auth.user.id);
+      if (!address) {
+        await Address.create({ user_id: auth.user.id, ...data });
+        return response.status(200).send({ messsage: "Endereço cadastrado!" });
+      }
+      return response
+        .status(200)
+        .send({ messsage: "Você ja possue um endereço cadastrado!" });
+    } catch (error) {
+      return response.status(500).send({ error: `Erro:${error.message}` });
+    }
   }
-
-  /**
-   * Display a single address.
-   * GET addresses/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show ({ params, request, response, view }) {
-  }
-
-  /**
-   * Render a form to update an existing address.
-   * GET addresses/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
-
   /**
    * Update address details.
    * PUT or PATCH addresses/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update({ auth, request, response }) {
+    try {
+      const data = request.all();
+      const address = await Address.findBy("user_id", auth.user.id);
+      if (!address) {
+        return response
+          .status(200)
+          .send({ messsage: "Nenhum endereço cadastrado!" });
+      }
+      await address.merge(data);
+      await address.save();
+      return response.status(200).send({ messsage: "Endereço editado!" });
+    } catch (error) {
+      return response.status(500).send({ error: `Erro:${error.message}` });
+    }
   }
-
   /**
    * Delete a address with id.
    * DELETE addresses/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
+  async destroy({ auth, request, response }) {
+    try {
+      const address = await Address.findBy("user_id", auth.user.id);
+      if (!address) {
+        return response
+          .status(401)
+          .send({ message: "Nenhum registro localizado" });
+      }
+      await address.delete();
+      return response.status(200).send({ message: "Endereço excluido!" });
+    } catch (error) {
+      return response.status(500).send({ error: `Erro:${error.message}` });
+    }
   }
 }
 
-module.exports = AddressController
+module.exports = AddressController;

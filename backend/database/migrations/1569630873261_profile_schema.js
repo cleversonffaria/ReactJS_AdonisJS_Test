@@ -7,20 +7,20 @@ class ProfileSchema extends Schema {
   up() {
     this.create("profiles", table => {
       table.increments();
-      table.integer("users_id").unsigned();
+      table.integer("user_id").unsigned();
       table
-        .foreign("users_id")
+        .foreign("user_id")
         .references("users.id")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table.string("fristname");
+      table.string("firstname");
       table.string("lastname");
       table.text("image");
       table.integer("age");
       table.string("company");
       table.text("description");
-      table.integer("cnpj");
-      table.integer("cpf");
+      table.string("cnpj");
+      table.string("cpf");
       table.timestamps();
     });
   }

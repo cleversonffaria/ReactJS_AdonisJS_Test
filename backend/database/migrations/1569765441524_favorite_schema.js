@@ -9,7 +9,6 @@ class FavoriteSchema extends Schema {
       table.increments();
       table
         .integer("product_id")
-        .unique()
         .unsigned()
         .notNullable()
         .references("id")

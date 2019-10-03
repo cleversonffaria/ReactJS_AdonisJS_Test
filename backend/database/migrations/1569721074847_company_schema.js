@@ -10,18 +10,18 @@ class CompanySchema extends Schema {
       table.string("name");
       table.string("name_fantasy");
       table.text("description");
-      table.integer("cnpj");
+      table.string("cnpj");
       table.string("email");
       table.string("whatzapp");
       table.string("facebook");
-      table.integer('contact')
-      table.integer('contact_2')
+      table.string('contact')
+      table.string('contact_2')
       table.string("street");
       table.integer("number");
       table.string("district");
       table.string("city");
       table.string("uf");
-      table.integer("cep");
+      table.string("cep");
       table.timestamps();
     });
   }

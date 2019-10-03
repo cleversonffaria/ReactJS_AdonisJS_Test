@@ -16,6 +16,7 @@ class ImagesSchema extends Schema {
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
       table.text("path");
+      table.boolean("cover");
       table.timestamps();
     });
   }

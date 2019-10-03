@@ -1,9 +1,5 @@
-'use strict'
-
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
-
+"use strict";
+const Company = use("App/Models/Company");
 /**
  * Resourceful controller for interacting with companies
  */
@@ -11,83 +7,65 @@ class CompanyController {
   /**
    * Show a list of all companies.
    * GET companies
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
+  async index({ request, response }) {
+    const company = await Company.first();
+    if (!company) {
+      return response
+        .status(401)
+        .send({ message: "Nenhum registro localizado" });
+    }
+    return company;
   }
-
-  /**
-   * Render a form to be used for creating a new company.
-   * GET companies/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
-
   /**
    * Create/save a new company.
    * POST companies
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store({ request, response, auth }) {
+    try {
+      const data = request.all();
+      const company = await Company.first();
+      if (auth.user.user_status === 1 && !company) {
+        await Company.create(data);
+        return response
+          .status(200)
+          .send({ message: "Empresa cadastrada com sucesso!" });
+      } else if (auth.user.user_status != 1) {
+        return response.status(404).send({
+          message: "Você não tem autorização para realizar esta tarefa!"
+        });
+      } else {
+        company.merge(data);
+        company.save();
+        return response
+          .status(200)
+          .send({ message: "Empresa editada com sucesso!" });
+      }
+    } catch (error) {
+      return response.status(500).send({ error: `Erro:${error.message}` });
+    }
   }
-
-  /**
-   * Display a single company.
-   * GET companies/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show ({ params, request, response, view }) {
-  }
-
-  /**
-   * Render a form to update an existing company.
-   * GET companies/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
-
-  /**
-   * Update company details.
-   * PUT or PATCH companies/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update ({ params, request, response }) {
-  }
-
   /**
    * Delete a company with id.
    * DELETE companies/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
+  async destroy({ params, request, response, auth }) {
+    const company = await Company.first();
+    if (!company) {
+      return response
+        .status(401)
+        .send({ message: "Nenhum registro localizado" });
+    }
+    if (auth.user.user_status === 1) {
+      await company.delete();
+      return response
+        .status(200)
+        .send({ message: "Empresa deletada com sucesso!" });
+    }
+    return response
+      .status(404)
+      .send({ message: "Você não tem autorização para realizar esta tarefa!" });
   }
 }
 
-module.exports = CompanyController
+module.exports = CompanyController;

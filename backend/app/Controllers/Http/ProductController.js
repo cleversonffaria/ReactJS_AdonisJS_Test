@@ -1,93 +1,106 @@
-'use strict'
+"use strict";
+const Product = use("App/Models/Product");
+const { validateAll } = use("Validator");
 
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
-
-/**
- * Resourceful controller for interacting with products
- */
 class ProductController {
   /**
    * Show a list of all products.
    * GET products
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
+  async index({ request, response, view }) {
+    const product = await Product.all();
+    return product;
   }
-
-  /**
-   * Render a form to be used for creating a new product.
-   * GET products/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
-
   /**
    * Create/save a new product.
    * POST products
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store({ request, response, auth }) {
+    const { user_status } = await auth.getUser();
+    try {
+      if (user_status === 1 || user_status === 2) {
+        const data = request.all();
+        const product = await Product.create(data);
+        // return product;
+        return response
+          .status(200)
+          .send({ message: `Produto cadastrado com sucesso!` });
+      }
+      return response.status(404).send({
+        message: `Você não tem autorização para cadastrar produtos!`
+      });
+    } catch (error) {
+      return response.status(401).send({ message: `Erro: ${error.message}` });
+    }
   }
-
   /**
    * Display a single product.
    * GET products/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-  }
-
-  /**
-   * Render a form to update an existing product.
-   * GET products/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
+  async show({ params, response }) {
+    try {
+      const product = await Product.findBy("id", params.id);
+      if (!product) {
+        return response
+          .status(401)
+          .send({ message: "Nenhum registro localizado" });
+      }
+      return product;
+    } catch (error) {
+      return response.status(401).send({ message: `Erro: ${error.message}` });
+    }
   }
 
   /**
    * Update product details.
    * PUT or PATCH products/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update({ params, request, response, auth }) {
+    try {
+      const data = request.all();
+      const product = await Product.findBy("id", params.id);
+      if (!product) {
+        return response
+          .status(401)
+          .send({ message: "Nenhum registro localizado" });
+      }
+      if (auth.user.user_status <= 2) {
+        product.merge(data);
+        await product.save();
+        return response
+          .status(200)
+          .send({ message: "Produto editado com sucesso!" });
+      } else {
+        return response
+          .status(404)
+          .send({ message: "Você não tem autorização para editar produtos!" });
+      }
+    } catch (error) {
+      return response.status(500).send({ error: `Erro:${error.message}` });
+    }
   }
 
   /**
    * Delete a product with id.
    * DELETE products/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
+  async destroy({ params, response, auth }) {
+    const product = await Product.findBy("id", params.id);
+    if (!product) {
+      return response
+        .status(401)
+        .send({ message: "Nenhum registro localizado" });
+    }
+    if (auth.user.user_status <= 2) {
+      await product.delete();
+      return response
+        .status(200)
+        .send({ message: "Produto deletado com sucesso!" });
+    }
+    return response
+      .status(404)
+      .send({ message: "Você não tem autorização para deletar produtos!" });
   }
 }
 
-module.exports = ProductController
+module.exports = ProductController;
