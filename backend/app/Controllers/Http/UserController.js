@@ -4,8 +4,9 @@ const User = use("App/Models/User");
 class UserController {
   async index({ request, response, auth }) {
     const data = await User.findBy("id", auth.user.id);
-    await data.load(["profile"]);
-    await data.load(["address"]);
+    await data.load("profile");
+    await data.load("address");
+    await data.load("favorite");
 
     return data;
   }

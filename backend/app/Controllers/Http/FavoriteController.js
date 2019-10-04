@@ -14,9 +14,14 @@ class FavoriteController {
     }
   }
   async index({ params, response, auth }) {
-    return await Favorite.query()
-      .where("user_id", auth.user.id)
-      .fetch();
+    try {
+      const favorite = await Favorite.query()
+        .where("user_id", auth.user.id)
+        .fetch();
+      return favorite;
+    } catch (error) {
+      return response.status(401).send({ message: `Erre:${error.message}` });
+    }
   }
   async destroy({ params, response, auth }) {
     const favorite = await Favorite.findBy("user_id", auth.user.id);

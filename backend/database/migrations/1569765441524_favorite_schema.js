@@ -6,7 +6,6 @@ const Schema = use("Schema");
 class FavoriteSchema extends Schema {
   up() {
     this.create("favorites", table => {
-      table.increments();
       table
         .integer("product_id")
         .unsigned()
@@ -23,7 +22,6 @@ class FavoriteSchema extends Schema {
         .inTable("users")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table.timestamps();
     });
   }
 

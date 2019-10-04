@@ -24,6 +24,9 @@ class User extends Model {
   profile() {
     return this.hasOne("App/Models/Profile");
   }
+  favorite() {
+    return this.hasMany("App/Models/favorite");
+  }
 }
 
 module.exports = User;

@@ -12,7 +12,7 @@ class ProfileController {
       return response
         .status(401)
         .send({ message: "Não existe perfil cadastrado para esse usuário!" });
-    }
+    }    
     return profile;
   }
   /**
@@ -23,7 +23,7 @@ class ProfileController {
     try {
       const data = request.all();
       const profile = await Profile.findBy("user_id", auth.user.id);
-      if (!profile) {        
+      if (!profile) {
         await Profile.create({ user_id: auth.user.id, ...data });
         return response.status(200).send({ messsage: "Perfil cadastrado!" });
       }
