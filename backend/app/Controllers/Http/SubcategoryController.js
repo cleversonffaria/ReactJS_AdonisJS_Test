@@ -16,7 +16,7 @@ class SubcategoryController {
           .status(200)
           .send({ message: "Sub-Categoria criada com sucesso!" });
       }
-      return response.status(404).send({
+      return response.status(403).send({
         message: "Você não tem autorização para realizar essa tarefa!"
       });
     } catch (error) {
@@ -37,7 +37,7 @@ class SubcategoryController {
         subcategory.save();
         return response.status(200).send({ message: "Sub-Categoria editada!" });
       }
-      return response.status(404).send({
+      return response.status(403).send({
         message: "Você não tem autorização para realizar essa tarefa!"
       });
     } catch (error) {
@@ -56,7 +56,7 @@ class SubcategoryController {
       return response.status(200).send({ message: "Sub-Categoria excluida!" });
     }
     return response
-      .status(404)
+      .status(403)
       .send({ message: "Você não tem autorização para realizar essa tarefa!" });
   }
 }

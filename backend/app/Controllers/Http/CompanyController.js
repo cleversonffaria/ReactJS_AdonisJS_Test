@@ -31,7 +31,7 @@ class CompanyController {
           .status(200)
           .send({ message: "Empresa cadastrada com sucesso!" });
       } else if (auth.user.user_status != 1) {
-        return response.status(404).send({
+        return response.status(403).send({
           message: "Você não tem autorização para realizar esta tarefa!"
         });
       } else {
@@ -63,7 +63,7 @@ class CompanyController {
         .send({ message: "Empresa deletada com sucesso!" });
     }
     return response
-      .status(404)
+      .status(403)
       .send({ message: "Você não tem autorização para realizar esta tarefa!" });
   }
 }

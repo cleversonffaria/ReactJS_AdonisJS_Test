@@ -15,7 +15,7 @@ class CategoryController {
           .status(200)
           .send({ message: "Categoria criada com sucesso!" });
       }
-      return response.status(404).send({
+      return response.status(403).send({
         message: "Você não tem autorização para realizar essa tarefa!"
       });
     } catch (error) {
@@ -36,7 +36,7 @@ class CategoryController {
         category.save();
         return response.status(200).send({ message: "Categoria editada!" });
       }
-      return response.status(404).send({
+      return response.status(403).send({
         message: "Você não tem autorização para realizar essa tarefa!"
       });
     } catch (error) {
@@ -55,7 +55,7 @@ class CategoryController {
       return response.status(200).send({ message: "Categoria excluida!" });
     }
     return response
-      .status(404)
+      .status(403)
       .send({ message: "Você não tem autorização para realizar essa tarefa!" });
   }
 }

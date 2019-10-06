@@ -1,6 +1,6 @@
 "use strict";
 const Favorite = use("App/Models/Favorite");
-
+const Database = use("Database");
 class FavoriteController {
   async store({ response, auth, params }) {
     try {
@@ -10,7 +10,7 @@ class FavoriteController {
       });
       return favorite;
     } catch (error) {
-      return response.status(401).send({ message: `Erro:${error.message}` });
+      return response.status(401).send({ message: "Erro ao marcar como favorito" });
     }
   }
   async index({ params, response, auth }) {
@@ -24,9 +24,18 @@ class FavoriteController {
     }
   }
   async destroy({ params, response, auth }) {
-    const favorite = await Favorite.findBy("user_id", auth.user.id);
+    const favorite = await Database.table("favorites")
+      .where("product_id", params.id)
+      .where("user_id", auth.user.id)
+      .delete();
 
-    await favorite.delete();
+    if (favorite) {
+      return response.status(200).send({ message: "Favorito Excluido!" });
+    } else {
+      return response
+        .status(200)
+        .send({ message: "Este produto não existe como seu favorito!" });
+    }
   }
 }
 

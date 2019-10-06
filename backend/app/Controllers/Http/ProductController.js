@@ -7,8 +7,8 @@ class ProductController {
    * Show a list of all products.
    * GET products
    */
-  async index({ request, response, view }) {
-    const product = await Product.all();
+  async index() {
+    const product = await Product.query().withCount('favorite as totalFavorite').withCount('images as totalImages').fetch();
     return product;
   }
   /**
@@ -26,7 +26,7 @@ class ProductController {
           .status(200)
           .send({ message: `Produto cadastrado com sucesso!` });
       }
-      return response.status(404).send({
+      return response.status(403).send({
         message: `Você não tem autorização para cadastrar produtos!`
       });
     } catch (error) {
@@ -73,7 +73,7 @@ class ProductController {
           .send({ message: "Produto editado com sucesso!" });
       } else {
         return response
-          .status(404)
+          .status(403)
           .send({ message: "Você não tem autorização para editar produtos!" });
       }
     } catch (error) {
@@ -99,7 +99,7 @@ class ProductController {
         .send({ message: "Produto deletado com sucesso!" });
     }
     return response
-      .status(404)
+      .status(403)
       .send({ message: "Você não tem autorização para deletar produtos!" });
   }
 }

@@ -10,6 +10,9 @@ class Product extends Model {
   favorite() {
     return this.hasMany("App/Models/favorite");
   }
+  images() {
+    return this.hasMany("App/Models/image");
+  }
 }
 
 module.exports = Product;
