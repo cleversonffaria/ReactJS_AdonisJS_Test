@@ -6,7 +6,7 @@ class ProfileController {
    * Show a list of all profilees.
    * GET profile
    */
-  async index({ request, response, auth }) {
+  async index({ response, auth }) {
     const profile = await Profile.findBy("user_id", auth.user.id);
     if (!profile) {
       return response
@@ -75,12 +75,10 @@ class ProfileController {
       await profile.delete();
       return response.status(200).send({ message: "Perfil excluido!" });
     } catch (error) {
-      return response
-        .status(500)
-        .send({
-          message: `Ocorreu algum erro ao deletar este perfil.`,
-          error: `Erro:${error.message}`
-        });
+      return response.status(500).send({
+        message: `Ocorreu algum erro ao deletar este perfil.`,
+        error: `Erro:${error.message}`
+      });
     }
   }
 }

@@ -1,15 +1,7 @@
 "use strict";
 const User = use("App/Models/User");
-
+const Database = use("Database");
 class UserController {
-  async index({ request, response, auth }) {
-    const data = await User.findBy("id", auth.user.id);
-    await data.load("profile");
-    await data.load("address");
-    await data.load("favorite");
-
-    return data;
-  }
   async create({ request, response }) {
     try {
       const data = request.only(["username", "email", "password"]);
@@ -77,12 +69,10 @@ class UserController {
         .status(404)
         .send({ message: "Acesso negado para editar este usuário" });
     } catch (error) {
-      return response
-        .status(500)
-        .send({
-          message: `Ocorreu algum erro ao editar este usuário.`,
-          error: `Erro:${error.message}`
-        });
+      return response.status(500).send({
+        message: `Ocorreu algum erro ao editar este usuário.`,
+        error: `Erro:${error.message}`
+      });
     }
   }
 }

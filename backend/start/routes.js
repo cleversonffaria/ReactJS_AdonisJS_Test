@@ -6,7 +6,6 @@ Route.post("/login", "UserController.login");
 Route.post("/user", "UserController.create").validator("User");
 Route.delete("/user/:id", "UserController.deleteUser").middleware(["auth"]);
 Route.put("/user/:id", "UserController.updateUser").middleware(["auth"]);
-Route.get("/user", "UserController.index").middleware(["auth"]);
 // Produto
 Route.post("/product", "ProductController.store").middleware(["auth"]);
 Route.put("/product/:id", "ProductController.update").middleware(["auth"]);
