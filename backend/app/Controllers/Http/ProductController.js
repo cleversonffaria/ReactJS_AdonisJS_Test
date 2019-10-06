@@ -7,8 +7,11 @@ class ProductController {
    * Show a list of all products.
    * GET products
    */
-  async index() {
-    const product = await Product.query().withCount('favorite as totalFavorite').withCount('images as totalImages').fetch();
+  async index({ response }) {
+    const product = await Product.query()
+      .withCount("favorite as totalFavorite")
+      .withCount("images as totalImages")
+      .fetch();
     return product;
   }
   /**
@@ -27,10 +30,13 @@ class ProductController {
           .send({ message: `Produto cadastrado com sucesso!` });
       }
       return response.status(403).send({
-        message: `Você não tem autorização para cadastrar produtos!`
+        message: `Acesso negado para cadastrar este produtos!`
       });
     } catch (error) {
-      return response.status(401).send({ message: `Erro: ${error.message}` });
+      return response.status(401).send({
+        message: `Erro ao criar produto.`,
+        error: `Erro:${error.message}`
+      });
     }
   }
   /**
@@ -48,7 +54,11 @@ class ProductController {
       await product.loadMany(["subcategory", "favorite"]);
       return product;
     } catch (error) {
-      return response.status(401).send({ message: `Erro: ${error.message}` });
+      return response.status(401).send({
+        message: `Erro na visualização do produto.`,
+        error: `Erro:${error.message}`
+      });
+      // return response.status(401).send({ message: `Erro: ${error.message}` });
     }
   }
 
@@ -74,10 +84,13 @@ class ProductController {
       } else {
         return response
           .status(403)
-          .send({ message: "Você não tem autorização para editar produtos!" });
+          .send({ message: "Acesso negado para editar este produtos!" });
       }
     } catch (error) {
-      return response.status(500).send({ error: `Erro:${error.message}` });
+      return response.status(500).send({
+        message: `Erro ao editar produto.`,
+        error: `Erro:${error.message}`
+      });
     }
   }
 
@@ -100,7 +113,7 @@ class ProductController {
     }
     return response
       .status(403)
-      .send({ message: "Você não tem autorização para deletar produtos!" });
+      .send({ message: "Acesso negado para para deletar este produtos!" });
   }
 }
 

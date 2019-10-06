@@ -13,10 +13,11 @@ class Category {
   }
   get messages() {
     return {
-      "name.required": "Esse campo é obrigatório",
+      "name.required": "Insira o nome da subcategoria",
       "name.unique": "Essa subcategoria já existe",
-      "description.required": "Esse campo é obrigatório",
-      "category_id.required": "Esse campo é obrigatório"
+      "description.required": "Campo descrição precisa ser preenchido",
+      "description.min": "Descrição precisa conter no minimo 10 caracteres",
+      "category_id.required": "Você precisa escolher uma categoria"
     };
   }
 }

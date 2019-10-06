@@ -1,19 +1,18 @@
 "use strict";
 const Demand = use("App/Models/Demand");
+const Product = use("App/Models/Product");
 const Database = use("Database");
 
 class DemandController {
   async store({ request, response, auth, params }) {
     try {
+      const product = await Product.findBy("id", params.id);
+      if (!product) {
+        return response.status(401).send({
+          message: "Não foi possivel completar o pedido, produto indisponivel!"
+        });
+      }
       const { status_demand, ...data } = request.all();
-      // const addProduct = await Demand.findBy("product_id", params.id);
-      // if (addProduct) {
-      //   addProduct.amount = addProduct.amount + data.amount;
-      //   addProduct.save();
-      // return response.status(200).send({
-      //   message: `Pedido realizado`
-      // });
-      // }
       const demand = await Demand.create({
         user_id: auth.user.id,
         status_demand: true,
@@ -24,17 +23,29 @@ class DemandController {
         message: `Pedido realizado`
       });
     } catch (error) {
-      return response.status(401).send({ Error: `Erro:${error.message}` });
+      return response.status(401).send({
+        message: `Ocorreu algum erro ao realizar o pedido!`,
+        error: `Erro:${error.message}`
+      });
     }
   }
   async index({ response, auth }) {
     try {
-      const demand = await Demand.query()
-        .where("user_id", auth.user.id)
-        .fetch();
+      const demand = await Database.table("demands").where(
+        "user_id",
+        auth.user.id
+      );
+      if (!demand[0]) {
+        return response
+          .status(403)
+          .send({ message: "Nenhum pedido para este usuário" });
+      }
       return demand;
     } catch (error) {
-      return response.status(401).send({ Error: `Erro:${error.message}` });
+      return response.status(401).send({
+        message: `Ocorreu algum erro ao visualizar os pedidos.`,
+        error: `Erro:${error.message}`
+      });
     }
   }
   async update({ request, response, auth, params }) {
@@ -58,10 +69,13 @@ class DemandController {
         return response.status(200).send({ message: "Pedido editado!" });
       }
       return response.status(403).send({
-        message: "Você não tem autorização para editar este pedido!"
+        message: "Acesso negado para editar este pedido!"
       });
     } catch (error) {
-      return response.status(401).send({ Error: `Erro:${error.message}` });
+      return response.status(401).send({
+        message: `Ocorreu algum erro ao editar o pedido.`,
+        error: `Erro:${error.message}`
+      });
     }
   }
   async destroy({ response, auth, params }) {
@@ -77,11 +91,14 @@ class DemandController {
         return response.status(200).send({ message: "Pedido Deletado!" });
       } else {
         return response.status(403).send({
-          message: "Você não tem autorização para deletar este pedido!"
+          message: "Acesso negado para deletar este pedido!"
         });
       }
     } catch (error) {
-      return response.status(401).send({ Error: `Erro:${error.message}` });
+      return response.status(401).send({
+        message: "Ocorreu algum erro ao deletar o pedido.",
+        error: `Erro:${error.message}`
+      });
     }
   }
 }

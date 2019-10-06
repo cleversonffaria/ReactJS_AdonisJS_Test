@@ -1,26 +1,46 @@
 "use strict";
 const Favorite = use("App/Models/Favorite");
+const Product = use("App/Models/Product");
 const Database = use("Database");
 class FavoriteController {
   async store({ response, auth, params }) {
     try {
+      const product = await Product.findBy("id", params.id);
+      if (!product) {
+        return response.status(401).send({
+          message:
+            "Não é possivel adicionar como favorito, produto indisponivel!"
+        });
+      }
       const favorite = await Favorite.create({
         user_id: auth.user.id,
         product_id: parseInt(params.id)
       });
-      return favorite;
+      return response
+        .status(200)
+        .send({ message: "Produto adicionado aos favoritos!" });
     } catch (error) {
-      return response.status(401).send({ message: "Erro ao marcar como favorito" });
+      return response.status(401).send({
+        message: "Erro ao adicionar aos favorito.",
+        error: `Erro:${error.message}`
+      });
     }
   }
-  async index({ params, response, auth }) {
+  async index({ response, auth }) {
     try {
-      const favorite = await Favorite.query()
-        .where("user_id", auth.user.id)
-        .fetch();
+      const favorite = await Database.table("favorites").where(
+        "user_id",
+        auth.user.id
+      );
+      if (!favorite[0]) {
+        return response.status(401).send({ message: "Não há favoritos" });
+      }
       return favorite;
     } catch (error) {
-      return response.status(401).send({ message: `Erre:${error.message}` });
+      return response.status(401).send({
+        message: `Ocorreu algum erro ao visualizar favoritos`,
+        error: `Erro:${error.message}`
+      });
     }
   }
   async destroy({ params, response, auth }) {
@@ -28,13 +48,15 @@ class FavoriteController {
       .where("product_id", params.id)
       .where("user_id", auth.user.id)
       .delete();
-
     if (favorite) {
-      return response.status(200).send({ message: "Favorito Excluido!" });
+      return response.status(200).send({ message: "Favorito excluido!" });
     } else {
       return response
-        .status(200)
-        .send({ message: "Este produto não existe como seu favorito!" });
+        .status(404)
+        .send({
+          message:
+            "Este Usuário não possui o produto como favorito"
+        });
     }
   }
 }

@@ -29,9 +29,12 @@ class AddressController {
       }
       return response
         .status(200)
-        .send({ messsage: "Você ja possue um endereço cadastrado!" });
+        .send({ messsage: "Este usuário já possui um endereço cadastrado!" });
     } catch (error) {
-      return response.status(500).send({ error: `Erro:${error.message}` });
+      return response.status(500).send({
+        message: "Ocorreu algum erro ao criar o endereço.",
+        error: `Erro:${error.message}`
+      });
     }
   }
   /**
@@ -44,14 +47,17 @@ class AddressController {
       const address = await Address.findBy("user_id", auth.user.id);
       if (!address) {
         return response
-          .status(200)
-          .send({ messsage: "Nenhum endereço cadastrado!" });
+          .status(401)
+          .send({ message: "Nenhum registro localizado" });
       }
       await address.merge(data);
       await address.save();
       return response.status(200).send({ messsage: "Endereço editado!" });
     } catch (error) {
-      return response.status(500).send({ error: `Erro:${error.message}` });
+      return response.status(500).send({
+        message: "Ocorreu algum erro ao editar endereço.",
+        error: `Erro:${error.message}`
+      });
     }
   }
   /**
@@ -69,7 +75,12 @@ class AddressController {
       await address.delete();
       return response.status(200).send({ message: "Endereço excluido!" });
     } catch (error) {
-      return response.status(500).send({ error: `Erro:${error.message}` });
+      return response
+        .status(500)
+        .send({
+          message: "Ocorreu algum erro ao deletar endereço.",
+          error: `Erro:${error.message}`
+        });
     }
   }
 }

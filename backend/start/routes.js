@@ -14,7 +14,7 @@ Route.delete("/product/:id", "ProductController.destroy").middleware(["auth"]);
 Route.resource("/product", "ProductController").apiOnly().except(["store", "update", "destroy"]);
 // Empresa
 Route.delete("/company", "CompanyController.destroy").middleware(["auth"]);
-Route.post("/company", "CompanyController.store").middleware(["auth"]);
+Route.post("/company", "CompanyController.store").middleware(["auth"]).validator("Company");
 Route.get("/company", "CompanyController.index");
 // Categoria
 Route.get("/category", "CategoryController.index");

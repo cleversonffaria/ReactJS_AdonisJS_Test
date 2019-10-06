@@ -16,7 +16,10 @@ class UserController {
       const user = await User.create({ ...data, user_status: 3 });
       return user;
     } catch (error) {
-      return response.status(500).send({ error: `Erro:${error.message}` });
+      return response.status(500).send({
+        message: `Ocorreu algum erro ao criar este usuário.`,
+        error: `Erro:${error.message}`
+      });
     }
   }
   async login({ request, response, auth }) {
@@ -25,7 +28,10 @@ class UserController {
       const validaToken = auth.attempt(email, password);
       return validaToken;
     } catch (error) {
-      return response.status(500).send({ error: `Erro:${error.message}` });
+      return response.status(500).send({
+        message: `Ocorreu algum erro ao logar.`,
+        error: `Erro:${error.message}`
+      });
     }
   }
   async deleteUser({ request, params, response, auth }) {
@@ -35,11 +41,10 @@ class UserController {
         .status(404)
         .send({ message: "Nenhum usuário localizado" });
     }
-    if (user.id == auth.user.id && user.user_status >= 2) {
-      await user.delete();
-      return response.status(200).send({ message: "Registro removido!" });
-    }
-    if (user.id != auth.user.id && auth.user.user_status === 1) {
+    if (
+      (user.id == auth.user.id && user.user_status >= 2) ||
+      (user.id != auth.user.id && auth.user.user_status === 1)
+    ) {
       await user.delete();
       return response.status(200).send({ message: "Registro removido!" });
     }
@@ -70,9 +75,14 @@ class UserController {
       }
       return response
         .status(404)
-        .send({ message: "Você nao tem permisão para alterar este usuário" });
+        .send({ message: "Acesso negado para editar este usuário" });
     } catch (error) {
-      return response.status(500).send({ error: `Erro:${error.message}` });
+      return response
+        .status(500)
+        .send({
+          message: `Ocorreu algum erro ao editar este usuário.`,
+          error: `Erro:${error.message}`
+        });
     }
   }
 }

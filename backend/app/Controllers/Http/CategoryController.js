@@ -16,10 +16,15 @@ class CategoryController {
           .send({ message: "Categoria criada com sucesso!" });
       }
       return response.status(403).send({
-        message: "Você não tem autorização para realizar essa tarefa!"
+        message: "Acesso negado para realizar esta tarefa!"
       });
     } catch (error) {
-      return response.status(500).send({ error: `Erro:${error.message}` });
+      return response
+        .status(500)
+        .send({
+          message: "Ocorreu algum erro ao criar a categoria.",
+          error: `Erro:${error.message}`
+        });
     }
   }
   async update({ request, response, auth, params }) {
@@ -37,10 +42,13 @@ class CategoryController {
         return response.status(200).send({ message: "Categoria editada!" });
       }
       return response.status(403).send({
-        message: "Você não tem autorização para realizar essa tarefa!"
+        message: "Acesso negado para realizar esta tarefa!"
       });
     } catch (error) {
-      return response.status(500).send({ error: `Erro:${error.message}` });
+      return response.status(500).send({
+        message: "Ocorreu algum erro ao editar a categoria.",
+        error: `Erro:${error.message}`
+      });
     }
   }
   async destroy({ response, auth, params }) {
@@ -56,7 +64,7 @@ class CategoryController {
     }
     return response
       .status(403)
-      .send({ message: "Você não tem autorização para realizar essa tarefa!" });
+      .send({ message: "Acesso negado para realizar esta tarefa!" });
   }
 }
 

@@ -11,8 +11,8 @@ class ProfileController {
     if (!profile) {
       return response
         .status(401)
-        .send({ message: "Não existe perfil cadastrado para esse usuário!" });
-    }    
+        .send({ message: "Não existe perfil cadastrado para este usuário!" });
+    }
     return profile;
   }
   /**
@@ -29,9 +29,12 @@ class ProfileController {
       }
       return response
         .status(200)
-        .send({ messsage: "Você ja possue um perfil cadastrado!" });
+        .send({ messsage: "Este usuário já possui perfil cadastrado!" });
     } catch (error) {
-      return response.status(500).send({ error: `Erro:${error.message}` });
+      return response.status(500).send({
+        message: `Ocorreu algum erro ao criar este perfil.`,
+        error: `Erro:${error.message}`
+      });
     }
   }
   /**
@@ -51,7 +54,10 @@ class ProfileController {
       await profile.save();
       return response.status(200).send({ messsage: "Perfil editado!" });
     } catch (error) {
-      return response.status(500).send({ error: `Erro:${error.message}` });
+      return response.status(500).send({
+        message: `Ocorreu algum erro ao editar este perfil.`,
+        error: `Erro:${error.message}`
+      });
     }
   }
   /**
@@ -69,7 +75,12 @@ class ProfileController {
       await profile.delete();
       return response.status(200).send({ message: "Perfil excluido!" });
     } catch (error) {
-      return response.status(500).send({ error: `Erro:${error.message}` });
+      return response
+        .status(500)
+        .send({
+          message: `Ocorreu algum erro ao deletar este perfil.`,
+          error: `Erro:${error.message}`
+        });
     }
   }
 }

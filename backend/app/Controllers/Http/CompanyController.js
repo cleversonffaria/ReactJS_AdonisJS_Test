@@ -32,7 +32,7 @@ class CompanyController {
           .send({ message: "Empresa cadastrada com sucesso!" });
       } else if (auth.user.user_status != 1) {
         return response.status(403).send({
-          message: "Você não tem autorização para realizar esta tarefa!"
+          message: "Acesso negado para realizar esta tarefa!"
         });
       } else {
         company.merge(data);
@@ -42,7 +42,12 @@ class CompanyController {
           .send({ message: "Empresa editada com sucesso!" });
       }
     } catch (error) {
-      return response.status(500).send({ error: `Erro:${error.message}` });
+      return response
+        .status(500)
+        .send({
+          message: `Ocorreu algum erro ao cadastrar a empresa.`,
+          error: `Erro:${error.message}`
+        });
     }
   }
   /**
@@ -64,8 +69,7 @@ class CompanyController {
     }
     return response
       .status(403)
-      .send({ message: "Você não tem autorização para realizar esta tarefa!" });
+      .send({ message: "Acesso negado para realizar esta tarefa!" });
   }
 }
-
 module.exports = CompanyController;
