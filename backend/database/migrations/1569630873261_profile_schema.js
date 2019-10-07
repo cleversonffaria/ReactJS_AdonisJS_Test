@@ -15,7 +15,7 @@ class ProfileSchema extends Schema {
         .onDelete("CASCADE");
       table.string("firstname");
       table.string("lastname");
-      table.text("image");
+      table.string("image");
       table.integer("age");
       table.string("company");
       table.text("description");

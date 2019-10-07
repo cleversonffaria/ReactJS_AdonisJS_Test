@@ -1,12 +1,9 @@
 "use strict";
 const Product = use("App/Models/Product");
 const { validateAll } = use("Validator");
+const Helpers = use("Helpers");
 
 class ProductController {
-  /**
-   * Show a list of all products.
-   * GET products
-   */
   async index({ response }) {
     const product = await Product.query()
       .withCount("favorite as totalFavorite")
@@ -14,17 +11,39 @@ class ProductController {
       .fetch();
     return product;
   }
-  /**
-   * Create/save a new product.
-   * POST products
-   */
-  async store({ request, response, auth }) {
+  async store({ request, response, auth, params }) {
     const { user_status } = await auth.getUser();
     try {
       if (user_status === 1 || user_status === 2) {
         const data = request.all();
-        const product = await Product.create(data);
-        // return product;
+        // UPLOAD
+        const img = request.file("img", {
+          types: ["image"],
+          size: "5mb",
+          extnames: ["png", "jpg", "jpeg"]
+        });
+        await img.move(Helpers.tmpPath("uploads"), {
+          name: `${new Date().getTime()}-${img.clientName}`
+        });
+        if (img.error()[0]) {
+          if (img.error()[0].type === "extname") {
+            return response.status(404).send({
+              message: "Somente os formatos (png, jpg, jpeg) são aceitos."
+            });
+          } else if (img.error()[0].type === "size") {
+            return response.status(404).send({
+              message: "O tamanho da imagem deve ser inferior a 5 MB"
+            });
+          }
+          return response.status(404).send({
+            message: "Ocorreu algum erro ao enviar a imagem do produto"
+          });
+        }
+        await Product.create({
+          image: img.fileName,
+          ...data
+        });
+
         return response
           .status(200)
           .send({ message: `Produto cadastrado com sucesso!` });
@@ -39,10 +58,6 @@ class ProductController {
       });
     }
   }
-  /**
-   * Display a single product.
-   * GET products/:id
-   */
   async show({ params, response }) {
     try {
       const product = await Product.findBy("id", params.id);
@@ -51,21 +66,16 @@ class ProductController {
           .status(401)
           .send({ message: "Nenhum registro localizado" });
       }
-      await product.loadMany(["subcategory", "favorite"]);
+      await product.loadMany(["subcategory", "favorite","images"]);
       return product;
     } catch (error) {
       return response.status(401).send({
         message: `Erro na visualização do produto.`,
         error: `Erro:${error.message}`
       });
-      // return response.status(401).send({ message: `Erro: ${error.message}` });
     }
   }
 
-  /**
-   * Update product details.
-   * PUT or PATCH products/:id
-   */
   async update({ params, request, response, auth }) {
     try {
       const data = request.all();
@@ -76,7 +86,37 @@ class ProductController {
           .send({ message: "Nenhum registro localizado" });
       }
       if (auth.user.user_status <= 2) {
-        product.merge(data);
+        // DELETAR
+        const fs = Helpers.promisify(require("fs"));
+        const image = Helpers.tmpPath(`uploads/${product.image}`);
+        await fs.unlink(image);
+        // UPLOAD
+        const img = request.file("img", {
+          types: ["image"],
+          size: "5mb",
+          extnames: ["png", "jpg", "jpeg"]
+        });
+        await img.move(Helpers.tmpPath("uploads"), {
+          name: `${new Date().getTime()}-${img.clientName}`
+        });
+        if (img.error()[0]) {
+          if (img.error()[0].type === "extname") {
+            return response.status(404).send({
+              message: "Somente os formatos (png, jpg, jpeg) são aceitos."
+            });
+          } else if (img.error()[0].type === "size") {
+            return response.status(404).send({
+              message: "O tamanho da imagem deve ser inferior a 5 MB"
+            });
+          }
+          return response.status(404).send({
+            message: "Ocorreu algum erro ao enviar a imagem do produto"
+          });
+        }
+        await product.merge({
+          image: img.fileName,
+          ...data
+        });
         await product.save();
         return response
           .status(200)
@@ -94,10 +134,6 @@ class ProductController {
     }
   }
 
-  /**
-   * Delete a product with id.
-   * DELETE products/:id
-   */
   async destroy({ params, response, auth }) {
     const product = await Product.findBy("id", params.id);
     if (!product) {
@@ -106,6 +142,10 @@ class ProductController {
         .send({ message: "Nenhum registro localizado" });
     }
     if (auth.user.user_status <= 2) {
+      const fs = Helpers.promisify(require("fs"));
+      const img = Helpers.tmpPath(`uploads/${product.image}`);
+      await fs.unlink(img);
+
       await product.delete();
       return response
         .status(200)

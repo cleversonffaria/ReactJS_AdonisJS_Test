@@ -48,3 +48,4 @@ Route.get("/favorite", "FavoriteController.index").middleware(["auth"]);
 Route.post('/product/:id/image', 'ImageController.create').middleware(['auth'])
 Route.delete('/image/:image', 'ImageController.destroy').middleware(['auth'])
 Route.get('/images/:id', 'ImageController.index')
+Route.get('/uploads/:path', 'ImageController.show')

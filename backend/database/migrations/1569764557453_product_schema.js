@@ -14,6 +14,7 @@ class ProductSchema extends Schema {
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
       table.string("name");
+      table.string("image");
       table.text("description");
       table.string("brand");
       table.integer("price");

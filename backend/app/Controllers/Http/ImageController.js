@@ -17,6 +17,9 @@ class ImageController {
     }
     return imgProduct;
   }
+  async show({ params, response }) {
+    return response.download(Helpers.tmpPath(`uploads/${params.path}`));
+  }
   async create({ request, response, auth, params }) {
     try {
       if (auth.user.user_status === 1 || auth.user.user_status === 2) {
@@ -31,7 +34,7 @@ class ImageController {
           size: "5mb",
           extnames: ["png", "jpg", "jpeg"]
         });
-        await img.moveAll(Helpers.tmpPath("images"), file => {
+        await img.moveAll(Helpers.tmpPath("uploads"), file => {
           return {
             name: `${new Date().getTime()}-${file.clientName}`
           };
@@ -83,7 +86,7 @@ class ImageController {
             .send({ message: "Erro ao deletar, esta imagem não existe!" });
         }
         const fs = Helpers.promisify(require("fs"));
-        const img = Helpers.tmpPath(`images/${params.image}`);
+        const img = Helpers.tmpPath(`uploads/${params.image}`);
         await fs.unlink(img);
         imgProduct.delete();
         return response.status(200).send({ message: "Imagem Deletada!" });

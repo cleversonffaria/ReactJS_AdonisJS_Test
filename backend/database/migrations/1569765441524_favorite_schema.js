@@ -22,6 +22,7 @@ class FavoriteSchema extends Schema {
         .inTable("users")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
+      table.unique(["product_id", "user_id"]);
     });
   }
 
