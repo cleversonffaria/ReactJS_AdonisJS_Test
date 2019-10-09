@@ -1,4 +1,4 @@
-### `yarn` Or `npm install`
+### `yarn` Or `npm install` ###
 
 Para iniciar o projeto.<br>
 
