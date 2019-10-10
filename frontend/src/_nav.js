@@ -19,12 +19,12 @@ export default {
       class: ''             // optional class names space delimited list for title item ex: "text-center"
     },
     {
-      name: 'Cor',
-      url: '/admin/theme/colors',
+      name: 'Categoria',
+      url: '/admin/categoria',
       icon: 'icon-drop',
     },
     {
-      name: 'Typography',
+      name: 'Sub Categoria',
       url: '/admin/theme/typography',
       icon: 'icon-pencil',
     },
@@ -37,7 +37,7 @@ export default {
       },
     },
     {
-      name: 'Base',
+      name: 'Produtos',
       url: '/admin/base',
       icon: 'icon-puzzle',
       children: [

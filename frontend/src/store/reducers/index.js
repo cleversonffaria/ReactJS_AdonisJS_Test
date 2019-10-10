@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
-import courses from "./courses";
+import product from "./product";
+
 export default combineReducers({
-  courses
+  product
 });
