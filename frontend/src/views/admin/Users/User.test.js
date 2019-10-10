@@ -10,6 +10,6 @@ it('renders without crashing', () => {
       <User match={{params: {id: "1"}, isExact: true, path: "/users/:id", name: "User details"}}/>
     </MemoryRouter>
   );
-  expect(wrapper.containsMatchingElement(<strong>Samppa Nori</strong>)).toEqual(true)
+  expect(wrapper.containsMatchingElement(<strong>Cléverson Fernandes</strong>)).toEqual(true)
   wrapper.unmount()
 });

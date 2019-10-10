@@ -17,7 +17,7 @@ import {
 } from '@coreui/react';
 // sidebar nav config
 import navigation from '../../_nav';
-// routes config
+// routas config
 import routes from '../../routes';
 
 const DefaultAside = React.lazy(() => import('./DefaultAside'));
@@ -26,7 +26,7 @@ const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
 class DefaultLayout extends Component {
 
-  loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+  loading = () => <div className="animated fadeIn pt-1 text-center">Carregando...</div>
 
   signOut(e) {
     e.preventDefault()
