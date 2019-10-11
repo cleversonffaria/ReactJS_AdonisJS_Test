@@ -31,7 +31,6 @@ const Alerts = React.lazy(() => import('./views/admin/Notifications/Alerts'));
 const Badges = React.lazy(() => import('./views/admin/Notifications/Badges'));
 const Modals = React.lazy(() => import('./views/admin/Notifications/Modals'));
 const Colors = React.lazy(() => import('./views/admin/Theme/Colors'));
-const Typography = React.lazy(() => import('./views/admin/Theme/Typography'));
 const Widgets = React.lazy(() => import('./views/admin/Widgets/Widgets'));
 const Users = React.lazy(() => import('./views/admin/Users/Users'));
 const User = React.lazy(() => import('./views/admin/Users/User'));
@@ -42,7 +41,6 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },
-  { path: '/theme/typography', name: 'Typography', component: Typography },
   { path: '/base', exact: true, name: 'Base', component: Cards },
   { path: '/base/cards', name: 'Cards', component: Cards },
   { path: '/base/forms', name: 'Forms', component: Forms },
