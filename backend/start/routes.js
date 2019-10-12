@@ -2,6 +2,7 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use("Route");
 // Usuário
+Route.get("/user", "UserController.index").middleware(["auth"]);
 Route.post("/login", "UserController.login");
 Route.post("/user", "UserController.create").validator("User");
 Route.delete("/user/:id", "UserController.deleteUser").middleware(["auth"]);

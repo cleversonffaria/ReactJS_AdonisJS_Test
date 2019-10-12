@@ -1,8 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 // eslint-disable-next-line
-import { BrowserRouter, HashRouter, Route, Switch } from "react-router-dom";
+import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Provider } from "react-redux";
 
+import api from "./services/api";
+import { isAuthenticated } from "./services/auth";
 // import { renderRoutes } from 'react-router-config';
 import "./App.scss";
 // Redux
@@ -19,56 +21,59 @@ const Login = React.lazy(() => import("./views/admin/Pages/Login"));
 const Register = React.lazy(() => import("./views/admin/Pages/Register"));
 const Page404 = React.lazy(() => import("./views/admin/Pages/Page404"));
 const Page500 = React.lazy(() => import("./views/admin/Pages/Page500"));
-const Header = React.lazy(() => import("./components/header"));
+const Site = React.lazy(() => import("./views/site"));
 
-class App extends Component {
-  render() {
-    return (
-      <HashRouter>
-        <Provider store={store}>
-          <React.Suspense fallback={loading()}>
-            <Switch>
-              <Route
-                exact
-                path="/login"
-                name="Login Page"
-                render={props => <Login {...props} />}
-              />
-              <Route
-                exact
-                path="/register"
-                name="Register Page"
-                render={props => <Register {...props} />}
-              />
-              <Route
-                exact
-                path="/404"
-                name="Page 404"
-                render={props => <Page404 {...props} />}
-              />
-              <Route
-                exact
-                path="/500"
-                name="Page 500"
-                render={props => <Page500 {...props} />}
-              />
-              <Route
-                path="/admin"
-                name="Admin"
-                render={props => <DefaultLayout {...props} />}
-              />
-              <Route
-                exact
-                path="/"
-                name="Home"
-                render={props => <Header {...props}/>}
-              />
-            </Switch>
-          </React.Suspense>
-        </Provider>
-      </HashRouter>
-    );
-  }
+export const auth = async () => {
+  const user = await api.get("/user");
+  return user.data.user_status;
+};
+const PrivateRoute = ({ ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      isAuthenticated() ? (
+        <DefaultLayout {...props} />
+      ) : (
+        <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+      )
+    }
+  />
+);
+export default function App() {
+  return (
+    <HashRouter>
+      <Provider store={store}>
+        <React.Suspense fallback={loading()}>
+          <Switch>
+            <Route
+              exact
+              path="/login"
+              name="Login Page"
+              render={props => <Login {...props} />}
+            />
+            <Route
+              exact
+              path="/register"
+              name="Register Page"
+              render={props => <Register {...props} />}
+            />
+            <Route
+              exact
+              path="/500"
+              name="Page 500"
+              render={props => <Page500 {...props} />}
+            />
+            <PrivateRoute path="/admin" name="Admin" />
+            <Route
+              exact
+              path="/"
+              name="Home"
+              render={props => <Site {...props} />}
+            />
+            <Route path="*" render={props => <Page404 {...props} />} />
+          </Switch>
+        </React.Suspense>
+      </Provider>
+    </HashRouter>
+  );
 }
-
-export default App;

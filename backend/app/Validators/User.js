@@ -2,7 +2,7 @@
 
 class User {
   async fails(errorMessages) {
-    return this.ctx.response.send(errorMessages);
+    return this.ctx.response.status(202).send(errorMessages);
   }
   get rules() {    
     return {

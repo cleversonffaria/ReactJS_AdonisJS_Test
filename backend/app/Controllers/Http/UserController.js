@@ -2,6 +2,20 @@
 const User = use("App/Models/User");
 const Database = use("Database");
 class UserController {
+  async index({ auth, response }) {
+    const user = auth.getUser();
+    if (user) {
+      return response
+        .status(200)
+        .send({
+          username: auth.user.username,
+          user_status: auth.user.user_status
+        });
+    }
+    response
+      .status(401)
+      .send({ message: "Não foi possivel localizar um usuário logado!" });
+  }
   async create({ request, response }) {
     try {
       const data = request.only(["username", "email", "password"]);
@@ -41,7 +55,7 @@ class UserController {
       return response.status(200).send({ message: "Registro removido!" });
     }
     return response
-      .status(200)
+      .status(404)
       .send({ message: "Não foi possivel remover o registro!" });
   }
   async updateUser({ request, params, response, auth }) {
