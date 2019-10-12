@@ -36,8 +36,9 @@ class Login extends Component {
       });
     } else {
       try {
-        const response = await api.post("/login", { email, password });        
+        const response = await api.post("/login", { email, password });
         login(response.data.token, response);
+        // setstate(getToken());        
         this.props.history.push("/");
       } catch (err) {
         this.setState({

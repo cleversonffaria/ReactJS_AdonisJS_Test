@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 // eslint-disable-next-line
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Provider } from "react-redux";
 
 import api from "./services/api";
-import { isAuthenticated } from "./services/auth";
+import { isAuthenticated, getToken } from "./services/auth";
 // import { renderRoutes } from 'react-router-config';
 import "./App.scss";
 // Redux
@@ -23,16 +23,17 @@ const Page404 = React.lazy(() => import("./views/admin/Pages/Page404"));
 const Page500 = React.lazy(() => import("./views/admin/Pages/Page500"));
 const Site = React.lazy(() => import("./views/site"));
 
-export const auth = async () => {
-  const user = await api.get("/user");
-  return user.data.user_status;
+export const auth = () => {
+  return "NECA";
 };
-const PrivateRoute = ({ ...rest }) => (
+const PrivateRoute = ({ status, ...rest }) => (
   <Route
     {...rest}
     render={props =>
       isAuthenticated() ? (
-        <DefaultLayout {...props} />
+        (status === 1 && <DefaultLayout {...props} />) || (
+          <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+        )
       ) : (
         <Redirect to={{ pathname: "/", state: { from: props.location } }} />
       )
@@ -40,6 +41,16 @@ const PrivateRoute = ({ ...rest }) => (
   />
 );
 export default function App() {
+  const [status, setstatus] = useState();
+  useEffect(() => {
+    if (getToken()) {
+      async function fetchData() {
+        const user = await api.get("/user");
+        return user.data.user_status;
+      }
+      fetchData().then(e => setstatus(e));
+    }
+  });
   return (
     <HashRouter>
       <Provider store={store}>
@@ -63,7 +74,7 @@ export default function App() {
               name="Page 500"
               render={props => <Page500 {...props} />}
             />
-            <PrivateRoute path="/admin" name="Admin" />
+            <PrivateRoute path="/admin" name="Admin" status={status} />
             <Route
               exact
               path="/"
