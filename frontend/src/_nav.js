@@ -140,23 +140,23 @@ export default {
       name: 'Usuário',
       url: '/users',
       icon: 'icon-user',
-      children: [
-        {
-          name: 'Informação 01',
-          url: '/#',
-          icon: 'icon-user'
-        },
-        {
-          name: 'Informação 02',
-          url: '/#',
-          icon: 'icon-user'
-        },
-        {
-          name: 'Informação 03',
-          url: '/#',
-          icon: 'icon-user'
-        },
-    ]
+    //   children: [
+    //     {
+    //       name: 'Informação 01',
+    //       url: '/#',
+    //       icon: 'icon-user'
+    //     },
+    //     {
+    //       name: 'Informação 02',
+    //       url: '/#',
+    //       icon: 'icon-user'
+    //     },
+    //     {
+    //       name: 'Informação 03',
+    //       url: '/#',
+    //       icon: 'icon-user'
+    //     },
+    // ]
     },
     {
       name: 'Compras do usuário',
