@@ -2,7 +2,7 @@ export default {
   items: [
     {
       name: 'Painel Netseg',
-      url: '/dashboard',
+      url: '/',
       icon: 'icon-speedometer'
     },
     {
@@ -16,29 +16,29 @@ export default {
     },
     {
       name: 'Produtos',
-      url: '/theme/colors',
+      url: '#',
       icon: 'icon-basket-loaded',
       children: [
         {
           name: 'Favoritos',
-          url: '/theme/colors',
+          url: '#',
           icon: 'icon-star',
         },
         {
           name: 'Mais vendidos',
-          url: '/theme/colors',
+          url: '#',
           icon: 'icon-chart',
         },
       ],
     },
     {
       name: 'Pedidos',
-      url: '/theme/typography',
+      url: '#',
       icon: 'icon-layers',
     },
     {
       name: 'Categoria',
-      url: '/base',
+      url: '#',
       icon: 'icon-grid'
       // children: [
       //   {
@@ -125,10 +125,9 @@ export default {
     },
     {
       name: 'Sub-Categoria',
-      url: '/buttons',
+      url: '#',
       icon: 'icon-magnifier-add'
-    },
-    
+    },    
     {
       divider: true,
     },
@@ -136,32 +135,49 @@ export default {
       title: true,
       name: 'Cliente',
     },
+    // {
+    //   name: 'Usuário',
+    //   url: '/users',
+    //   icon: 'icon-user',
+    // //   children: [
+    // //     {
+    // //       name: 'Informação 01',
+    // //       url: '/#',
+    // //       icon: 'icon-user'
+    // //     },
+    // //     {
+    // //       name: 'Informação 02',
+    // //       url: '/#',
+    // //       icon: 'icon-user'
+    // //     },
+    // //     {
+    // //       name: 'Informação 03',
+    // //       url: '/#',
+    // //       icon: 'icon-user'
+    // //     },
+    // // ]
+    // },
     {
-      name: 'Usuário',
-      url: '/users',
-      icon: 'icon-user',
-    //   children: [
-    //     {
-    //       name: 'Informação 01',
-    //       url: '/#',
-    //       icon: 'icon-user'
-    //     },
-    //     {
-    //       name: 'Informação 02',
-    //       url: '/#',
-    //       icon: 'icon-user'
-    //     },
-    //     {
-    //       name: 'Informação 03',
-    //       url: '/#',
-    //       icon: 'icon-user'
-    //     },
-    // ]
-    },
-    {
-      name: 'Compras do usuário',
+      name: 'Perfil do usuário',
       url: '#',
-      icon: 'icon-graph'
+      icon: 'icon-user',
+        children: [
+          {
+            name: 'Cadastrar usuário',
+            url: '#',
+            icon: 'icon-note',
+          },
+          {
+            name: 'Editar usuário',
+            url: '#',
+            icon: 'icon-pencil',
+          },
+          {
+            name: 'Deletar usuário',
+            url: '#',
+            icon: 'icon-trash',
+          }
+        ]
     },
     
     

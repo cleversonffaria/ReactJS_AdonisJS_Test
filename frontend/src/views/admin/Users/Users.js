@@ -6,13 +6,13 @@ import usersData from './UsersData'
 
 function UserRow(props) {
   const user = props.user
-  const userLink = `/users/${user.id}`
+  const userLink = `/usuario/${user.id}`
 
   const getBadge = (status) => {
-    return status === 'Active' ? 'success' :
-      status === 'Inactive' ? 'secondary' :
-        status === 'Pending' ? 'warning' :
-          status === 'Banned' ? 'danger' :
+    return status === 'Ativo' ? 'success' :
+      status === 'Inativo' ? 'secondary' :
+        status === 'Pendente' ? 'warning' :
+          status === 'Expulso' ? 'danger' :
             'primary'
   }
 

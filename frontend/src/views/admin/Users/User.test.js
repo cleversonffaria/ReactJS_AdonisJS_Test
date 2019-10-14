@@ -7,7 +7,7 @@ import User from './User';
 it('renders without crashing', () => {
   const wrapper = mount(
     <MemoryRouter>
-      <User match={{params: {id: "1"}, isExact: true, path: "/users/:id", name: "User details"}}/>
+      <User match={{params: {id: "1"}, isExact: true, path: "/usuario/:id", name: "Detalhes do usuário"}}/>
     </MemoryRouter>
   );
   expect(wrapper.containsMatchingElement(<strong>Marcos Fernandes</strong>)).toEqual(true)
