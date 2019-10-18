@@ -16,7 +16,7 @@ export const Menu = styled.nav`
 
   display: grid;
   grid-template:
-    "locals contato user"
+    "locals contato user" 30px
     / auto 2fr auto;
 `;
 
@@ -26,12 +26,12 @@ export const Localization = styled.div`
   grid-area: locals;
   display: grid;
   grid-template:
-    "icons estado" 20px
-    "icons cidade" 20px
+    "icons estado" 14px
+    "icons cidade" 14px
     / 30px auto;
   .icon i {
     text-align: right;
-    font-size: 35px;
+    font-size: 25px;
     margin: 2.5px 5px;
     grid-area: icons;
   }
@@ -46,13 +46,13 @@ export const Localization = styled.div`
   }
 `;
 export const Contact = styled.div`
-  margin-top: 10px;
+  margin-top: 5px;
   color: #202020;
   text-align: center;
   grid-area: contato;
 `;
 export const LoginUser = styled.div`
-  margin: 10px;
+  margin: 5px;
   color: #202020;
   text-align: left;
 
