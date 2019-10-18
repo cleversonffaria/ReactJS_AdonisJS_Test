@@ -8,11 +8,11 @@ export default function Product() {
   return (
     <React.Fragment>
       <div>ESSE SAO OS PRODUTOS</div>
-      <ul>
+      {/* <ul>
         {product.map(product => (
           <li key={product}>{product}</li>
         ))}
-      </ul>
+      </ul> */}
     </React.Fragment>
   );
 }

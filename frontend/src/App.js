@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 // eslint-disable-next-line
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Provider } from "react-redux";
 
-import api from "./services/api";
-import { isAuthenticated, getToken } from "./services/auth";
-// import { renderRoutes } from 'react-router-config';
+import { isAuthenticated } from "./services/auth";
 import "./App.scss";
 // Redux
 import store from "./store";
@@ -23,9 +21,6 @@ const Page404 = React.lazy(() => import("./views/admin/Pages/Page404"));
 const Page500 = React.lazy(() => import("./views/admin/Pages/Page500"));
 const Site = React.lazy(() => import("./views/site"));
 
-export const auth = () => {
-  return "NECA";
-};
 const PrivateRoute = ({ status, ...rest }) => (
   <Route
     {...rest}
@@ -42,15 +37,6 @@ const PrivateRoute = ({ status, ...rest }) => (
 );
 export default function App() {
   const [status, setstatus] = useState();
-  useEffect(() => {
-    if (getToken()) {
-      async function fetchData() {
-        const user = await api.get("/user");
-        return user.data.user_status;
-      }
-      fetchData().then(e => setstatus(e));
-    }
-  });
   return (
     <HashRouter>
       <Provider store={store}>
@@ -60,7 +46,7 @@ export default function App() {
               exact
               path="/login"
               name="Login Page"
-              render={props => <Login {...props} />}
+              render={props => <Login setstatus={setstatus} {...props} />}
             />
             <Route
               exact
