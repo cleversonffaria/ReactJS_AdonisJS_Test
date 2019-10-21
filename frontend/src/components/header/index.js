@@ -19,6 +19,70 @@ export default function Header() {
   function logarUser() {
     setUser(!user);
   }
+  function cart() {
+    return (
+      <Contact_Cart>
+        <span class="baseIcon icons-shopping-cart2"></span>
+        <span className="baseText">Carrinho</span>
+        <p className="baseInfo">102 itens - R$ 11,305.00</p>
+      </Contact_Cart>
+    );
+  }
+  function contact() {
+    return (
+      <ContainerContatos arrowPosition="157px">
+        <li>
+          <Contact_Cart>
+            <span className="baseIcon icons-mobile5"></span>
+            <span className="baseText">Contato</span>
+            <i className="baseArrow fa fa-chevron-down"></i>
+            <p className="baseInfo">(22) 99734-9644</p>
+          </Contact_Cart>
+          <ul className="subContato">
+            <span className="arrow"></span>
+            <li>
+              <i className="fa fa-envelope fa-lg"></i>
+              <span>Email@gmail.com</span>
+            </li>
+            <li>
+              <i className="icons-mobile_friendly"></i>
+              (28) 99734-9644
+            </li>
+            <li>
+              <i className="fa fa-whatsapp fa-lg"></i>
+              (22) 99885-4144
+            </li>
+            <li className="horarioFuncionamento">
+              <i className="fa fa-clock-o fa-lg"></i>
+              <strong>Horario de atendimento: </strong>
+              <br />
+              <span className="ml-5">De Seg. a Sex das 8:00 as 18:00</span>
+              <br />
+              <span className="ml-5">Sábados das 08:00 as 13:00.</span>
+            </li>
+            <li></li>
+            <li>
+              <p>
+                <strong>Siga-nos:</strong>
+              </p>
+              <Button size="sm" className="btn-facebook btn-brand mr-1 mb-1">
+                <i className="fa fa-facebook"></i>
+                <span>Facebook</span>
+              </Button>
+              <Button size="sm" className="btn-twitter btn-brand mr-1 mb-1">
+                <i className="fa fa-twitter"></i>
+                <span>Twitter</span>
+              </Button>
+              <Button size="sm" className="btn-instagram btn-brand mr-1 mb-1">
+                <i className="fa fa-instagram"></i>
+                <span>Instagram</span>
+              </Button>
+            </li>
+          </ul>
+        </li>
+      </ContainerContatos>
+    );
+  }
   return (
     <React.Fragment>
       {/* Menu inicial, desaparece depois que rola página */}
@@ -33,8 +97,7 @@ export default function Header() {
           </MenuStart>
           <MenuMiddle>
             <div className="contact">
-              <mark>22-997349644</mark> |{" "}
-              <mark> cleversonffaria@gmail.com</mark>
+              <mark>22-997349644</mark> |<mark> cleversonffaria@gmail.com</mark>
             </div>
           </MenuMiddle>
           <MenuEnd>
@@ -59,92 +122,29 @@ export default function Header() {
             </div>
           </MenuEnd>
         </div>
-        {/* Sub Menu, Logo, Search,Contato e Carrinho */}
+        {/* Menu secundário não fixado.*/}
         <ContainerMenu>
           <Container className="content">
             <Row>
-              <Col xs="12" lg="2" md="12">
-                <Link to="/">
-                  <Img className="contentLogo" src={teacher1}></Img>
-                </Link>
+              <Col xs="4" lg="2" md="4">
+                <Img className="logo" src={teacher1}></Img>
               </Col>
-              <Col xs="12" lg="6" md="12">
+              <Col xs="4" lg="2" md="4">
+                {contact()}
+              </Col>
+              <Col xs="4" lg="2" md="4">
+                {cart()}
+              </Col>
+              <Col xs="12" lg="6">
                 <div className="search">
                   <Search buscar="Busca"></Search>
                 </div>
               </Col>
-              <Col xs="6" lg="2" md="6">
-                <ContainerContatos arrowPosition="157px">
-                  <li>
-                    <Contact_Cart>
-                      <span className="baseIcon icons-mobile5"></span>
-                      <span className="baseText">Contato</span>
-                      <i className="baseArrow fa fa-chevron-down"></i>
-                      <p className="baseInfo">(22) 99734-9644</p>
-                    </Contact_Cart>
-                    <ul className="subContato">
-                      <span className="arrow"></span>
-                      <li>
-                        <i className="fa fa-envelope fa-lg"></i>
-                        <span>Email@gmail.com</span>
-                      </li>
-                      <li>
-                        <i className="icons-mobile_friendly"></i>
-                        (28) 99734-9644
-                      </li>
-                      <li>
-                        <i className="fa fa-whatsapp fa-lg"></i>
-                        (22) 99885-4144
-                      </li>
-                      <li className="horarioFuncionamento">
-                        <i className="fa fa-clock-o fa-lg"></i>
-                        <strong>Horario de atendimento: </strong>
-                        <br />
-                        <span className="ml-5">
-                          De Seg. a Sex das 8:00 as 18:00
-                        </span>
-                        <br />
-                        <span className="ml-5">
-                          Sábados das 08:00 as 13:00.
-                        </span>
-                      </li>
-                      <li></li>
-                      <li>
-                        <p>
-                          <strong>Siga-nos:</strong>
-                        </p>
-                        <Button
-                          size="sm"
-                          className="btn-facebook btn-brand mr-1 mb-1"
-                        >
-                          <i className="fa fa-facebook"></i>
-                          <span>Facebook</span>
-                        </Button>
-                        <Button
-                          size="sm"
-                          className="btn-twitter btn-brand mr-1 mb-1"
-                        >
-                          <i className="fa fa-twitter"></i>
-                          <span>Twitter</span>
-                        </Button>
-                        <Button
-                          size="sm"
-                          className="btn-instagram btn-brand mr-1 mb-1"
-                        >
-                          <i className="fa fa-instagram"></i>
-                          <span>Instagram</span>
-                        </Button>
-                      </li>
-                    </ul>
-                  </li>
-                </ContainerContatos>
+              <Col lg="2" md="6">
+                {contact()}
               </Col>
-              <Col xs="6" lg="2" md="6">
-                <Contact_Cart>
-                  <span class="baseIcon icons-shopping-cart2"></span>
-                  <span className="baseText">Carrinho</span>
-                  <p className="baseInfo">102 itens - R$ 11,305.00</p>
-                </Contact_Cart>
+              <Col lg="2" md="6">
+                {cart()}
               </Col>
             </Row>
           </Container>

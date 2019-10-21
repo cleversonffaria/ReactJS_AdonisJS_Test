@@ -1,12 +1,16 @@
 import styled from "styled-components";
 export const Body = styled.div`
+  /* Atribuido para todo Search */
   @import url("https://fonts.googleapis.com/css?family=Poppins:300,500,400,600&display=swap");
   font-family: "Poppins", sans-serif;
   background: none;
+  z-index:1;
+  /* Fim | Atribuido para todo Header */
+  /* Todos Links do Header */
   a {
     text-decoration: none;
     color: #fff;
-    padding: auto;
+    overflow: hidden;
   }
   a:link {
     text-decoration: none;
@@ -15,12 +19,15 @@ export const Body = styled.div`
     text-decoration: none;
   }
   a:hover {
-    color: #141414;
+    color: #202020 !important;
+    font-weight: 500;
   }
   a i {
     margin-right: 5px;
     color: #202020;
   }
+  /* Fim | Todos Links do Header */
+  /* Botoes e Inputs */
   button {
     background: #fff !important;
     border: 0.5px solid #d6d6d6;
@@ -39,8 +46,10 @@ export const Body = styled.div`
     border: 1px solid #d6d6d6;
     outline: 0;
   }
+  /* Fim | Botoes e Inputs */
 `;
-export const UL = styled.ul`
+export const Menu_ul = styled.ul`
+  /* Configurações do Menu UL */
   z-index: 100;
   background: #fff !important;
   border-right: none !important;
@@ -51,21 +60,28 @@ export const UL = styled.ul`
   border-radius: 5px 0 0 5px;
   cursor: pointer;
   width: 108px;
-  li {
-    height: 45px;
-  }
+  /* Fim | Configurações do Menu UL */
+  /* Passar Mouse Menu UL */
   :hover .uliCategoria {
-    display: block;
-  }
-  .uliCategoria li:hover .listaSubCategoria {
-    display: block;
+    opacity: 1;
+    visibility: visible;
   }
   :hover {
     background: #ff7c3e !important;
     border: 0.5px solid #ff7c3e;
     color: #fff;
   }
-  /* Seta para tooltip */
+  /* Fim | Passar Mouse Menu UL */
+  li {
+    text-align: left;
+    height: 45px;
+  }
+  .uliCategoria li:hover .listaSubCategoria {
+    visibility: visible;
+    opacity: 1;
+  }
+  /* Fim | Passar Mouse Menu UL */
+  /* Seta para o tooltip Menu */
   .arrow {
     top: calc((0.5rem + 1px) * -1);
     left: ${props => props.arrowPosition || "0px"};
@@ -93,61 +109,82 @@ export const UL = styled.ul`
     border-width: 0 0.5rem 0.5rem 0.5rem;
     border-bottom-color: #ff7c3e;
   }
-  /*Fim Seta */
+  /* Fim | Seta para o tooltip Menu */
 `;
-export const UliCategoria = styled.ul`
+export const Categorias = styled.ul`
+  /* Configurações das categorias */
+  -webkit-transition: opacity 0.3s ease-in-out;
+  -moz-transition: opacity 0.3s ease-in-out;
+  -ms-transition: opacity 0.3s ease-in-out;
+  -o-transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+  visibility: hidden;
+  opacity: 0;
   list-style: none;
-  display: none;
+  background: rgb(255, 124, 62);
+  color: #fff;
+  width: 250px;
   margin-left: -7px;
   margin-top: 15px;
-  padding: 10px;
-  background: #ff7c3e;
-  color: #fff;
-  width: 200px;
-  .listCategoria {
-    position: relative;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-align-items: center;
-    align-items: center;
+  padding: 0 10px;
+  /* Fim | Configurações das categorias */
+  .borderBottom {
     border-bottom: 1px solid #fff;
   }
-  .listCategoria .gapArrow {
+  .borderBottom:last-child {
+    border-bottom: none;
+  }
+`;
+export const ListaCategoria = styled.li`
+  /* Configurações das Lista de categorias */
+  display: -webkit-flex;
+  display: table;
+  -webkit-align-items: center;
+  align-items: center;
+  position: relative;
+  width: 250px;
+  padding: 10px;
+  height: auto;
+  /* Fim | Configurações das categorias */
+  .gapArrow {
     position: absolute;
     width: 111%;
     height: 100%;
   }
-  .listCategoria:last-child {
-    border-bottom: none;
-  }
 `;
-export const ListaSubCategoria = styled.ul`
-  color: black;
-  text-align: left;
-  list-style: none;
-  padding: 10px;
-  display: none;
+export const SubCategoria = styled.ul`
+  /* Configurações das Subcategorias */
+  -webkit-transition: opacity 0.3s ease-in-out;
+  -moz-transition: opacity 0.3s ease-in-out;
+  -ms-transition: opacity 0.3s ease-in-out;
+  -o-transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+  visibility: hidden;
   top: 0;
-  left: 200px;
+  left: 250px;
   position: absolute;
+  text-align: left;
+  padding: 0 10px;
+  list-style: none;
   background: #ff7c3e;
   color: #fff;
-  .paa {
-    background: red;
-    width: 500px;
-  }
+  /* Fim | Configurações das categorias */
   li {
     display: -webkit-flex;
     display: flex;
     -webkit-align-items: center;
     align-items: center;
     border-bottom: 1px solid #fff;
+    padding: 5px;
+    height: auto;
+    width: auto;
   }
+  /* a última Li não recebe borda */
   li:last-child {
     border-bottom: none;
   }
-
-  /* Seta para tooltip */
+  /* Seta para o tooltip Menu */
   .arrow {
     top: calc((0.5rem + 1px) * -1);
     left: ${props => props.arrowPosition || "0px"};
@@ -167,15 +204,15 @@ export const ListaSubCategoria = styled.ul`
   }
   .arrow::before {
     left: -13px;
-    top: 30px;
+    top: 27px;
     border-width: 0.5rem 0.5rem 0.5rem 0;
     border-right-color: #ff7c3e;
   }
   .arrow::after {
     left: -13px;
-    top: 30px;
+    top: 27px;
     border-width: 0.5rem 0.5rem 0.5rem 0;
     border-right-color: #ff7c3e;
   }
-  /*Fim Seta */
+  /*Fim | Seta para o tooltip Menu */
 `;

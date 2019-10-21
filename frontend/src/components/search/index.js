@@ -1,6 +1,13 @@
+/* eslint-disable react/jsx-pascal-case */
 import React from "react";
 import { Link } from "react-router-dom";
-import { Body, UL, UliCategoria, ListaSubCategoria } from "./style";
+import {
+  Body,
+  Menu_ul,
+  Categorias,
+  ListaCategoria,
+  SubCategoria
+} from "./style";
 import {
   FormGroup,
   InputGroup,
@@ -16,73 +23,124 @@ export default function Search(props) {
     <Body>
       <FormGroup>
         <InputGroup>
-          <UL arrowPosition="77px">
+          <Menu_ul arrowPosition="80px">
             <li className="p-2">
               Categoria &nbsp;<i className="fa fa-angle-down fa-lg"></i>
-              <UliCategoria className="uliCategoria">
+              <Categorias className="uliCategoria">
                 <span className="arrow"></span>
-                <li className="listCategoria">
-                  Wireless Oltsad asd asdas
-                  <span className="gapArrow"> </span>
-                  <ListaSubCategoria className="listaSubCategoria">
-                    <span className="arrow"></span>
-                    <li>
-                      <Link to="/categoria">Acessorios</Link>
-                    </li>
-                    <li>
-                      <Link to="/categoria">AntenasAcessorisd</Link>
-                    </li>
-                    <li>
-                      <Link to="/categoria">Modulo</Link>
-                    </li>
-                    <li>
-                      <Link to="/categoria">Roteador</Link>
-                    </li>
-                  </ListaSubCategoria>
-                </li>
-                <li className="listCategoria">
-                  Wirel as
-                  <span className="gapArrow"> </span>
-                  <ListaSubCategoria className="listaSubCategoria">
-                    <span className="arrow"></span>
-                    <li>
-                      <Link to="/categoria">Acessorios asdasd</Link>
-                    </li>
-                    <li>
-                      <Link to="/categoria">Antenas asda sdasasdddasd</Link>
-                    </li>
-                    <li>
-                      <Link to="/categoria">Modulo</Link>
-                    </li>
-                    <li>
-                      <Link to="/categoria">Roteador</Link>
-                    </li>
-                  </ListaSubCategoria>
-                </li>
-                <li className="listCategoria">
-                  Wirel as
-                  <span className="gapArrow"> </span>
-                  <ListaSubCategoria className="listaSubCategoria">
-                    <span className="arrow"></span>
-                    <li>
-                      <Link to="/categoria">Acessorios asdasd</Link>
-                    </li>
-                    <li>
-                      <Link to="/categoria">
-                        Antenasasdasdasasddasdasdasdasd
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/categoria">Modulo</Link>
-                    </li>
-                    <li>
-                      <Link to="/categoria">Roteador</Link>
-                    </li>
-                  </ListaSubCategoria>
-                </li>
-              </UliCategoria>
+                <div className="borderBottom">
+                  <ListaCategoria>
+                    <i className="fa fa-mixcloud fa-lg"></i>
+                    <Link className="ml-3" to="/wireless">
+                      Kmasu 
+                    </Link>
+                    <SubCategoria className="listaSubCategoria">
+                      <span className="arrow"></span>
+                      <li>
+                        <Link to="/categoria">Acessorios</Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">
+                          AntenasAcessoriaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasad asdasdassssssssssdasdasdas sadasdasdasddas as aas sd
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">
+                          Modulasd 
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">Roteador</Link>
+                      </li>
+                    </SubCategoria>
+                  </ListaCategoria>
+                </div>
+                <div className="borderBottom">
+                  <ListaCategoria>
+                    <i className="fa fa-archive fa-lg"></i>
+                    <Link className="ml-3" to="/wireless">
+                      Nico house musture
+                    </Link>
+                    <SubCategoria className="listaSubCategoria">
+                      <span className="arrow"></span>
+                      <li>
+                        <Link to="/categoria">Acessorios</Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">
+                          AntenasA
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">
+                          Modulasd asd asdd asd sa adasd
+                          asdasdao
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">Roteador</Link>
+                      </li>
+                    </SubCategoria>
+                  </ListaCategoria>
+                </div>
+                <div className="borderBottom">
+                  <ListaCategoria>
+                    <i className="fa fa-clone fa-lg"></i>
+                    <Link className="ml-3" to="/wireless">
+                      Gororoba
+                    </Link>
+                    <SubCategoria className="listaSubCategoria">
+                      <span className="arrow"></span>
+                      <li>
+                        <Link to="/categoria">Acessorios</Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">
+                          AntenasAcessori asda
+                          sdasasadasdasdasd
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">
+                          Modulasd asd asdas daasdsdaasdo
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">Roteador</Link>
+                      </li>
+                    </SubCategoria>
+                  </ListaCategoria>
+                </div>
+                <div className="borderBottom">
+                  <ListaCategoria>
+                    <i className="fa fa-heart fa-lg"></i>
+                    <Link className="ml-3" to="/wireless">
+                      Wireless
+                    </Link>
+                    <SubCategoria className="listaSubCategoria">
+                      <span className="arrow"></span>
+                      <li>
+                        <Link to="/categoria">Acessorios</Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">
+                          AntenasAcessori sdasdadasd
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">
+                          Modulasdobaasdo
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">Roteador</Link>
+                      </li>
+                    </SubCategoria>
+                  </ListaCategoria>
+                </div>
+              </Categorias>
             </li>
-          </UL>
+          </Menu_ul>
           <Input id="appendedInputButton" type="text" />
           <InputGroupAddon addonType="append">
             <Button>

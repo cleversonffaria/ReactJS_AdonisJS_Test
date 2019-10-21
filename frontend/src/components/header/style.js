@@ -3,21 +3,24 @@ export const Img = styled.img`
   width: 150px;
 `;
 export const ContainerMenu = styled.div`
+  /* Configuração do menu depois do Scroll */
   @import url("https://fonts.googleapis.com/css?family=Poppins:300,500,400,600&display=swap");
   font-family: "Poppins", sans-serif;
-  margin-top: 30px;
+  margin-top: 40px;
   .search {
     margin: 8px 0;
   }
   .content {
     margin-top: 10px;
   }
-  .contentLogo {
+  .logo {
+    display: block;
+    margin: 0 auto;
     padding: 3px;
   }
+  /* Fim | Configuração do menu depois do Scroll */
 `;
 export const Contact_Cart = styled.div`
-  padding: 3px;
   display: grid;
   grid-template:
     "icone texts arrow" 30px
@@ -40,7 +43,7 @@ export const Contact_Cart = styled.div`
   }
   .baseInfo {
     margin: -3px -15px 0 0;
-    color: #ff5300;
+    color: #ff641a;
     font-weight: 500;
     font-size: 11px;
     grid-area: info;
@@ -51,6 +54,7 @@ export const ContainerContatos = styled.ul`
   cursor: pointer;
   list-style: none;
   padding: 0;
+  
   /* Seta para tooltip */
   .arrow {
     top: calc((0.5rem + 1px) * -1);
@@ -93,7 +97,7 @@ export const ContainerContatos = styled.ul`
     margin-right: 20px;
     margin-left: 10px;
     font-size: 20px;
-    color: #ff5300;
+    color: #ff641a;
   }
   .subContato {
     cursor: auto;
@@ -107,7 +111,7 @@ export const ContainerContatos = styled.ul`
     top: 0px;
     left: 0px;
     transform: translate3d(-20px, 60px, 0px);
-
+    z-index:5;
     visibility: hidden;
     opacity: 0;
     transition: opacity 1s;
@@ -158,6 +162,7 @@ export const MenuFixed = styled(MenuNotFixed)`
     position: fixed;
     z-index: 101;
     top: -80px;
+    visibility: hidden;
     transition: All 0.5s ease;
     -webkit-transition: All 0.5s ease;
     -moz-transition: All 0.5s ease;
@@ -175,6 +180,7 @@ export const MenuFixed = styled(MenuNotFixed)`
   }
   .menuFixed.mostraMenu {
     top: 0px;
+    visibility: visible;
   }
 `;
 
@@ -244,7 +250,7 @@ export const MenuEnd = styled.div`
     text-decoration: none;
   }
   a:hover {
-    color: #e3651a;
+    color: #ff641a;
   }
   a i {
     margin-right: 5px;
