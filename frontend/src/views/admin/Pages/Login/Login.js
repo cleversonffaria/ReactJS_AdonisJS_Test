@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import api from "../../../../services/api";
-import { login, getToken } from "../../../../services/auth";
+import { login } from "../../../../services/auth";
 import {
   Button,
   Card,
@@ -18,13 +18,6 @@ import {
   Alert
 } from "reactstrap";
 
-// state = {
-//   username: "",
-//   email: "",
-//   password: "",
-//   error: "",
-//   color: ""
-// };
 function Login({ status, setstatus, ...props }) {
   const [error, setError] = useState();
   const [color, setColor] = useState();
