@@ -1,10 +1,14 @@
 import styled from "styled-components";
 export const Body = styled.div`
+  @media screen and (max-width: 499px) {
+    input {
+      border-radius: 5px 0 0 5px !important;
+    }
+  }
   /* Atribuido para todo Search */
   @import url("https://fonts.googleapis.com/css?family=Poppins:300,500,400,600&display=swap");
   font-family: "Poppins", sans-serif;
   background: none;
-  z-index:1;
   /* Fim | Atribuido para todo Header */
   /* Todos Links do Header */
   a {
@@ -49,8 +53,11 @@ export const Body = styled.div`
   /* Fim | Botoes e Inputs */
 `;
 export const Menu_ul = styled.ul`
+  @media screen and (max-width: 991px) {
+    display: none;
+  }
   /* Configurações do Menu UL */
-  z-index: 100;
+  z-index: 10;
   background: #fff !important;
   border-right: none !important;
   height: 35px;
@@ -154,6 +161,7 @@ export const ListaCategoria = styled.li`
 `;
 export const SubCategoria = styled.ul`
   /* Configurações das Subcategorias */
+  display: table;
   -webkit-transition: opacity 0.3s ease-in-out;
   -moz-transition: opacity 0.3s ease-in-out;
   -ms-transition: opacity 0.3s ease-in-out;
@@ -165,6 +173,7 @@ export const SubCategoria = styled.ul`
   left: 250px;
   position: absolute;
   text-align: left;
+  max-width: 200px;
   padding: 0 10px;
   list-style: none;
   background: #ff7c3e;
@@ -179,6 +188,9 @@ export const SubCategoria = styled.ul`
     padding: 5px;
     height: auto;
     width: auto;
+  }
+  li a {
+    overflow: visible;
   }
   /* a última Li não recebe borda */
   li:last-child {

@@ -1,7 +1,11 @@
+/* eslint-disable react/jsx-pascal-case */
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import * as router from "react-router-dom";
 import { Search } from "../../components";
 import teacher1 from "../../assets/Logo.png";
+// import alicate from "../../assets/Alicat.png";
+// import cabo from "../../assets/Cabo.png";
+import { AppSidebarToggler } from "@coreui/react";
 import {
   MenuFixed,
   MenuNotFixed,
@@ -11,10 +15,12 @@ import {
   Img,
   ContainerContatos,
   ContainerMenu,
-  Contact_Cart
+  Contact_Cart,
+  ModoTablet,
+  ModoDesktop
 } from "./style";
 import { Container, Row, Col, Button } from "reactstrap";
-export default function Header() {
+export default function Header({ ...props }) {
   const [user, setUser] = useState(true);
   function logarUser() {
     setUser(!user);
@@ -22,7 +28,7 @@ export default function Header() {
   function cart() {
     return (
       <Contact_Cart>
-        <span class="baseIcon icons-shopping-cart2"></span>
+        <span className="baseIcon icons-shopping-cart2"></span>
         <span className="baseText">Carrinho</span>
         <p className="baseInfo">102 itens - R$ 11,305.00</p>
       </Contact_Cart>
@@ -52,7 +58,7 @@ export default function Header() {
               <i className="fa fa-whatsapp fa-lg"></i>
               (22) 99885-4144
             </li>
-            <li className="horarioFuncionamento">
+            <li>
               <i className="fa fa-clock-o fa-lg"></i>
               <strong>Horario de atendimento: </strong>
               <br />
@@ -88,6 +94,11 @@ export default function Header() {
       {/* Menu inicial, desaparece depois que rola página */}
       <MenuNotFixed>
         <div className="menuNotFixed">
+          <AppSidebarToggler
+            className="d-lg-none btnMenuMobile icons-th-menu"
+            display="md"
+            mobile
+          />
           <MenuStart>
             <div className="icon">
               <i className="fa fa-map-marker"></i>
@@ -101,115 +112,130 @@ export default function Header() {
             </div>
           </MenuMiddle>
           <MenuEnd>
-            <div>
-              <Link to="admin">
+            <div className="minhaconta">
+              <router.Link to="/admin">
                 <i className="icons-user8 fa-lg"></i>
                 Minha Conta
-              </Link>
+              </router.Link>
             </div>
             <div className="register">
-              <Link to="register">
+              <router.Link to="/register">
                 <i className="fa fa-user-plus fa-lg"></i>
                 Registrar
-              </Link>
+              </router.Link>
             </div>
-            <div>
-              <Link to="login">
+            <div className="login">
+              <router.Link to="/login">
                 <span>|</span>
                 <i className="icons-lock2 fa-lg"></i>
                 Login
-              </Link>
+              </router.Link>
             </div>
           </MenuEnd>
         </div>
         {/* Menu secundário não fixado.*/}
+        <main className="main">
         <ContainerMenu>
           <Container className="content">
             <Row>
-              <Col xs="4" lg="2" md="4">
-                <Img className="logo" src={teacher1}></Img>
+              <Col xs="12" lg="2" md="5">
+                <Img className="d-block m-auto p-1" src={teacher1}></Img>
               </Col>
-              <Col xs="4" lg="2" md="4">
-                {contact()}
-              </Col>
-              <Col xs="4" lg="2" md="4">
-                {cart()}
-              </Col>
-              <Col xs="12" lg="6">
+              <ModoTablet>
+                <Row>
+                  <Col sm="6" lg="6" md="6">
+                    {contact()}
+                  </Col>
+                  <Col sm="6" lg="6" md="6">
+                    {cart()}
+                  </Col>
+                </Row>
+              </ModoTablet>
+              <Col xs="12" md="12" lg="5">
                 <div className="search">
                   <Search buscar="Busca"></Search>
                 </div>
               </Col>
-              <Col lg="2" md="6">
-                {contact()}
-              </Col>
-              <Col lg="2" md="6">
-                {cart()}
+              <Col lg="5" md="6">
+                <ModoDesktop>
+                  <Row>
+                    <Col lg="5" md="6">
+                      {contact()}
+                    </Col>
+                    <Col lg="5" md="6">
+                      {cart()}
+                    </Col>
+                  </Row>
+                </ModoDesktop>
               </Col>
             </Row>
           </Container>
         </ContainerMenu>
+        </main>
       </MenuNotFixed>
       {/* Quando a página rola este menu aparece */}
       <MenuFixed>
         <div className="menuFixed">
           <Row>
-            <Col lg="2">
+            <Col className="col_img" lg="2">
               <MenuStart>
-                <Link to="/">
+                <router.Link to="/#">
                   <Img src={teacher1}></Img>
-                </Link>
+                </router.Link>
               </MenuStart>
             </Col>
-            <Col lg="5">
+            <Col className="col_search" md="5" lg="5">
               <MenuMiddle>
                 <div className="search_menu">
                   <Search></Search>
                 </div>
               </MenuMiddle>
             </Col>
-            <Col lg="5">
-              <MenuEnd gridColum={user ? "170px 1fr 1fr 1fr" : "170px 1fr 1fr"}>
-                <Contact_Cart className="mt-1">
-                  <span class="baseIcon icons-shopping-cart2"></span>
-                  <span className="baseText">Carrinho</span>
-                  <p className="baseInfo">102 itens - R$ 11,305.00</p>
-                </Contact_Cart>
+            <Col className="col_infor" lg="5">
+              <MenuEnd
+                gridColum={user ? "auto auto auto auto" : "auto 1fr 1fr"}
+              >
+                <div className="mt-4">
+                  <router.Link to="/admin">
+                    <span className="fa-lg icons-shopping-cart2"></span>
+                    Carrinho
+                  </router.Link>
+                </div>
                 {user ? (
                   <React.Fragment>
-                    <div className="mt-3">
-                      <Link to="admin">
+                    <div className="mt-4">
+                      <router.Link to="/admin">
                         <i className="icons-user8 fa-lg"></i>
                         Minha Conta
-                      </Link>
+                      </router.Link>
                     </div>
-                    <div className="register mt-3">
-                      <Link to="register">
+                    <div className="register mt-4">
+                      <router.Link to="/register">
                         <i className="fa fa-user-plus fa-lg"></i>
                         Registrar
-                      </Link>
+                      </router.Link>
                     </div>
-                    <div className="mt-3">
-                      <Link onClick={() => logarUser()}>
+                    <div className="mt-4">
+                      <router.Link to="/#" onClick={() => logarUser()}>
                         <span>|</span>
                         <i className="icons-lock2 fa-lg"></i>
                         Login
-                      </Link>
+                      </router.Link>
                     </div>
                   </React.Fragment>
                 ) : (
                   <React.Fragment>
-                    <div className="register mt-2">
-                      <Link to="admin">
+                    <div className="register mt-3">
+                      <router.Link to="/admin">
                         Seja Bem Vindo! Cleverson Fernandes
-                      </Link>
+                      </router.Link>
                     </div>
-                    <div className="mt-3">
-                      <Link onClick={() => logarUser()}>
+                    <div className="mt-4">
+                      <router.Link to="/#" onClick={() => logarUser()}>
                         <span>|</span>
                         <i className="icons-exit fa-lg"></i>
                         Sair
-                      </Link>
+                      </router.Link>
                     </div>
                   </React.Fragment>
                 )}

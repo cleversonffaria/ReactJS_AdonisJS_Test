@@ -60,7 +60,13 @@ export default function App() {
               name="Page 500"
               render={props => <Page500 {...props} />}
             />
-            <PrivateRoute path="/admin" name="Admin" status={status} />
+            {/* <PrivateRoute path="/admin" name="Admin" status={status} /> */}
+            <Route
+              exact
+              path="/admin"
+              name="Admin"
+              render={props => <DefaultLayout {...props} />}
+            />
             <Route
               exact
               path="/"

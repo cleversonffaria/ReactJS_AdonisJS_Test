@@ -5,3 +5,7 @@ select:focus {
   border: 0 none;
   outline: 0;
 }
+.main {
+  top: -41px;
+  z-index: 0;
+}

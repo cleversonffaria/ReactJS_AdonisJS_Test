@@ -3,6 +3,11 @@ export const Img = styled.img`
   width: 150px;
 `;
 export const ContainerMenu = styled.div`
+  @media screen and (max-width: 991px) {
+    .search {
+      margin: -15px 0;
+    }
+  }
   /* Configuração do menu depois do Scroll */
   @import url("https://fonts.googleapis.com/css?family=Poppins:300,500,400,600&display=swap");
   font-family: "Poppins", sans-serif;
@@ -12,11 +17,6 @@ export const ContainerMenu = styled.div`
   }
   .content {
     margin-top: 10px;
-  }
-  .logo {
-    display: block;
-    margin: 0 auto;
-    padding: 3px;
   }
   /* Fim | Configuração do menu depois do Scroll */
 `;
@@ -54,7 +54,7 @@ export const ContainerContatos = styled.ul`
   cursor: pointer;
   list-style: none;
   padding: 0;
-  
+
   /* Seta para tooltip */
   .arrow {
     top: calc((0.5rem + 1px) * -1);
@@ -106,23 +106,51 @@ export const ContainerContatos = styled.ul`
     border-radius: 5px;
     list-style: none;
     padding: 10px;
-    position: absolute;
+    display: table;
     will-change: transform;
+    position: absolute;
     top: 0px;
     left: 0px;
     transform: translate3d(-20px, 60px, 0px);
-    z-index:5;
+    z-index: 5;
     visibility: hidden;
     opacity: 0;
     transition: opacity 1s;
   }
-  .horarioFuncionamento {
+  .infoCart {
+    font-size: 0.82rem;
+    display: table;
+  }
+  .infoProdutoCart {
+    background: none;
+    display: grid;
+    grid-template-columns: auto auto auto;
+  }
+  .infoTrash i:hover {
+    color: tomato;
+    cursor: pointer;
   }
   strong {
     font-size: 14px;
   }
 `;
 export const MenuNotFixed = styled.nav`
+  .btnMenuMobile {
+    display: inline-block;
+    width: 1.8em;
+    height: 1.8em;
+    padding: 0;
+    border: none !important;
+    box-shadow: none !important;
+    background: no-repeat center center;
+    background-size: 100% 100%;
+    span {
+      display: none;
+    }
+  }
+  .btnMenuMobile::before {
+    margin: -10px;
+  }
   .menuNotFixed {
     -webkit-font-smoothing: antialiased;
     @import url("https://fonts.googleapis.com/css?family=Poppins:300,500,400,600&display=swap");
@@ -155,6 +183,21 @@ export const MenuNotFixed = styled.nav`
 `;
 
 export const MenuFixed = styled(MenuNotFixed)`
+  @media screen and (max-width: 991px) {
+  }
+  @media screen and (max-width: 1175px) {
+    .col_img {
+      display: none;
+    }
+    .col_search {
+      margin-left: 50px !important;
+    }
+    .col_infor {
+      flex: none;
+      max-width: 50%;
+      margin: 0 auto;
+    }
+  }
   .menuFixed {
     @import url("https://fonts.googleapis.com/css?family=Poppins:300,500,400,600&display=swap");
     font-family: "Poppins", sans-serif;
@@ -182,9 +225,15 @@ export const MenuFixed = styled(MenuNotFixed)`
     top: 0px;
     visibility: visible;
   }
+  .menuFixed.escondeMenu {
+    display: none;
+  }
 `;
 
 export const MenuStart = styled.div`
+  @media screen and (max-width: 991px) {
+    display: none;
+  }
   color: #202020;
   grid-area: locals;
   display: grid;
@@ -213,6 +262,9 @@ export const MenuStart = styled.div`
   }
 `;
 export const MenuMiddle = styled.div`
+  @media screen and (max-width: 991px) {
+    display: none;
+  }
   mark {
     background: none;
   }
@@ -222,11 +274,25 @@ export const MenuMiddle = styled.div`
     margin-top: 20px !important;
     margin: auto;
   }
+  .escondeCat {
+    display: none;
+  }
   .contact {
     margin-top: 5px;
   }
 `;
 export const MenuEnd = styled.div`
+  @media screen and (max-width: 991px) {
+      grid-template-columns: ${props => props.gridColum || "auto"};
+    .minhaconta a{
+      float:right;
+      margin-right:30px;
+    }
+    .register,
+    .login {
+      display: none;
+    }
+  }
   margin: 5px;
   color: #202020;
   text-align: left;
@@ -255,5 +321,22 @@ export const MenuEnd = styled.div`
   a i {
     margin-right: 5px;
     color: #202020;
+  }
+`;
+// Menu Tablete
+export const ModoDesktop = styled.span`
+  display: block;
+  @media screen and (max-width: 991px) {
+    /* Troca para modo Tablet */
+    display: none;
+  }
+`;
+export const ModoTablet = styled.div`
+  display: none;
+  @media screen and (max-width: 991px) {
+    display: block;
+  }
+  @media screen and (max-width: 770px) {
+    display: none;
   }
 `;

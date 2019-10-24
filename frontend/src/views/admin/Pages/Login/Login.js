@@ -29,20 +29,21 @@ function Login({ status, setstatus, ...props }) {
       setColor("info");
       setError("Preencha e-mail e senha para continuar!");
     } else {
-      try {
-        const response = await api.post("/login", { email, password });
-        if (response) {
-          if (response.data.token) {
-            login(response.data.token);
-            const user = await api.get("/user");
-            setstatus(user.data.user_status);
-          }
-          props.history.push("/admin");
-        }
-      } catch (err) {
-        setColor("danger");
-        setError("Houve um problema com o login, verifique suas credenciais.");
-      }
+      props.history.push("/admin");
+      // try {
+      //   const response = await api.post("/login", { email, password });
+      //   if (response) {
+      //     if (response.data.token) {
+      //       login(response.data.token);
+      //       const user = await api.get("/user");
+      //       setstatus(user.data.user_status);
+      //     }
+      //     props.history.push("/admin");
+      //   }
+      // } catch (err) {
+      //   setColor("danger");
+      //   setError("Houve um problema com o login, verifique suas credenciais.");
+      // }
     }
   }
 

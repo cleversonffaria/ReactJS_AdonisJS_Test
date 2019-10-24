@@ -31,8 +31,8 @@ export default function Search(props) {
                 <div className="borderBottom">
                   <ListaCategoria>
                     <i className="fa fa-mixcloud fa-lg"></i>
-                    <Link className="ml-3" to="/wireless">
-                      Kmasu 
+                    <Link to="/wireless" className="ml-3">
+                      Kmasu
                     </Link>
                     <SubCategoria className="listaSubCategoria">
                       <span className="arrow"></span>
@@ -41,13 +41,66 @@ export default function Search(props) {
                       </li>
                       <li>
                         <Link to="/categoria">
-                          AntenasAcessoriaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasad asdasdassssssssssdasdasdas sadasdasdasddas as aas sd
+                          Antenas
                         </Link>
                       </li>
                       <li>
                         <Link to="/categoria">
-                          Modulasd 
+                          Antenas
                         </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">
+                          Antenas
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">
+                          Antenas
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">
+                          Antenas
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">
+                          Antenas
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">
+                          Antenas
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">
+                          Antenas
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">
+                          Antenas
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">
+                          Antenas
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">
+                          Antenas
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">
+                          Antenas
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/categoria">Modulasd</Link>
                       </li>
                       <li>
                         <Link to="/categoria">Roteador</Link>
@@ -58,7 +111,7 @@ export default function Search(props) {
                 <div className="borderBottom">
                   <ListaCategoria>
                     <i className="fa fa-archive fa-lg"></i>
-                    <Link className="ml-3" to="/wireless">
+                    <Link to="/wireless" className="ml-3">
                       Nico house musture
                     </Link>
                     <SubCategoria className="listaSubCategoria">
@@ -67,14 +120,11 @@ export default function Search(props) {
                         <Link to="/categoria">Acessorios</Link>
                       </li>
                       <li>
-                        <Link to="/categoria">
-                          AntenasA
-                        </Link>
+                        <Link to="/categoria">AntenasA</Link>
                       </li>
                       <li>
                         <Link to="/categoria">
-                          Modulasd asd asdd asd sa adasd
-                          asdasdao
+                          Modulasd asd asdd asd sa adasd asdasdao
                         </Link>
                       </li>
                       <li>
@@ -86,7 +136,7 @@ export default function Search(props) {
                 <div className="borderBottom">
                   <ListaCategoria>
                     <i className="fa fa-clone fa-lg"></i>
-                    <Link className="ml-3" to="/wireless">
+                    <Link to="/wireless" className="ml-3">
                       Gororoba
                     </Link>
                     <SubCategoria className="listaSubCategoria">
@@ -96,8 +146,7 @@ export default function Search(props) {
                       </li>
                       <li>
                         <Link to="/categoria">
-                          AntenasAcessori asda
-                          sdasasadasdasdasd
+                          AntenasAcessori asda sdasasadasdasdasd
                         </Link>
                       </li>
                       <li>
@@ -114,7 +163,7 @@ export default function Search(props) {
                 <div className="borderBottom">
                   <ListaCategoria>
                     <i className="fa fa-heart fa-lg"></i>
-                    <Link className="ml-3" to="/wireless">
+                    <Link to="/wireless" className="ml-3">
                       Wireless
                     </Link>
                     <SubCategoria className="listaSubCategoria">
@@ -123,14 +172,10 @@ export default function Search(props) {
                         <Link to="/categoria">Acessorios</Link>
                       </li>
                       <li>
-                        <Link to="/categoria">
-                          AntenasAcessori sdasdadasd
-                        </Link>
+                        <Link to="/categoria">AntenasAcessori sdasdadasd</Link>
                       </li>
                       <li>
-                        <Link to="/categoria">
-                          Modulasdobaasdo
-                        </Link>
+                        <Link to="/categoria">Modulasdobaasdo</Link>
                       </li>
                       <li>
                         <Link to="/categoria">Roteador</Link>
@@ -141,7 +186,7 @@ export default function Search(props) {
               </Categorias>
             </li>
           </Menu_ul>
-          <Input id="appendedInputButton" type="text" />
+          <Input className="baa" id="appendedInputButton" type="text" />
           <InputGroupAddon addonType="append">
             <Button>
               <i className="fa fa-search"></i>
