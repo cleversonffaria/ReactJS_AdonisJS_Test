@@ -11,7 +11,7 @@ export const ContainerMenu = styled.div`
   /* Configuração do menu depois do Scroll */
   @import url("https://fonts.googleapis.com/css?family=Poppins:300,500,400,600&display=swap");
   font-family: "Poppins", sans-serif;
-  margin-top: 40px;
+  margin-top: 31px;
   .search {
     margin: 8px 0;
   }
@@ -99,6 +99,14 @@ export const ContainerContatos = styled.ul`
     font-size: 20px;
     color: #ff641a;
   }
+  .subContato a {
+    color: #202020;
+    text-decoration:none;
+  }
+  .subContato a:hover {
+    color: #ff641a;
+    text-decoration:none;
+  }
   .subContato {
     cursor: auto;
     background: #f0f0f0;
@@ -182,9 +190,7 @@ export const MenuNotFixed = styled.nav`
   }
 `;
 
-export const MenuFixed = styled(MenuNotFixed)`
-  @media screen and (max-width: 991px) {
-  }
+export const MenuFixed = styled(MenuNotFixed)` 
   @media screen and (max-width: 1175px) {
     .col_img {
       display: none;
@@ -283,10 +289,10 @@ export const MenuMiddle = styled.div`
 `;
 export const MenuEnd = styled.div`
   @media screen and (max-width: 991px) {
-      grid-template-columns: ${props => props.gridColum || "auto"};
-    .minhaconta a{
-      float:right;
-      margin-right:30px;
+    grid-template-columns: ${props => props.gridColum || "auto"};
+    .minhaconta a {
+      float: right;
+      margin-right: 30px;
     }
     .register,
     .login {
@@ -336,7 +342,7 @@ export const ModoTablet = styled.div`
   @media screen and (max-width: 991px) {
     display: block;
   }
-  @media screen and (max-width: 770px) {
+  @media screen and (max-width: 767px) {
     display: none;
   }
 `;

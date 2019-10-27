@@ -47,7 +47,7 @@ const User = React.lazy(() => import("./views/admin/Users/User"));
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { path: "/admin", exact: true, name: "Admin", component: Dashboard },
-  { path: "/admin/theme", exact: true, name: "Theme", component: Colors },
+  { path: "/admin/categoria", exact: true, name: "Theme", component: Colors },
   { path: "/admin/theme/colors", name: "Colors", component: Colors },
   {
     path: "/admin/theme/typography",

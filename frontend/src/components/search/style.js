@@ -33,12 +33,13 @@ export const Body = styled.div`
   /* Fim | Todos Links do Header */
   /* Botoes e Inputs */
   button {
-    background: #fff !important;
-    border: 0.5px solid #d6d6d6;
+    background: #ff7c3e !important;
+    border: 0.5px solid #ff7c3e;
+    color: #fff;
     height: 35px;
   }
   button:hover {
-    background: #ff7c3e !important;
+    background: #ff5f11 !important;
     border: 0.5px solid #ff7c3e;
     color: #fff;
   }

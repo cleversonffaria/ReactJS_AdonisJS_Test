@@ -1,8 +1,18 @@
-import React from "react";
+import React, { Suspense } from "react";
 import $ from "jquery";
-import { Header, Product, Siderbar } from "../../components";
-// import { Container } from './styles';
+import { Container, Row, Col, Card, CardBody } from "reactstrap";
+// import { Header, Product, Siderbar } from "../../components";
+import { Body } from "./style";
+const Carousels = React.lazy(() => import("../../components/carousels"));
+const Product = React.lazy(() => import("../../components/product"));
+const Header = React.lazy(() => import("../../components/header"));
+const Siderbar = React.lazy(() => import("../../components/siderbar"));
 
+const loading = () => (
+  <div className="animated fadeIn pt-3 text-center loading">
+    <i className="fa fa-refresh fa-spin"></i> Carregando...
+  </div>
+);
 export default function Site(props) {
   $(window).bind("scroll resize", function(event) {
     if ($(window).scrollTop() > 100) {
@@ -23,12 +33,16 @@ export default function Site(props) {
   });
 
   return (
-    <React.Fragment>
-      <Siderbar {...props} />
+    <Body>
       <Header {...props} />
-      <main className="main">
-        <Product />
-      </main>
-    </React.Fragment>
+      <Siderbar {...props} />
+
+      <Suspense fallback={loading()}>
+        <main className="main">
+          <Carousels/>
+          <Product title=" Só aqui tem as melhores ofertas para você cliente e amigo!" catTitle="Wireless" paginator={true}/>
+        </main>
+      </Suspense>
+    </Body>
   );
 }

@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-  data: ["MODEM","OLT","WIFI"],
+  data: {},
   activeCourse: true
 };
 

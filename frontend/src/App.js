@@ -9,7 +9,9 @@ import "./App.scss";
 import store from "./store";
 
 const loading = () => (
-  <div className="animated fadeIn pt-3 text-center">Loading...</div>
+  <div className="animated fadeIn pt-3 text-center loading">
+    <i className="fa fa-refresh fa-spin"></i> Carregando...
+  </div>
 );
 // Containers
 const DefaultLayout = React.lazy(() => import("./containers/DefaultLayout"));
@@ -62,7 +64,6 @@ export default function App() {
             />
             {/* <PrivateRoute path="/admin" name="Admin" status={status} /> */}
             <Route
-              exact
               path="/admin"
               name="Admin"
               render={props => <DefaultLayout {...props} />}

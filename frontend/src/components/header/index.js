@@ -48,15 +48,21 @@ export default function Header({ ...props }) {
             <span className="arrow"></span>
             <li>
               <i className="fa fa-envelope fa-lg"></i>
-              <span>Email@gmail.com</span>
+              <a href="mailto:vendas@gmail.com.br">Email@gmail.com</a>
             </li>
             <li>
               <i className="icons-mobile_friendly"></i>
-              (28) 99734-9644
+              <a href="tel:55(22)997349644">(28) 99734-9644</a>
             </li>
             <li>
               <i className="fa fa-whatsapp fa-lg"></i>
-              (22) 99885-4144
+              <a
+                rel="noopener noreferrer"
+                target="_blank"
+                href="https://api.whatsapp.com/send?phone=5522997349644"
+              >
+                (22) 99885-4144
+              </a>
             </li>
             <li>
               <i className="fa fa-clock-o fa-lg"></i>
@@ -133,44 +139,45 @@ export default function Header({ ...props }) {
             </div>
           </MenuEnd>
         </div>
+
         {/* Menu secundário não fixado.*/}
         <main className="main">
-        <ContainerMenu>
-          <Container className="content">
-            <Row>
-              <Col xs="12" lg="2" md="5">
-                <Img className="d-block m-auto p-1" src={teacher1}></Img>
-              </Col>
-              <ModoTablet>
-                <Row>
-                  <Col sm="6" lg="6" md="6">
-                    {contact()}
-                  </Col>
-                  <Col sm="6" lg="6" md="6">
-                    {cart()}
-                  </Col>
-                </Row>
-              </ModoTablet>
-              <Col xs="12" md="12" lg="5">
-                <div className="search">
-                  <Search buscar="Busca"></Search>
-                </div>
-              </Col>
-              <Col lg="5" md="6">
-                <ModoDesktop>
+          <ContainerMenu>
+            <Container className="content">
+              <Row>
+                <Col xs="12" lg="2" md="5">
+                  <Img className="d-block m-auto p-1" src={teacher1}></Img>
+                </Col>
+                <ModoTablet>
                   <Row>
-                    <Col lg="5" md="6">
+                    <Col sm="6" lg="6" md="6">
                       {contact()}
                     </Col>
-                    <Col lg="5" md="6">
+                    <Col sm="6" lg="6" md="6">
                       {cart()}
                     </Col>
                   </Row>
-                </ModoDesktop>
-              </Col>
-            </Row>
-          </Container>
-        </ContainerMenu>
+                </ModoTablet>
+                <Col xs="12" md="12" lg="5">
+                  <div className="search">
+                    <Search buscar="Busca"></Search>
+                  </div>
+                </Col>
+                <Col lg="5" md="6">
+                  <ModoDesktop>
+                    <Row>
+                      <Col lg="5" md="6">
+                        {contact()}
+                      </Col>
+                      <Col lg="5" md="6">
+                        {cart()}
+                      </Col>
+                    </Row>
+                  </ModoDesktop>
+                </Col>
+              </Row>
+            </Container>
+          </ContainerMenu>
         </main>
       </MenuNotFixed>
       {/* Quando a página rola este menu aparece */}

@@ -5,7 +5,36 @@ select:focus {
   border: 0 none;
   outline: 0;
 }
+.loading {
+  position: relative;
+  top: 290px;
+}
 .main {
-  top: -41px;
   z-index: 0;
 }
+@media (max-width: 870px) {
+  .sidebar-sm-show.sidebar-fixed .main,
+  .sidebar-sm-show.sidebar-fixed .app-footer,
+  .sidebar-show.sidebar-fixed .main,
+  .sidebar-show.sidebar-fixed .app-footer {
+    margin-left: 0px !important;
+  }
+  .sidebar-show .main,
+  .aside-menu-show .main {
+    position: relative;
+  }
+  .sidebar-show .main::before,
+  .aside-menu-show .main::before {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0;
+    z-index: 1018;
+    width: 100%;
+    height: 100%;
+    content: "";
+    background: rgba(0, 0, 0, 0.7);
+    -webkit-animation: opacity 0.25s;
+    animation: opacity 0.25s;
+  }
+}
+

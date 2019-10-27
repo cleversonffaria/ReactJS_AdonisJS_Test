@@ -14,8 +14,8 @@ import navigation from "../../views/site/_nav";
 
 export default function siderbar(props) {
   return (
-    <App>
-      <AppSidebar fixed mobile className="d-lg-none">
+    <App >
+      <AppSidebar fixed mobile="true" className="d-lg-none">
           <AppSidebarHeader />
           <AppSidebarForm />
             <Suspense>           
