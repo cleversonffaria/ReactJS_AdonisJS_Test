@@ -1,11 +1,10 @@
+/* eslint-disable no-unused-vars */
 // Import de Bibliotecas
 import React, { useState } from "react";
-import {Link} from "react-router-dom";
 import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 import { Container } from "./style";
-import api from "../../services/api";
 
-export default function Product({ totalPag,match }) {
+export default function Product({ totalPag, match }) {
   const [atual, setAtual] = useState();
   const [page, setPage] = useState("1");
   const [products, setProducts] = useState(true);
@@ -36,18 +35,18 @@ export default function Product({ totalPag,match }) {
         </PaginationItem>
         <PaginationItem active={products}>
           {/* <Link to="/products/1/16"> */}
-            <PaginationLink onClick={() => activePag()} tag="button">
-              1
-            </PaginationLink>
+          <PaginationLink onClick={() => activePag()} tag="button">
+            1
+          </PaginationLink>
           {/* </Link> */}
         </PaginationItem>
         {paginar(totalPag).map(pagAtual => {
           return (
             <PaginationItem key={pagAtual} active={atual === pagAtual && true}>
               {/* <Link to={`/products/${pagAtual}/16`} > */}
-                <PaginationLink onClick={() => pagReturn(pagAtual)} tag="button">
-                  {pagAtual}
-                </PaginationLink>
+              <PaginationLink onClick={() => pagReturn(pagAtual)} tag="button">
+                {pagAtual}
+              </PaginationLink>
               {/* </Link> */}
             </PaginationItem>
           );

@@ -1,6 +1,6 @@
 import React from "react";
 import $ from "jquery";
-import { Header, Home, Siderbar } from "../../components";
+import { Header, Siderbar, Home } from "../../components";
 import { Body } from "./style";
 
 export default function Site(props) {
@@ -21,7 +21,6 @@ export default function Site(props) {
       $(".menuFixed").addClass("escondeMenu");
     }
   });
-
   return (
     <Body>
       <Header {...props} />

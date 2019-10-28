@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-// eslint-disable-next-line
+
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Provider } from "react-redux";
 

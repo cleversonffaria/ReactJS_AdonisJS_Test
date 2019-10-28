@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // Import de Bibliotecas
 import React from "react";
 // import { useSelector } from "react-redux";

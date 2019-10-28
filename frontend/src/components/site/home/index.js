@@ -3,9 +3,9 @@ import { Container, Alert, Row, Col, Card, CardBody } from "reactstrap";
 
 import MapGL from "react-map-gl";
 
-import { Product, Carousels } from "../../components";
+import { Products, Carousels } from "../../../components";
 import { Body, QuemSomos, Title } from "./style";
-import api from "../../services/api";
+import api from "../../../services/api";
 
 const TOKEN =
   "pk.eyJ1IjoiY2xldmVyc29uZmZhcmlhIiwiYSI6ImNrMmFtMTlvdzAyYjMzY2xrYTBvcjN0cWgifQ.sHhyf21E0VkKelhvH0YDNA";
@@ -40,7 +40,7 @@ export default function Home({ ...props }) {
       {(message && <Alert color="danger">{message}</Alert>) || (
         <Container fluid>
           <Carousels />
-          <Product {...props} categoryTitle="Novidades" products={products} />
+          <Products {...props} categoryTitle="Novidades" products={products} />
           <QuemSomos>
             <Card>
               <CardBody>
@@ -96,7 +96,7 @@ export default function Home({ ...props }) {
               </CardBody>
             </Card>
           </QuemSomos>
-          <Product {...props} categoryTitle="Promoções" products={products} />
+          <Products {...props} categoryTitle="Promoções" products={products} />
         </Container>
       )}
     </Body>
