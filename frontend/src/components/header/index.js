@@ -3,8 +3,7 @@ import React, { useState } from "react";
 import * as router from "react-router-dom";
 import { Search } from "../../components";
 import teacher1 from "../../assets/Logo.png";
-// import alicate from "../../assets/Alicat.png";
-// import cabo from "../../assets/Cabo.png";
+
 import { AppSidebarToggler } from "@coreui/react";
 import {
   MenuFixed,

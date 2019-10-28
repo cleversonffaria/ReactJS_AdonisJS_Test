@@ -73,4 +73,4 @@ class Widget02 extends Component {
 Widget02.propTypes = propTypes;
 Widget02.defaultProps = defaultProps;
 
-export default Widget02;
+export default Widget02; 

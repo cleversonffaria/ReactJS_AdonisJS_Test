@@ -74,6 +74,7 @@ export default function App() {
               name="Home"
               render={props => <Site {...props} />}
             />
+            {/* <Route path="/products/:page?/:count" render={props => <Site {...props} />} /> */}
             <Route path="*" render={props => <Page404 {...props} />} />
           </Switch>
         </React.Suspense>
