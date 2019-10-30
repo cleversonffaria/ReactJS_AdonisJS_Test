@@ -20,7 +20,7 @@ const DefaultLayout = React.lazy(() => import("./containers/DefaultLayout"));
 // Pages
 const Login = React.lazy(() => import("./views/admin/Pages/Login"));
 const Register = React.lazy(() => import("./views/admin/Pages/Register"));
-const Page404 = React.lazy(() => import("./views/admin/Pages/Page404"));
+// const Page404 = React.lazy(() => import("./views/admin/Pages/Page404"));
 const Page500 = React.lazy(() => import("./views/admin/Pages/Page500"));
 const Site = React.lazy(() => import("./views/site"));
 
@@ -69,14 +69,9 @@ export default function App() {
               name="Admin"
               render={props => <DefaultLayout {...props} />}
             />
-            <Route
-              exact
-              path="/"
-              name="Home"
-              render={props => <Site {...props} />}
-            />
+            <Route path="/" name="Home" render={props => <Site {...props} />} />
             {/* <Route path="/products/:page?/:count" render={props => <Site {...props} />} /> */}
-            <Route path="*" render={props => <Page404 {...props} />} />
+            {/* <Route path="*" render={props => <Page404 {...props} />} /> */}
           </Switch>
         </React.Suspense>
       </Provider>

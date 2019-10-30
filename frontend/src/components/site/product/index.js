@@ -1,12 +1,12 @@
 import React from "react";
 
-// import { Container } from './style';
+import { Body } from "./style";
 
-export default function product() {
+export default function Product() {
   return (
-    <div>
+    <Body>
+      <div>SOU O PRODUTO</div>
       <div></div>
-      <div></div>
-    </div>
+    </Body>
   );
 }

@@ -4,7 +4,7 @@ import Search from "./search";
 import Siderbar from "./siderbar";
 import Carousels from "./carousels";
 import Paginator from "./paginator";
-import { Home, Category, Product } from "./site";
+import { Home, Category, Product, Account } from "./site";
 
 export {
   Header,
@@ -15,5 +15,6 @@ export {
   Paginator,
   Home,
   Category,
-  Product
+  Product,
+  Account
 };

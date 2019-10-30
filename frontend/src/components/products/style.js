@@ -8,6 +8,10 @@ export const Body = styled.div`
       font-size: 18px !important;
     }
   }
+  .productCard {
+    margin:10px auto;
+    width: 300px;
+  }
   .cardGroud {
     background-color: #ff641a;
     bottom: 4px;

@@ -118,7 +118,7 @@ export default function Header({ ...props }) {
           </MenuMiddle>
           <MenuEnd>
             <div className="minhaconta">
-              <router.Link to="/admin">
+              <router.Link to="/account/home">
                 <i className="icons-user8 fa-lg"></i>
                 Minha Conta
               </router.Link>
@@ -210,7 +210,7 @@ export default function Header({ ...props }) {
                 {user ? (
                   <React.Fragment>
                     <div className="mt-4">
-                      <router.Link to="/admin">
+                      <router.Link to="/account/home">
                         <i className="icons-user8 fa-lg"></i>
                         Minha Conta
                       </router.Link>

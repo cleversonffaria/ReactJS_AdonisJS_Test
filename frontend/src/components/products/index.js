@@ -20,6 +20,7 @@ export default function Product({
   title,
   categoryTitle,
   paginator,
+  totalPaginator,
   products,
   ...props
 }) {
@@ -59,10 +60,11 @@ export default function Product({
                 className="d-flex"
                 xs="12"
                 sm="6"
-                md="6"
-                lg="3"
+                md="4"
+                lg="4"
+                xl="3"
               >
-                <Card className="w-100">
+                <Card className="productCard">
                   <CardBody
                     className="cardProduct"
                     onClick={() => alert("Cliquei")}
@@ -114,7 +116,10 @@ export default function Product({
           })}
         {paginator && (
           <Col xs="12">
-            <Paginator totalPag="16" {...props}></Paginator>
+            <Paginator
+              totalPag={totalPaginator && totalPaginator}
+              {...props}
+            ></Paginator>
           </Col>
         )}
       </Row>

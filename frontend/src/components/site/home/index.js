@@ -33,8 +33,7 @@ export default function Home({ ...props }) {
     };
     produtos();
   }, []);
-  console.log(props);
-
+  
   return (
     <Body>
       {(message && <Alert color="danger">{message}</Alert>) || (
