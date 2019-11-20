@@ -61,13 +61,12 @@ export default function Product({
                 xs="12"
                 sm="6"
                 md="4"
-                lg="4"
-                xl="3"
+                lg="3"
               >
                 <Card className="productCard">
                   <CardBody
                     className="cardProduct"
-                    onClick={() => alert("Cliquei")}
+                    onClick={() => props.history.push("/product/1")}
                   >
                     <img
                       src={`${base.ApiUrl}/uploads/${produto.image}`}
@@ -104,10 +103,6 @@ export default function Product({
                     <Button color="success">
                       <i className="fa fa-check"></i>
                       Comprar
-                    </Button>
-                    <Button outline color="danger">
-                      <i className="fa fa-plus-circle"></i>
-                      Carrinho
                     </Button>
                   </CardFooter>
                 </Card>

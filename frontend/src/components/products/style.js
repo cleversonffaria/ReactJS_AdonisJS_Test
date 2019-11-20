@@ -9,7 +9,7 @@ export const Body = styled.div`
     }
   }
   .productCard {
-    margin:10px auto;
+    margin: 10px auto;
     width: 300px;
   }
   .cardGroud {

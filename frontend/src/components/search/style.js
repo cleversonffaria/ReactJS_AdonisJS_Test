@@ -58,7 +58,7 @@ export const Menu_ul = styled.ul`
     display: none;
   }
   /* Configurações do Menu UL */
-  z-index: 10;
+  z-index: 100;
   background: #fff !important;
   border-right: none !important;
   height: 35px;

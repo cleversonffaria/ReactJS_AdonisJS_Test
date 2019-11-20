@@ -17,6 +17,12 @@ export const Body = styled.div`
       display: none;
     }
   }
+  @media screen and (max-width: 1229px) and (min-width: 994px) {
+    .colunaInfo {
+      flex: 0 0 68.6%;
+      max-width: 68.6%;
+    }
+  }
   .menuAccount {
     font-weight: 600;
     min-width: 300px;

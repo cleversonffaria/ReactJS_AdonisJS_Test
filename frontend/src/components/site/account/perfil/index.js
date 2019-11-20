@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardBody, Row, Col, Button } from "reactstrap";
 import { Body, Information, InforCard } from "./style";
-import Modal from "./modal";
+import Modals from "./modal";
 
 export default function Inicio({ user, ...props }) {
   const [info, setInfo] = useState();
@@ -28,7 +28,7 @@ export default function Inicio({ user, ...props }) {
       Telefone: "",
       Celular: "22997349644",
       Cpf: "12359502638",
-      Empresa: "JNF",
+      Empresa: "Modelo",
       Cnpj: "002154888879"
     });
   }, []);
@@ -37,7 +37,7 @@ export default function Inicio({ user, ...props }) {
   };
   return (
     <Body>
-      <Modal
+      <Modals
         title={modalinfo && modalinfo}
         modal={modal}
         setmodal={() => setModal()}

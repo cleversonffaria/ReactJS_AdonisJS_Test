@@ -1,68 +1,68 @@
 import React from "react";
-import { Card, CardBody, Badge, Table, Button } from "reactstrap";
+import { Card, CardBody, Table, Button } from "reactstrap";
 import { Body } from "./style";
 export default function Demand({ user, ...props }) {
   const lista = [
     {
-      nome: "Modem Wifi com Gerador",
+      nome: "Um nome de produto grande para ver como fica",
       categoria: "Wireless",
       subcategoria: "Roteadores",
       visualizar: true
     },
     {
-      nome: "Modem Wifi com Gerador",
+      nome: "Um nome de produto Medio",
       categoria: "Wireless",
       subcategoria: "Roteadores",
       visualizar: true
     },
     {
-      nome: "Modem Wifi com Gerador",
+      nome: "Um nome",
       categoria: "Wireless",
       subcategoria: "Roteadores",
       visualizar: true
     },
     {
-      nome: "Modem Wifi com Gerador",
+      nome: "Um nome de produto grande para ver como fica",
       categoria: "Wireless",
       subcategoria: "Roteadores",
       visualizar: true
     },
     {
-      nome: "Modem Wifi com Gerador",
+      nome: "Um nome de produto grande para ver como fica",
       categoria: "Wireless",
       subcategoria: "Roteadores",
       visualizar: true
     },
     {
-      nome: "Modem Wifi com Gerador",
+      nome: "Um nome de produto grande para ver como fica",
       categoria: "Wireless",
       subcategoria: "Roteadores",
       visualizar: true
     },
     {
-      nome: "Modem Wifi com Gerador",
+      nome: "Um nome de produto grande para ver como fica",
       categoria: "Wireless",
       subcategoria: "Roteadores",
       visualizar: true
     },
     {
-      nome: "Modem Wifi com Gerador",
+      nome: "Um nome de produto grande para ver como fica",
       categoria: "Wireless",
       subcategoria: "Roteadores",
       visualizar: true
     },
     {
-      nome: "Modem Wifi com Gerador",
+      nome: "Um nome de produto grande para ver como fica",
       categoria: "Wireless",
       subcategoria: "Roteadores",
       visualizar: true
     },
     {
-      nome: "Modem Wifi com Gerador",
+      nome: "Um nome de produto grande para ver como fica",
       categoria: "Wireless",
       subcategoria: "Roteadores",
       visualizar: true
-    },
+    }
   ];
   return (
     <Body>

@@ -15,23 +15,23 @@ export default function Demand({ user, ...props }) {
     },
     {
       qtd: "1",
-      nome: "Modem",
+      nome: "Um nome pequeno",
       data: "27/10/2019",
       pagamento: status_payment2,
       status: "Preparando para envio",
       acao: status_payment2
     },
     {
-      qtd: "5",
-      nome: "Olt doualboard tagarelando na sua cara",
+      qtd: "10",
+      nome: "Um nome de modelo medio .... ",
       data: "27/10/2019",
       pagamento: status_payment,
       status: "Em trânsito",
       acao: status_payment
     },
     {
-      qtd: "5",
-      nome: "Olt doualboard tagarelando na sua cara",
+      qtd: "520",
+      nome: "Um nome de produto grande para ver como fica no exemplo",
       data: "27/10/2019",
       pagamento: status_payment2,
       status: "Pendente",

@@ -13,7 +13,7 @@ import {
 } from "reactstrap";
 // import { Container } from './styles';
 
-export default function modal({ title, modal, setmodal }) {
+export default function Modals({ title, modal, setmodal }) {
   const toggle = () => {
     setmodal(!modal);
   };
@@ -53,7 +53,7 @@ export default function modal({ title, modal, setmodal }) {
                             type="text"
                             id={"text-" + dado[0]}
                             name={dado[0]}
-                            placeholder={dado[1]}
+                            placeholder={dado[0]}
                           />
                         </Col>
                       </FormGroup>

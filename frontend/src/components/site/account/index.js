@@ -82,7 +82,7 @@ export default function Account({ match, ...props }) {
               </CardBody>
             </Card>
           </Col>
-          <Col md="12" lg="8" xl="9" className="colunaInfo">
+          <Col md="12" xl="9" className="colunaInfo">
             <React.Suspense fallback={loading()}>
               <Switch>
                 {routes.map((route, idx) => {
