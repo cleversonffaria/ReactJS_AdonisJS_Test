@@ -1,280 +1,131 @@
 export default {
   items: [
     {
-      name: 'Admin',
-      url: '/admin',
-      icon: 'icon-speedometer',
-      badge: {
-        variant: 'info',
-        text: 'NEW',
-      },
+      name: "Inicio",
+      url: "/admin",
+      icon: "icon-speedometer"
     },
     {
-      title: true,
-      name: 'Theme',
-      wrapper: {            // optional wrapper object
-        element: '',        // required valid HTML5 element tag
-        attributes: {}        // optional valid JS object with JS API naming ex: { className: "my-class", style: { fontFamily: "Verdana" }, id: "my-id"}
-      },
-      class: ''             // optional class names space delimited list for title item ex: "text-center"
+      name: "Empresa",
+      url: "/admin/company",
+      icon: "icons-store_mall_directorystore"
     },
     {
-      name: 'Categoria',
-      url: '/admin/categoria',
-      icon: 'icon-drop',
+      name: "Clientes",
+      url: "/admin/user",
+      icon: "icons-users1"
     },
     {
-      name: 'Sub Categoria',
-      url: '/admin/theme/typography',
-      icon: 'icon-pencil',
-    },
-    {
-      title: true,
-      name: 'Components',
-      wrapper: {
-        element: '',
-        attributes: {},
-      },
-    },
-    {
-      name: 'Produtos',
-      url: '/admin/base',
-      icon: 'icon-puzzle',
+      name: "Categoria",
+      icon: "icons-price-tag",
+      url: "/admin/category",
       children: [
         {
-          name: 'Breadcrumbs',
-          url: '/admin/base/breadcrumbs',
-          icon: 'icon-puzzle',
+          name: "Ver Todas",
+          url: "/admin/category/view",
+          icon: "icons-bookmarkcopy3"
         },
         {
-          name: 'Cards',
-          url: '/admin/base/cards',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Carousels',
-          url: '/admin/base/carousels',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Collapses',
-          url: '/admin/base/collapses',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Dropdowns',
-          url: '/admin/base/dropdowns',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Forms',
-          url: '/admin/base/forms',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Jumbotrons',
-          url: '/admin/base/jumbotrons',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'List groups',
-          url: '/admin/base/list-groups',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Navs',
-          url: '/admin/base/navs',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Paginations',
-          url: '/admin/base/paginations',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Popovers',
-          url: '/admin/base/popovers',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Progress Bar',
-          url: '/admin/base/progress-bar',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Switches',
-          url: '/admin/base/switches',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Tables',
-          url: '/admin/base/tables',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Tabs',
-          url: '/admin/base/tabs',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Tooltips',
-          url: '/admin/base/tooltips',
-          icon: 'icon-puzzle',
-        },
-      ],
+          name: "Criar",
+          url: "/admin/category/add",
+          icon: "icons-bookmark-outline-add"
+        }
+      ]
     },
     {
-      name: 'Buttons',
-      url: '/admin/buttons',
-      icon: 'icon-cursor',
+      name: "Sub-Categoria",
+      icon: "icons-price-tags",
+      url: "/admin/subcategory",
       children: [
         {
-          name: 'Buttons',
-          url: '/admin/buttons/buttons',
-          icon: 'icon-cursor',
+          name: "Ver Todas",
+          url: "/admin/subcategory/view",
+          icon: "icons-bookmarkcopy3"
         },
         {
-          name: 'Button dropdowns',
-          url: '/admin/buttons/button-dropdowns',
-          icon: 'icon-cursor',
-        },
-        {
-          name: 'Button groups',
-          url: '/admin/buttons/button-groups',
-          icon: 'icon-cursor',
-        },
-        {
-          name: 'Brand Buttons',
-          url: '/admin/buttons/brand-buttons',
-          icon: 'icon-cursor',
-        },
-      ],
+          name: "Criar",
+          url: "/admin/subcategory/add",
+          icon: "icons-bookmark-outline-add"
+        }
+      ]
     },
     {
-      name: 'Charts',
-      url: '/admin/charts',
-      icon: 'icon-pie-chart',
-    },
-    {
-      name: 'Icons',
-      url: '/admin/icons',
-      icon: 'icon-star',
+      name: "Produtos",
+      icon: "icons-stack",
+      url: "/admin/product",
       children: [
         {
-          name: 'CoreUI Icons',
-          url: '/admin/icons/coreui-icons',
-          icon: 'icon-star',
+          name: "Ver Todos",
+          url: "/admin/product/view",
+          icon: "icons-folder-open"
+        },
+        {
+          name: "Cadastrar",
+          url: "/admin/product/add",
+          icon: "icons-folder-plus"
+        }
+      ]
+    },
+    {
+      name: "Vendas",
+      url: "/admin/demand",
+      icon: "icons-cart",
+      children: [
+        {
+          name: "Pendentes",
+          url: "/admin/demand/pending",
+          icon: "icons-info-with-circle"
+        },
+        {
+          name: "Relatório",
+          url: "/admin/demand/report",
+          icon: "icon-pie-chart"
+        }
+      ]
+    },
+
+    {
+      name: "Sistema",
+      url: "/admin/system",
+      icon: "fa fa-cog",
+      children: [
+        {
+          name: "Sipag",
+          url: "/admin/system/sipag",
+          icon: "icon-puzzle",
           badge: {
-            variant: 'info',
-            text: 'NEW',
-          },
+            variant: "warning",
+            text: "API"
+          }
         },
         {
-          name: 'Flags',
-          url: '/admin/icons/flags',
-          icon: 'icon-star',
-        },
-        {
-          name: 'Font Awesome',
-          url: '/admin/icons/font-awesome',
-          icon: 'icon-star',
+          name: "Sicoob Boleto",
+          url: "/admin/system/sicoob",
+          icon: "icon-puzzle",
           badge: {
-            variant: 'secondary',
-            text: '4.7',
-          },
+            variant: "warning",
+            text: "API"
+          }
         },
         {
-          name: 'Simple Line Icons',
-          url: '/admin/icons/simple-line-icons',
-          icon: 'icon-star',
-        },
-      ],
-    },
-    {
-      name: 'Notifications',
-      url: '/admin/notifications',
-      icon: 'icon-bell',
-      children: [
-        {
-          name: 'Alerts',
-          url: '/admin/notifications/alerts',
-          icon: 'icon-bell',
+          name: "TNT Express",
+          url: "/admin/system/tntexpress",
+          icon: "icon-puzzle",
+          badge: {
+            variant: "warning",
+            text: "API"
+          }
         },
         {
-          name: 'Badges',
-          url: '/admin/notifications/badges',
-          icon: 'icon-bell',
-        },
-        {
-          name: 'Modals',
-          url: '/admin/notifications/modals',
-          icon: 'icon-bell',
-        },
-      ],
-    },
-    {
-      name: 'Widgets',
-      url: '/admin/widgets',
-      icon: 'icon-calculator',
-      badge: {
-        variant: 'info',
-        text: 'NEW',
-      },
-    },
-    {
-      divider: true,
-    },
-    {
-      title: true,
-      name: 'Extras',
-    },
-    {
-      name: 'Pages',
-      url: '/admin/pages',
-      icon: 'icon-star',
-      children: [
-        {
-          name: 'Login',
-          url: '/login',
-          icon: 'icon-star',
-        },
-        {
-          name: 'Register',
-          url: '/register',
-          icon: 'icon-star',
-        },
-        {
-          name: 'Error 404',
-          url: '/404',
-          icon: 'icon-star',
-        },
-        {
-          name: 'Error 500',
-          url: '/500',
-          icon: 'icon-star',
-        },
-      ],
-    },
-    {
-      name: 'Disabled',
-      url: '/admin',
-      icon: 'icon-ban',
-      attributes: { disabled: true },
-    },
-    {
-      name: 'Download CoreUI',
-      url: 'https://coreui.io/react/',
-      icon: 'icon-cloud-download',
-      class: 'mt-auto',
-      variant: 'success',
-      attributes: { target: '_blank', rel: "noopener" },
-    },
-    {
-      name: 'Try CoreUI PRO',
-      url: 'https://coreui.io/pro/react/',
-      icon: 'icon-layers',
-      variant: 'danger',
-      attributes: { target: '_blank', rel: "noopener" },
-    },
-  ],
+          name: "Braspress",
+          url: "/admin/system/braspress",
+          icon: "icon-puzzle",
+          badge: {
+            variant: "warning",
+            text: "API"
+          }
+        }
+      ]
+    }
+  ]
 };

@@ -1,7 +1,7 @@
 *::selection {
-    color: #fff;
-    background: #ff7c3e;
-  }
+  color: #fff;
+  background: #ff7c3e;
+}
 extarea:focus,
 input:focus,
 select:focus {
@@ -15,6 +15,51 @@ select:focus {
 }
 .main {
   z-index: 0;
+}
+.btn_link {
+  background: none !important;
+  color: #fb5200 !important;
+  border: none !important;
+}
+.btn_link:focus {
+  box-shadow: none !important;
+}
+.btn_link:hover {
+  text-decoration: underline !important;
+}
+.bg_site {
+  background: #ff8951 !important;
+  color: #fff !important;
+}
+.btn_dark_site {
+  background: #e95f1a !important;
+  border-color: #e95f1a !important;
+  color: #fff !important;
+  font-weight: 500 !important;
+}
+.btn_dark_site:focus {
+  box-shadow: none !important;
+}
+.btn_dark_site:hover {
+  background: #fff !important;
+  font-weight: bold;
+  border-color: #ff7c3e !important;
+  color: #ff7c3e !important;
+}
+.btn_site {
+  background: #ff7c3e !important;
+  border-color: #ff7c3e !important;
+  color: #fff !important;
+}
+.btn_site:hover {
+  background: #ff641a !important;
+  border-color: #ff641a !important;
+}
+.btn_site:focus {
+  background: #ff641a !important;
+  border-color: #ff641a !important;
+  box-shadow: 0 0 0 3px #ffc2a6 !important;
+  color: #fff !important;
 }
 @media (max-width: 870px) {
   .sidebar-sm-show.sidebar-fixed .main,
@@ -41,4 +86,3 @@ select:focus {
     animation: opacity 0.25s;
   }
 }
-

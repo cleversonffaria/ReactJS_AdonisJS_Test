@@ -88,12 +88,12 @@ function Login({ status, setstatus, ...props }) {
                     </InputGroup>
                     <Row>
                       <Col xs="6">
-                        <Button color="primary" className="px-4">
+                        <Button className="px-4 btn_site">
                           Entrar
                         </Button>
                       </Col>
                       <Col xs="6" className="text-right">
-                        <Button color="link" className="px-0">
+                        <Button className="px-0 btn_link">
                           Recuperar senha?
                         </Button>
                       </Col>
@@ -102,7 +102,7 @@ function Login({ status, setstatus, ...props }) {
                 </CardBody>
               </Card>
               <Card
-                className="text-white bg-primary py-5 d-md-down-none"
+                className="text-white bg_site py-5 d-md-down-none"
                 style={{ width: "44%" }}
               >
                 <CardBody className="text-center">
@@ -116,8 +116,7 @@ function Login({ status, setstatus, ...props }) {
                     </p>
                     <Link to="/register">
                       <Button
-                        color="primary"
-                        className="mt-3"
+                        className="mt-3 btn_dark_site"
                         active
                         tabIndex={-1}
                       >

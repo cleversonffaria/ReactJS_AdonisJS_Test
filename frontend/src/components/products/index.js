@@ -8,8 +8,7 @@ import {
   Card,
   CardBody,
   CardFooter,
-  Button,
-  Alert
+  Button
 } from "reactstrap";
 // Import Internos
 import { Paginator } from "../index";

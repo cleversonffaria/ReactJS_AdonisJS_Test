@@ -1,21 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 
-import {
-  Row,
-  Col,
-  Button,
-  Collapse,
-  Alert,
-  Card,
-  CardBody,
-  CardHeader,
-  Form,
-  FormGroup,
-  Label,
-  Input
-} from "reactstrap";
-import StarRatings from "react-star-ratings";
+import { Row, Col, Button, Collapse, Alert } from "reactstrap";
+// import StarRatings from "react-star-ratings";
 import { Container, Content, Information } from "./style";
 
 import { Products } from "../../index";
@@ -288,7 +275,10 @@ export default function Responsive({ ...props }) {
               >
                 Comprar
               </Button>
-              <Button onClick={() => alert("Vou add no card")} className="mt-3 font-xl btn_cart">
+              <Button
+                onClick={() => alert("Vou add no card")}
+                className="mt-3 font-xl btn_cart"
+              >
                 <i className="fa icons-add_shopping_cart fa-lg"></i>
               </Button>
             </div>

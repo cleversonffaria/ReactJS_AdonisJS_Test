@@ -124,7 +124,7 @@ class Register extends Component {
                         }
                       />
                     </InputGroup>
-                    <Button color="success" block>
+                    <Button className="btn_site" block>
                       Criar Conta
                     </Button>
                   </Form>

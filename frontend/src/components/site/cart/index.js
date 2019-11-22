@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Switch, Route } from "react-router-dom";
 import {
   Container,
   Row,
@@ -19,9 +18,6 @@ import { Content } from "./style";
 import Modals from "./modal";
 
 import img1 from "../../../assets/Alicat.png";
-import img2 from "../../../assets/Logo.png";
-import img3 from "../../../assets/Cabo.png";
-
 export default function Cart() {
   const [modal, setModal] = useState(false);
   const [modalinfo, setModalinfo] = useState();
