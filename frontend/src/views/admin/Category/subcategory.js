@@ -3,11 +3,11 @@ import React from "react";
 // import { Container } from "./style";
 import { Card, CardBody } from "reactstrap";
 
-export default function Product() {
+export default function Subcategory() {
   return (
     <div className="animated fadeIn">
       <Card>
-        <CardBody>Cadastrar Product</CardBody>
+        <CardBody>Sub Categoria</CardBody>
       </Card>
     </div>
   );
