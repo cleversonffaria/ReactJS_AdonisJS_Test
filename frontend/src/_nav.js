@@ -18,36 +18,12 @@ export default {
     {
       name: "Categoria",
       icon: "icons-price-tag",
-      url: "/admin/category",
-      children: [
-        {
-          name: "Ver Todas",
-          url: "/admin/category/view",
-          icon: "icons-bookmarkcopy3"
-        },
-        {
-          name: "Criar",
-          url: "/admin/category/add",
-          icon: "icons-bookmark-outline-add"
-        }
-      ]
+      url: "/admin/category"
     },
     {
       name: "Sub-Categoria",
       icon: "icons-price-tags",
-      url: "/admin/subcategory",
-      children: [
-        {
-          name: "Ver Todas",
-          url: "/admin/subcategory/view",
-          icon: "icons-bookmarkcopy3"
-        },
-        {
-          name: "Criar",
-          url: "/admin/subcategory/add",
-          icon: "icons-bookmark-outline-add"
-        }
-      ]
+      url: "/admin/subcategory"
     },
     {
       name: "Produtos",
