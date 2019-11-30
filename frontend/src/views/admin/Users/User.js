@@ -14,7 +14,7 @@ class User extends Component {
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col lg={6}>
+          <Col lg="12">
             <Card>
               <CardHeader>
                 <strong><i className="icon-info pr-1"></i>User id: {this.props.match.params.id}</strong>

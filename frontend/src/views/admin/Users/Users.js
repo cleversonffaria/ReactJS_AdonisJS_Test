@@ -6,7 +6,7 @@ import usersData from './UsersData'
 
 function UserRow(props) {
   const user = props.user
-  const userLink = `/user/${user.id}`
+  const userLink = `/admin/user/${user.id}`
 
   const getBadge = (status) => {
     return status === 'Active' ? 'success' :
@@ -36,20 +36,20 @@ class Users extends Component {
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col xl={6}>
+          <Col xl={12}>
             <Card>
               <CardHeader>
-                <i className="fa fa-align-justify"></i> Users <small className="text-muted">example</small>
+                <i className="fa fa-align-justify"></i> Lista <small className="text-muted">de Clientes</small>
               </CardHeader>
               <CardBody>
                 <Table responsive hover>
                   <thead>
                     <tr>
                       <th scope="col">id</th>
-                      <th scope="col">name</th>
-                      <th scope="col">registered</th>
-                      <th scope="col">role</th>
-                      <th scope="col">status</th>
+                      <th scope="col">Nome</th>
+                      <th scope="col">Data de Registro</th>
+                      <th scope="col">Privilégio</th>
+                      <th scope="col">Status</th>
                     </tr>
                   </thead>
                   <tbody>
