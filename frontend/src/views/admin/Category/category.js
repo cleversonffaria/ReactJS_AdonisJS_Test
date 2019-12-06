@@ -17,7 +17,7 @@ export default function MaterialTableDemo(...props) {
     };
     categoria();
   }, []);
-  const [state] = React.useState({
+  const [state] = useState({
     columns: [
       { title: "Categoria", field: "name" },
       { title: "Descrição", field: "description" }
@@ -60,6 +60,43 @@ export default function MaterialTableDemo(...props) {
       }
     });
   }
+  const localizacao = {
+    pagination: {
+      labelRowsPerPage: "Linhas por páginas",
+      labelDisplayedRows: "{from}-{to} de {count}",
+      labelRowsSelect: "Linhas",
+      firstAriaLabel: "Primeira Página",
+      firstTooltip: "Primeira Página",
+      previousAriaLabel: "Página Anterior",
+      previousTooltip: "Página Anterior",
+      nextAriaLabel: "Próxima Página",
+      nextTooltip: "Próxima Página",
+      lastAriaLabel: "Última Página",
+      lastTooltip: "Última Página"
+    },
+    toolbar: {
+      nRowsSelected: "{0} linha(s) selecionada(s)",
+      searchTooltip: "Pesquisar",
+      searchPlaceholder: "Pesquisar"
+    },
+    header: {
+      actions: "Ação"
+    },
+    body: {
+      emptyDataSourceMessage: "Não há registros a serem exibidos",
+      filterRow: {
+        filterTooltip: "Filtrar"
+      },
+      editRow: {
+        deleteText: "Deletar",
+        cancelTooltip: "Cancelar",
+        saveTooltip: "Salvar"
+      },
+      editTooltip: "Editar",
+      deleteTooltip: "Deletar",
+      addTooltip: "Adicionar"
+    }
+  };
   return (
     <>
       {message && (
@@ -85,6 +122,7 @@ export default function MaterialTableDemo(...props) {
             updateCat(newData, oldData, message),
           onRowDelete: oldData => deleteCat(oldData, message)
         }}
+        localization={localizacao}
       />
     </>
   );

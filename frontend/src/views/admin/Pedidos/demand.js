@@ -1,14 +1,18 @@
 import React from "react";
 
 // import { Container } from "./style";
-import { Card, CardBody } from "reactstrap";
+import { Card, CardBody, Row, Col } from "reactstrap";
 
 export default function Demand() {
   return (
     <div className="animated fadeIn">
-      <Card>
-        <CardBody>Mostrar todos pedidos que foram realizado em ordem de pendencia</CardBody>
-      </Card>
+      <Row>
+        <Col>
+          <Card>
+            <CardBody>Pedidos</CardBody>
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 }

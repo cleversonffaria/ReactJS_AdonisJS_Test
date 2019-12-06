@@ -123,11 +123,11 @@ export default function Home() {
                       </span>
                     </Col>
                     <Col lg="4">
-                      <div className="title_vendas">Pedidos</div>
+                      <div className="title_vendas">Produtos</div>
                       <span className="relat_vendas text-danger">500</span>
                     </Col>
                     <Col lg="4">
-                      <div className="title_vendas">Produtos</div>
+                      <div className="title_vendas">Usuários</div>
                       <span className="relat_vendas text-primary">20</span>
                     </Col>
                   </Row>
