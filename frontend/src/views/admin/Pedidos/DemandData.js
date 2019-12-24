@@ -1,0 +1,31 @@
+const usersData = [
+  {id: 0, name: 'John Doe', registered: '2018/01/01', product: 'Admin', status: 'Pago',amount:"5",statusDelivery:"Pendente",price: 'R$:650,00'},
+  {id: 1, name: 'Samppa Nori', registered: '2018/01/01', product: 'Colaborador', status: 'Pago',amount:"5",statusDelivery:"Enviado",price: 'R$:650,00'},
+  {id: 2, name: 'Estavan Lykos', registered: '2018/02/01', product: 'Colaborador', status: 'Pago',amount:"5",statusDelivery:"Enviado",price: 'R$:650,00'},
+  {id: 3, name: 'Chetan Mohamed', registered: '2018/02/01', product: 'Admin', status: 'Pendente',amount:"5",statusDelivery:"Pendente",price: 'R$:650,00'},
+  {id: 4, name: 'Derick Maximinus', registered: '2018/03/01', product: 'Usuário', status: 'Pendente',amount:"5",statusDelivery:"Enviado",price: 'R$:650,00'},
+  {id: 5, name: 'Friderik Dávid', registered: '2018/01/21', product: 'Usuário', status: 'Pago',amount:"5",statusDelivery:"Pendente",price: 'R$:650,00'},
+  {id: 6, name: 'Yiorgos Avraamu', registered: '2018/01/01', product: 'Usuário', status: 'Pago',amount:"5",statusDelivery:"Enviado",price: 'R$:650,00'},
+  {id: 7, name: 'Avram Tarasios', registered: '2018/02/01', product: 'Usuário', status: 'Pendente',amount:"5",statusDelivery:"Enviado",price: 'R$:650,00'},
+  {id: 8, name: 'Quintin Ed', registered: '2018/02/01', product: 'Usuário', status: 'Pago',statusDelivery:"Enviado"},
+  {id: 9, name: 'Enéas Kwadwo', registered: '2018/03/01', product: 'Usuário', status: 'Pendente',statusDelivery:"Enviado"},
+  {id: 10, name: 'Agapetus Tadeáš', registered: '2018/01/21', product: 'Usuário', status: 'Pago'},
+  {id: 11, name: 'Carwyn Fachtna', registered: '2018/01/01', product: 'Usuário', status: 'Pago'},
+  {id: 12, name: 'Nehemiah Tatius', registered: '2018/02/01', product: 'Usuário', status: 'Pendente'},
+  {id: 13, name: 'Ebbe Gemariah', registered: '2018/02/01', product: 'Usuário', status: 'Pago'},
+  {id: 14, name: 'Eustorgios Amulius', registered: '2018/03/01', product: 'Usuário', status: 'Pendente'},
+  {id: 15, name: 'Leopold Gáspár', registered: '2018/01/21', product: 'Usuário', status: 'Pago'},
+  {id: 16, name: 'Pompeius René', registered: '2018/01/01', product: 'Usuário', status: 'Pago'},
+  {id: 17, name: 'Paĉjo Jadon', registered: '2018/02/01', product: 'Usuário', status: 'Pendente'},
+  {id: 18, name: 'Micheal Mercurius', registered: '2018/02/01', product: 'Usuário', status: 'Pago'},
+  {id: 19, name: 'Ganesha Dubhghall', registered: '2018/03/01', product: 'Usuário', status: 'Pendente'},
+  {id: 20, name: 'Hiroto Šimun', registered: '2018/01/21', product: 'Usuário', status: 'Pago'},
+  {id: 21, name: 'Vishnu Serghei', registered: '2018/01/01', product: 'Usuário', status: 'Pago'},
+  {id: 22, name: 'Zbyněk Phoibos', registered: '2018/02/01', product: 'Usuário', status: 'Pendente'},
+  {id: 23, name: 'Einar Randall', registered: '2018/02/01', product: 'Usuário', status: 'Pago'},
+  {id: 24, name: 'Félix Troels', registered: '2018/03/21', product: 'Usuário', status: 'Pago'},
+  {id: 25, name: 'Aulus Agmundr', registered: '2018/01/01', product: 'Usuário', status: 'Pendente'},
+  {id: 42, name: 'Ford Prefex', registered: '2001/05/21', product: 'Usuário', status: 'Don\'t panic!'}
+]
+
+export default usersData

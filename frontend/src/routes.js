@@ -18,6 +18,7 @@ const Users = React.lazy(() => import("./views/admin/Users/Users"));
 const User = React.lazy(() => import("./views/admin/Users/User"));
 
 const Demand = React.lazy(() => import("./views/admin/Pedidos/demand"));
+const PedingDemand = React.lazy(() => import("./views/admin/Pedidos/peding"));
 const ReportDemand = React.lazy(() => import("./views/admin/Pedidos/report"));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
@@ -50,9 +51,14 @@ const routes = [
     component: User
   },
   {
-    path: "/admin/demand/pending",
+    path: "/admin/demand/all",
     name: "Pedidos",
     component: Demand
+  },
+  {
+    path: "/admin/demand/pending",
+    name: "Pedidos",
+    component: PedingDemand
   },
   {
     path: "/admin/demand/report",

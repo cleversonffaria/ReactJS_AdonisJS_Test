@@ -36,15 +36,10 @@ function UserRow(props) {
           <Badge className="p-2" color={getBadge(user.status)}>{user.status}</Badge>
         </Link>
       </td>
-      <td>
-        <Link to={userLink}>
-          <Badge className="p-2" color={getBadge(user.statusDelivery)}>{user.statusDelivery}</Badge>
-        </Link>
-      </td>
     </tr>
   );
 }
-export default function Demand(){
+export default function Peding(){
   const demandList = demandData.filter(user => user.id < 10);
   return (
       <Container className="animated fadeIn">
@@ -66,7 +61,6 @@ export default function Demand(){
                       <th scope="col">Quantidade</th>
                       <th scope="col">Valor Total</th>
                       <th scope="col">Status do pagamento</th>
-                      <th scope="col">Status da entrega</th>
                     </tr>
                   </thead>
                   <tbody>

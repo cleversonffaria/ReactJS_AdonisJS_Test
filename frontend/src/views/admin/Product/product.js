@@ -61,6 +61,7 @@ export default function Product() {
   const options = {
     filterType: "dropdown",
     print: false,
+    download: false,
     onRowsDelete: () => alert("deletei"),
     textLabels: {
       body: {
@@ -76,7 +77,6 @@ export default function Product() {
       },
       toolbar: {
         search: "Pesquisar",
-        downloadCsv: "Download CSV",
         print: "Imprimir",
         viewColumns: "Ver Colunas",
         filterTable: "Filtrar Tabela"
@@ -98,8 +98,9 @@ export default function Product() {
     }
   };
 
-  return (
+  return (   
     <div>
+     
       <MuiThemeProvider theme={getMuiTheme()}>
         <MUIDataTable
           title={"Lista de Produtos"}

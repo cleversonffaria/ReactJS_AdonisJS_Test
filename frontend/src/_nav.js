@@ -48,6 +48,11 @@ export default {
       icon: "icons-cart",
       children: [
         {
+          name: "Todas",
+          url: "/admin/demand/all",
+          icon: "icons-archive3"
+        },
+        {
           name: "Pendentes",
           url: "/admin/demand/pending",
           icon: "icons-info-with-circle"
