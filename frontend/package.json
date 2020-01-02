@@ -75,9 +75,6 @@
   "bugs": {
     "url": "https://github.com/coreui/coreui-free-react-admin-template/issues"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": [
     ">0.2%",
     "not dead",

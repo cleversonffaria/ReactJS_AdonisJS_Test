@@ -1,17 +1,19 @@
 import React, { useState } from "react";
-import { Card, CardBody, CardHeader, Row, Col, Button } from "reactstrap";
-import { Link } from "react-router-dom";
-import { Editor } from "@tinymce/tinymce-react";
-import { Container, InfoCard } from "./style";
+// Imports Externos
 import clsx from "clsx";
-
+import { Editor } from "@tinymce/tinymce-react";
+import { Card, CardBody, CardHeader, Row, Col, Button } from "reactstrap";
+import { TextField, TextareaAutosize, InputAdornment } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import { AppSwitch } from "@coreui/react";
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField, TextareaAutosize, InputAdornment } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import PropTypes from "prop-types";
 import NumberFormat from "react-number-format";
+// Imports Internos
+import { Container, InfoCard } from "./style";
 
+// Fim imports
 const useStyles = makeStyles(theme => ({
   root: {
     "& label.Mui-focused": {
@@ -122,7 +124,7 @@ export default function Register() {
                           className="d-flex justify-content-center"
                         >
                           <div>
-                            <label for="img" className="select_img">
+                            <label className="select_img">
                               Selecionar imagem
                               <i className="icons-file_upload ml-2"></i>
                             </label>
@@ -222,7 +224,7 @@ export default function Register() {
                   </CardHeader>
                   <CardBody>
                     <Autocomplete
-                      id="combo-box-demo"
+                      id="combo-box"
                       options={top100Films}
                       x-placement="bottom"
                       getOptionLabel={option => option.title}

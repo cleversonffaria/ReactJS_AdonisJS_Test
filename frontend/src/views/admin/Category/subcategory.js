@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import MaterialTable from "material-table";
-import api from "../../../services/api";
+// Imports Externos
 import { Alert } from "reactstrap";
-
-export default function MaterialTableDemo(...props) {
+import MaterialTable from "material-table";
+// Imports Internos
+import api from "../../../services/api";
+// Fim imports
+export default function Subcategoria(...props) {
   const [subcategory, setSubcategory] = useState();
   const [message, setMessage] = useState();
   useEffect(() => {
@@ -11,9 +13,7 @@ export default function MaterialTableDemo(...props) {
       await api
         .get("subcategory")
         .then(res => setSubcategory(res.data))
-        .catch(error =>
-          setMessage("Ocorreu um erro inesperado, Tente novamente mais tarde!")
-        );
+        .catch(e => setMessage(e.response.data.message));
     };
     categoria();
   }, []);
@@ -36,7 +36,8 @@ export default function MaterialTableDemo(...props) {
         } else if (response.data[0].message) {
           setMessage(response.data[0].message);
         }
-      });
+      })
+      .catch(e => setMessage(e.response.data.message));
   }
   async function updateCat(newData, oldData, message) {
     await api
@@ -50,16 +51,20 @@ export default function MaterialTableDemo(...props) {
         } else if (response.data[0].message) {
           setMessage(response.data[0].message);
         }
-      });
+      })
+      .catch(e => setMessage(e.response.data.message));
   }
   async function deleteCat(oldData, message) {
-    await api.delete("subcategory/" + oldData.id).then(function(response) {
-      if (response.data.message) {
-        setMessage(response.data.message);
-      } else if (response.data[0].message) {
-        setMessage(response.data[0].message);
-      }
-    });
+    await api
+      .delete("subcategory/" + oldData.id)
+      .then(function(response) {
+        if (response.data.message) {
+          setMessage(response.data.message);
+        } else if (response.data[0].message) {
+          setMessage(response.data[0].message);
+        }
+      })
+      .catch(e => setMessage(e.response.data.message));
   }
   const localizacao = {
     pagination: {
@@ -98,7 +103,7 @@ export default function MaterialTableDemo(...props) {
       addTooltip: "Adicionar"
     }
   };
-  
+
   return (
     <>
       {message && (

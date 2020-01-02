@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
-import MaterialTable from "material-table";
-import api from "../../../services/api";
+// Imports Externos
 import { Alert } from "reactstrap";
+import MaterialTable from "material-table";
+// Imports Internos
+import api from "../../../services/api";
+// Fim imports
 
-export default function MaterialTableDemo(...props) {
-  const [category, setCategory] = useState();
+export default function Category(...props) {
+  const [data, setData] = useState();
   const [message, setMessage] = useState();
   useEffect(() => {
     const categoria = async () => {
       await api
         .get("category")
-        .then(res => setCategory(res.data))
-        .catch(error =>
-          setMessage("Ocorreu um erro inesperado, Tente novamente mais tarde!")
-        );
+        .then(res => setData(res.data))
+        .catch(e => setMessage(e.response.data.message));
     };
     categoria();
   }, []);
@@ -35,7 +36,8 @@ export default function MaterialTableDemo(...props) {
         } else if (response.data[0].message) {
           setMessage(response.data[0].message);
         }
-      });
+      })
+      .catch(e => setMessage(e.response.data.message));
   }
   async function updateCat(newData, oldData, message) {
     await api
@@ -49,16 +51,20 @@ export default function MaterialTableDemo(...props) {
         } else if (response.data[0].message) {
           setMessage(response.data[0].message);
         }
-      });
+      })
+      .catch(e => setMessage(e.response.data.message));
   }
   async function deleteCat(oldData, message) {
-    await api.delete("category/" + oldData.id).then(function(response) {
-      if (response.data.message) {
-        setMessage(response.data.message);
-      } else if (response.data[0].message) {
-        setMessage(response.data[0].message);
-      }
-    });
+    await api
+      .delete("category/" + oldData.id)
+      .then(function(response) {
+        if (response.data.message) {
+          setMessage(response.data.message);
+        } else if (response.data[0].message) {
+          setMessage(response.data[0].message);
+        }
+      })
+      .catch(e => setMessage(e.response.data.message));
   }
   const localizacao = {
     pagination: {
@@ -115,7 +121,7 @@ export default function MaterialTableDemo(...props) {
       <MaterialTable
         title="Categorias"
         columns={state.columns}
-        data={category}
+        data={data}
         editable={{
           onRowAdd: newData => createCat(newData, message),
           onRowUpdate: async (newData, oldData) =>

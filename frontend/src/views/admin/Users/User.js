@@ -1,13 +1,33 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+// Imports Externos
 import { Card, CardBody, CardHeader, Row, Col, Button } from "reactstrap";
 import { AppSwitch } from "@coreui/react";
+// Imports Internos
+import api from "../../../services/api";
 import img_perfil from "../../../assets/perfil.jpg";
-import img_product from "../../../assets/Alicat.png";
 import { Cliente } from "./styles";
 
+// Fim imports
 export default function User() {
+  const { id } = useParams();
+  const [data, setData] = useState();
+  const [message, setMessage] = useState();
+
   const [status, setStatus] = useState(true);
+
+  useEffect(() => {
+    const handdleUser = async id => {
+      await api
+        .get(`users/${id}`)
+        .then(res => setData(res.data))
+        .catch(error =>
+          setMessage("Não existe usuário cadastrado no sistema.")
+        );
+    };
+    handdleUser(id);
+  }, []);
+
   return (
     <Cliente className="animated fadeIn">
       <Row>
@@ -28,7 +48,7 @@ export default function User() {
                     alt="Imagem de perfil"
                   />
                   <ul className="user_data">
-                    <li className="name">Cleverson Fernandes</li>
+                    <li className="name">Nome do cliente</li>
                     <li className="cpf">123.595.027.44</li>
                     <li>
                       <i className="fa icon-location-pin fa-lg mr-2" />

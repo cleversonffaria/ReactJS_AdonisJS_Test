@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
+// Imports Externos
 import MUIDataTable from "mui-datatables";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import { ptBR } from "@material-ui/core/locale";
-
+// Imports Internos
 import api from "../../../services/api";
 
-import img_product from "../../../assets/Alicat.png";
-
+// Fim imports
 const getMuiTheme = () =>
   createMuiTheme(
     {
@@ -98,9 +98,9 @@ export default function Product() {
     }
   };
 
-  return (   
+  return (
     <div>
-     
+
       <MuiThemeProvider theme={getMuiTheme()}>
         <MUIDataTable
           title={"Lista de Produtos"}

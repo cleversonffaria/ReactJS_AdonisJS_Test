@@ -1,14 +1,17 @@
 import React from "react";
-
-import { Container } from "./style";
+// Imports Externos
 import { Line, Doughnut } from "react-chartjs-2";
 import { Card, CardBody, CardHeader, Row, Col } from "reactstrap";
 import { CustomTooltips } from "@coreui/coreui-plugin-chartjs-custom-tooltips";
 import { CircularProgress } from "@material-ui/core";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Fab from "@material-ui/core/Fab";
-import Widget01 from "./Widget01";
 
+// Imports Internos
+import Widget01 from "./Widget01";
+import { Container } from "./style";
+
+// Fim imports
 export default function Report() {
   const doughnut = {
     labels: ["Antena", "Modem", "Roteador", "Olt"],
@@ -143,7 +146,7 @@ export default function Report() {
                   </Card>
                 </CardBody>
               </Card>
-            </Col>          
+            </Col>
           </Row>
         </Col>
         <Col lg="4">
@@ -274,18 +277,18 @@ export default function Report() {
             </Col>
           </Row>
         </Col>
-          <Col lg="12">
-              <Card>
-                <CardHeader>
-                  <div className="cart_vendas"> Produtos mais vendidos</div>
-                </CardHeader>
-                <CardBody className="d-flex justify-content-center">
-                  <div className="chart-wrapper cart-vendido">
-                    <Doughnut data={doughnut} />
-                  </div>
-                </CardBody>
-              </Card>
-            </Col>
+        <Col lg="12">
+          <Card>
+            <CardHeader>
+              <div className="cart_vendas"> Produtos mais vendidos</div>
+            </CardHeader>
+            <CardBody className="d-flex justify-content-center">
+              <div className="chart-wrapper cart-vendido">
+                <Doughnut data={doughnut} />
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
       </Row>
     </Container>
   );
