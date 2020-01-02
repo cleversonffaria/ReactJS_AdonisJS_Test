@@ -15,8 +15,10 @@ class ProfileSchema extends Schema {
         .onDelete("CASCADE");
       table.string("firstname");
       table.string("lastname");
+      table.string("contact");
+      table.string("genre");
       table.string("image");
-      table.integer("age");
+      table.date("birth");
       table.string("company");
       table.text("description");
       table.string("cnpj");

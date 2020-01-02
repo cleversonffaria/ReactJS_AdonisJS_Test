@@ -66,7 +66,7 @@ class ProductController {
           .status(401)
           .send({ message: "Nenhum registro localizado" });
       }
-      await product.loadMany(["subcategory", "favorite","images"]);
+      await product.loadMany(["subcategory", "favorite", "images"]);
       return product;
     } catch (error) {
       return response.status(401).send({

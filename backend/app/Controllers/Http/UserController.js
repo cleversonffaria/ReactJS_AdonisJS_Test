@@ -8,6 +8,24 @@ function toLower(word) {
   }
 }
 class UserController {
+  async showUser({ response, params }) {
+    const users = await User.findBy(params);
+    if (users) {
+      return response.status(200).send(users);
+    }
+    return response
+      .status(401)
+      .send({ message: "Não foi possivel localizar usuários cadastrados!" });
+  }
+  async users({ response }) {
+    const users = await User.all();
+    if (users) {
+      return response.status(200).send(users);
+    }
+    return response
+      .status(401)
+      .send({ message: "Não foi possivel localizar usuários cadastrados!" });
+  }
   async index({ auth, response }) {
     const user = auth.getUser();
     if (user) {
@@ -53,7 +71,7 @@ class UserController {
       );
 
       if (validation.fails()) {
-        return response.status(202).send(validation.messages());        
+        return response.status(202).send(validation.messages());
       }
 
       const user = await User.create({

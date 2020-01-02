@@ -42,12 +42,10 @@ class CompanyController {
           .send({ message: "Empresa editada com sucesso!" });
       }
     } catch (error) {
-      return response
-        .status(500)
-        .send({
-          message: `Ocorreu algum erro ao cadastrar a empresa.`,
-          error: `Erro:${error.message}`
-        });
+      return response.status(500).send({
+        message: `Ocorreu algum erro ao cadastrar a empresa.`,
+        error: `Erro:${error.message}`
+      });
     }
   }
   /**

@@ -29,6 +29,45 @@ class DemandController {
       });
     }
   }
+  async demands({ response, auth, params }) {
+    try {
+      if (auth.user.user_status === 1) {
+        const demand = await Database.table("demands");
+        if (!demand[0]) {
+          return response
+            .status(403)
+            .send({ message: "Não existe nenhum pedido" });
+        }
+        return demand;
+      }
+    } catch (error) {
+      return response.status(401).send({
+        message: `Ocorreu algum erro ao visualizar os pedidos.`,
+        error: `Erro:${error.message}`
+      });
+    }
+  }
+  async show({ response, auth, params }) {
+    try {
+      if (auth.user.user_status === 1) {
+        const demand = await Database.table("demands").where(
+          "user_id",
+          params.id
+        );
+        if (!demand[0]) {
+          return response
+            .status(403)
+            .send({ message: "Nenhum pedido para este usuário" });
+        }
+        return demand;
+      }
+    } catch (error) {
+      return response.status(401).send({
+        message: `Ocorreu algum erro ao visualizar os pedidos.`,
+        error: `Erro:${error.message}`
+      });
+    }
+  }
   async index({ response, auth }) {
     try {
       const demand = await Database.table("demands").where(
@@ -86,9 +125,16 @@ class DemandController {
           .status(401)
           .send({ message: "Nenhum registro localizado!" });
       }
-      if (auth.user.id === demand.user_id) {
-        await demand.delete();
-        return response.status(200).send({ message: "Pedido Deletado!" });
+      if (auth.user.id === demand.user_id || auth.user.user_status === 1) {
+        if (demand.status_payment === false || auth.user.user_status === 1) {
+          await demand.delete();
+          return response.status(200).send({ message: "Pedido Deletado!" });
+        } else {
+          return response.status(403).send({
+            message:
+              "Desculpe: O pagamento já foi realizado! Por favor entre em contato conosco para cancelar o pedido."
+          });
+        }
       } else {
         return response.status(403).send({
           message: "Acesso negado para deletar este pedido!"

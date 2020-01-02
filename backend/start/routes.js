@@ -2,6 +2,8 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use("Route");
 // Usuário
+Route.get("/users/:id", "UserController.showUser").middleware(["auth"]);
+Route.get("/users", "UserController.users").middleware(["auth"]);
 Route.get("/user", "UserController.index").middleware(["auth"]);
 Route.post("/login", "UserController.login");
 Route.post("/user", "UserController.create").validator("User");
@@ -11,21 +13,37 @@ Route.put("/user/:id", "UserController.updateUser").middleware(["auth"]);
 Route.post("/product", "ProductController.store").middleware(["auth"]);
 Route.put("/product/:id", "ProductController.update").middleware(["auth"]);
 Route.delete("/product/:id", "ProductController.destroy").middleware(["auth"]);
-Route.resource("/product", "ProductController").apiOnly().except(["store", "update", "destroy"]);
+Route.resource("/product", "ProductController")
+  .apiOnly()
+  .except(["store", "update", "destroy"]);
 // Empresa
 Route.delete("/company", "CompanyController.destroy").middleware(["auth"]);
-Route.post("/company", "CompanyController.store").middleware(["auth"]).validator("Company");
+Route.post("/company", "CompanyController.store")
+  .middleware(["auth"])
+  .validator("Company");
 Route.get("/company", "CompanyController.index");
 // Categoria
 Route.get("/category", "CategoryController.index");
-Route.delete("/category/:id", "CategoryController.destroy").middleware(["auth"]);
-Route.post("/category", "CategoryController.store").validator("Category").middleware(["auth"]);
-Route.put("/category/:id", "CategoryController.update").validator("Category").middleware(["auth"]);
+Route.delete("/category/:id", "CategoryController.destroy").middleware([
+  "auth"
+]);
+Route.post("/category", "CategoryController.store")
+  .validator("Category")
+  .middleware(["auth"]);
+Route.put("/category/:id", "CategoryController.update")
+  .validator("Category")
+  .middleware(["auth"]);
 // Sub-Categoria
 Route.get("/subcategory", "SubcategoryController.index");
-Route.delete("/subcategory/:id", "SubcategoryController.destroy").middleware(["auth"]);
-Route.post("/subcategory", "SubcategoryController.store").validator("Subcategory").middleware(["auth"]);
-Route.put("/subcategory/:id", "SubcategoryController.update").validator("Subcategory").middleware(["auth"]);
+Route.delete("/subcategory/:id", "SubcategoryController.destroy").middleware([
+  "auth"
+]);
+Route.post("/subcategory", "SubcategoryController.store")
+  .validator("Subcategory")
+  .middleware(["auth"]);
+Route.put("/subcategory/:id", "SubcategoryController.update")
+  .validator("Subcategory")
+  .middleware(["auth"]);
 //Endereços
 Route.post("/address", "AddressController.store").middleware(["auth"]);
 Route.get("/address", "AddressController.index").middleware(["auth"]);
@@ -40,13 +58,17 @@ Route.delete("/profile", "ProfileController.destroy").middleware(["auth"]);
 Route.put("/demand/:id", "DemandController.update").middleware(["auth"]);
 Route.delete("/demand/:id", "DemandController.destroy").middleware(["auth"]);
 Route.post("/demand/:id", "DemandController.store").middleware(["auth"]);
+Route.get("/demand/:id", "DemandController.show").middleware(["auth"]);
+Route.get("/demands", "DemandController.demands").middleware(["auth"]);
 Route.get("/demand", "DemandController.index").middleware(["auth"]);
 //Favorito
-Route.delete("/favorite/:id", "FavoriteController.destroy").middleware(["auth"]);
+Route.delete("/favorite/:id", "FavoriteController.destroy").middleware([
+  "auth"
+]);
 Route.post("/favorite/:id", "FavoriteController.store").middleware(["auth"]);
 Route.get("/favorite", "FavoriteController.index").middleware(["auth"]);
-//imagens 
-Route.post('/product/:id/image', 'ImageController.create').middleware(['auth'])
-Route.delete('/image/:image', 'ImageController.destroy').middleware(['auth'])
-Route.get('/images/:id', 'ImageController.index')
-Route.get('/uploads/:path', 'ImageController.show')
+//imagens
+Route.post("/product/:id/image", "ImageController.create").middleware(["auth"]);
+Route.delete("/image/:image", "ImageController.destroy").middleware(["auth"]);
+Route.get("/images/:id", "ImageController.index");
+Route.get("/uploads/:path", "ImageController.show");
