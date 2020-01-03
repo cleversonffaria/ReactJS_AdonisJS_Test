@@ -1,92 +1,87 @@
 import React, { useEffect, useState } from "react";
 // Imports Externos
-import { Link } from "react-router-dom";
-import { Badge, Card, CardBody, CardHeader, Col, Row, Table } from "reactstrap";
+import MUIDataTable from "mui-datatables";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { ptBR } from "@material-ui/core/locale";
 // Imports Internos
-import usersData from "./UsersData";
 import api from "../../../services/api";
+
 // Fim imports
-function UserRow(props) {
-  const user = props.user;
-  const userLink = `/admin/user/${user.id}`;
-
-  const getBadge = status => {
-    return status === "Ativo"
-      ? "success"
-      : status === "Bloqueado"
-      ? "danger"
-      : status === "Pendente"
-      ? "warning"
-      : "primary";
-  };
-  const getPrivilege = status => {
-    switch (status) {
-      case 1:
-        return "Administrador";
-      case 2:
-        return "Colaborador";
-      case 3:
-        return "Usuário";
-      default:
-        return "Indefinido";
-        break;
-    }
-  };
-  function formatDate(date) {
-    var monthNames = [
-      "Janeiro",
-      "Fevereiro",
-      "Março",
-      "Abril",
-      "Maio",
-      "Junho",
-      "Julho",
-      "Agosto",
-      "Setembro",
-      "Outubro",
-      "Novembro",
-      "Dezembro"
-    ];
-
-    var day = date.getDate();
-    var monthIndex = date.getMonth();
-    var year = date.getFullYear();
-
-    return day + " de " + monthNames[monthIndex] + " de " + year;
-  }
-
-  return (
-    <tr key={user.id.toString()}>
-      <th scope="row">
-        <Link to={userLink}>{user.id}</Link>
-      </th>
-      <td>
-        <Link to={userLink}>{user.username}</Link>
-      </td>
-      <td>{user.email}</td>
-      <td>{getPrivilege(user.user_status)}</td>
-      <td>{formatDate(new Date(user.created_at))}</td>
-      {/* <td>
-        <Link to={userLink}>
-          <Badge className="p-2" color={getBadge(user.status)}>
-            {user.user_status}
-          </Badge>
-        </Link>
-      </td> */}
-    </tr>
+const getMuiTheme = () =>
+  createMuiTheme(
+    {
+      overrides: {
+        MUIDataTableSelectCell: {
+          checkboxRoot: { "&$checked": { color: "#ff7c3e !important" } }
+        }
+      }
+    },
+    ptBR
   );
+const getPrivilege = status => {
+  switch (status) {
+    case 1:
+      return "Administrador";
+    case 2:
+      return "Colaborador";
+    case 3:
+      return "Usuário";
+    default:
+      return "Indefinido";
+      break;
+  }
+};
+const getBadge = status => {
+  return status === "Ativo"
+    ? "success"
+    : status === "Bloqueado"
+    ? "danger"
+    : status === "Pendente"
+    ? "warning"
+    : "primary";
+};
+
+function formatDate(date) {
+  var monthNames = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro"
+  ];
+
+  var day = date.getDate();
+  var monthIndex = date.getMonth();
+  var year = date.getFullYear();
+
+  return day + " de " + monthNames[monthIndex] + " de " + year;
 }
 
-export default function Users() {
+export default function Clients({ ...props }) {
   const [data, setData] = useState();
   const [message, setMessage] = useState();
-  const userList = data && data.filter(user => user.id < 10);
-
   useEffect(() => {
     const users = async () => {
       await api
         .get("users")
-        .then(res => setData(res.data))
+        .then(res => {
+          res.data.map(user => {
+            user.user_status = getPrivilege(user.user_status);
+            if (!user.created_at) {
+              user.created_at = "Indefinido";
+            } else {
+              user.created_at = formatDate(new Date(user.created_at));
+            }
+          });
+          setData(res.data);
+        })
         .catch(error =>
           setMessage("Não existe usuário cadastrado no sistema.")
         );
@@ -94,37 +89,65 @@ export default function Users() {
     users();
   }, []);
 
+  const columns = [
+    { name: "id", label: "id" },
+    { name: "username", label: "Nome" },
+    { name: "email", label: "Email" },
+    { name: "user_status", label: "Privilégio" },
+    { name: "created_at", label: "Data do Cadastro" }
+  ];
+  // "imagem", "Nome", "Preço", "Categoria", "Estoque", "Marca"
+  const options = {
+    filterType: "dropdown",
+    print: false,
+    download: false,
+    selectableRows: "none",
+    onRowClick: res => props.history.push(`/admin/user/${res[0]}`),
+    textLabels: {
+      body: {
+        noMatch: " Desculpe, nenhum registro correspondente encontrado ",
+        toolTip: "Ordenar",
+        columnHeaderTooltip: column => `Ordenar por ${column.label}`
+      },
+      pagination: {
+        next: "Próxima Página",
+        previous: "Página Anterior",
+        rowsPerPage: "Linhas por página:",
+        displayRows: "de"
+      },
+      toolbar: {
+        search: "Pesquisar",
+        print: "Imprimir",
+        viewColumns: "Ver Colunas",
+        filterTable: "Filtrar Tabela"
+      },
+      filter: {
+        all: "Todos",
+        title: "FILTRAR",
+        reset: "RESETAR"
+      },
+      viewColumns: {
+        title: "Exibir Colunas",
+        titleAria: "Exibir/Esconder Tabelas Colunas"
+      },
+      selectedRows: {
+        text: "Linha(s) selecionada(s)",
+        delete: "Deletar",
+        deleteAria: "Deletar linhas selecionada(s)"
+      }
+    }
+  };
+
   return (
-    <div className="animated fadeIn">
-      <Row>
-        <Col xl="12">
-          <Card>
-            <CardHeader>
-              <i className="fa fa-align-justify"></i> Lista{" "}
-              <small className="text-muted">Clientes</small>
-            </CardHeader>
-            <CardBody>
-              <Table responsive hover>
-                <thead>
-                  <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Privilégio</th>
-                    <th scope="col">Data do Cadastro</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data &&
-                    userList.map((user, index) => (
-                      <UserRow key={index} user={user} />
-                    ))}
-                </tbody>
-              </Table>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
+    <div>
+      <MuiThemeProvider theme={getMuiTheme()}>
+        <MUIDataTable
+          title={"Lista de clientes"}
+          data={data}
+          columns={columns}
+          options={options}
+        />
+      </MuiThemeProvider>
     </div>
   );
 }

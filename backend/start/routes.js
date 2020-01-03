@@ -13,9 +13,9 @@ Route.put("/user/:id", "UserController.updateUser").middleware(["auth"]);
 Route.post("/product", "ProductController.store").middleware(["auth"]);
 Route.put("/product/:id", "ProductController.update").middleware(["auth"]);
 Route.delete("/product/:id", "ProductController.destroy").middleware(["auth"]);
-Route.resource("/product", "ProductController")
-  .apiOnly()
-  .except(["store", "update", "destroy"]);
+Route.get("/product/:category/:search/:page/:limit", "ProductController.index");
+Route.get("/product/:id", "ProductController.show");
+Route.get("/products", "ProductController.products");
 // Empresa
 Route.delete("/company", "CompanyController.destroy").middleware(["auth"]);
 Route.post("/company", "CompanyController.store")

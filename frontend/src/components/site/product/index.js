@@ -104,7 +104,7 @@ export default function Responsive({ ...props }) {
   useEffect(() => {
     const produtos = async () => {
       await api
-        .get("product")
+        .get("products")
         .then(res => setProducts(res.data))
         .catch(error =>
           setMessage("Ocorreu um erro inesperado, Tente novamente mais tarde!")
@@ -405,7 +405,7 @@ export default function Responsive({ ...props }) {
                               numberOfStars={5}
                             />
                           </div>
-                        </Label>                       
+                        </Label>
                         <Input
                           type="textarea"
                           name="textarea-input"

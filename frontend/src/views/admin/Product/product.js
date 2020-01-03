@@ -25,7 +25,7 @@ export default function Product() {
   useEffect(() => {
     const categoria = async () => {
       await api
-        .get("product")
+        .get("products")
         .then(res => setProduct(res.data))
         .catch(error =>
           setMessage("Ocorreu um erro inesperado, Tente novamente mais tarde!")
@@ -100,7 +100,6 @@ export default function Product() {
 
   return (
     <div>
-
       <MuiThemeProvider theme={getMuiTheme()}>
         <MUIDataTable
           title={"Lista de Produtos"}

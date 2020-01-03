@@ -2,14 +2,43 @@
 const Product = use("App/Models/Product");
 const { validateAll } = use("Validator");
 const Helpers = use("Helpers");
+const Database = use("Database");
 
 class ProductController {
-  async index({ response }) {
-    const product = await Product.query()
-      .withCount("favorite as totalFavorite")
-      .withCount("images as totalImages")
-      .fetch();
-    return product;
+  async products({ response }) {
+    const products = await Product.query().fetch();
+    return products;
+  }
+  async index({ response, params }) {
+    switch (params.category) {
+      case "cat":
+        return await Database.from("products")
+          .where(function() {
+            this.where("category_id", params.search);
+          })
+          .orderBy("descont", "desc")
+          .paginate(params.page, params.limit);
+
+      case "subcat":
+        return await Database.from("products")
+          .where(function() {
+            this.where("subcategory_id", params.search);
+          })
+          .orderBy("descont", "desc")
+          .paginate(params.page, params.limit);
+
+      case "descont":
+        return await Database.from("products")
+          .where(function() {
+            this.where("descont", ">=", params.search);
+          })
+          .orderBy("descont", "desc")
+          .paginate(params.page, params.limit);
+      default:
+        return await Database.from("products")
+          .orderBy("created_at", "desc")
+          .paginate(params.page, params.limit);
+    }
   }
   async store({ request, response, auth, params }) {
     const { user_status } = await auth.getUser();
@@ -66,7 +95,7 @@ class ProductController {
           .status(401)
           .send({ message: "Nenhum registro localizado" });
       }
-      await product.loadMany(["subcategory", "favorite", "images"]);
+      await product.loadMany(["favorite", "images"]);
       return product;
     } catch (error) {
       return response.status(401).send({
