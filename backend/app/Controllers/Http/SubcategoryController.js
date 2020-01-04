@@ -17,7 +17,7 @@ class SubcategoryController {
           .send({ message: "Subcategoria criada com sucesso!" });
       }
       return response.status(403).send({
-        message: "Não autorizado a realizar esta tarefa!"
+        message: "Não autorizado a realizar essa tarefa!"
       });
     } catch (error) {
       return response.status(500).send({
@@ -42,7 +42,7 @@ class SubcategoryController {
         return response.status(200).send({ message: "Subcategoria editada!" });
       }
       return response.status(403).send({
-        message: "Não autorizado a realizar esta tarefa!"
+        message: "Não autorizado a realizar essa tarefa!"
       });
     } catch (error) {
       return response.status(500).send({
@@ -64,7 +64,7 @@ class SubcategoryController {
     }
     return response
       .status(403)
-      .send({ message: "Não autorizado a realizar esta tarefa!" });
+      .send({ message: "Não autorizado a realizar essa tarefa!" });
   }
 }
 

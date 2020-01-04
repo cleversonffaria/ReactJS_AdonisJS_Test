@@ -1,33 +1,124 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 // Imports Externos
-import { Card, CardBody, CardHeader, Row, Col, Button } from "reactstrap";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Row,
+  Col,
+  Button,
+  Alert
+} from "reactstrap";
 import { AppSwitch } from "@coreui/react";
 // Imports Internos
 import api from "../../../services/api";
 import img_perfil from "../../../assets/perfil.jpg";
 import { Cliente } from "./styles";
 
+function titleize(text) {
+  var words = text.toLowerCase().split(" ");
+  for (var a = 0; a < words.length; a++) {
+    var w = words[a];
+    words[a] = w[0].toUpperCase() + w.slice(1);
+  }
+  return words.join(" ");
+}
+function formatDate(date) {
+  var monthNames = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro"
+  ];
+
+  var day = date.getDate();
+  var monthIndex = date.getMonth();
+  var year = date.getFullYear();
+
+  return day + " de " + monthNames[monthIndex] + " de " + year;
+}
+function deliveryStatus(pedido) {
+  switch (pedido.status_delivery) {
+    case 1:
+      return (
+        <div className="font-weight-bold text-black-50">Não visualizado</div>
+      );
+    case 2:
+      return <div className="font-weight-bold text-black-50">Visualizado</div>;
+    case 3:
+      return <div className="font-weight-bold text-danger">Preparando</div>;
+    case 4:
+      return <div className="font-weight-bold text-primary">Em Trânsito</div>;
+    case 5:
+      return <div className="font-weight-bold text-success">Entregue</div>;
+    default:
+      return <div className="font-weight-bold text-black-50">Indefinido</div>;
+  }
+}
+var valorFinalizado = 0;
+var totalFinalizado = 0;
+var valorPendente = 0;
+var totalPendente = 0;
 // Fim imports
 export default function User() {
   const { id } = useParams();
+  // Databases
   const [data, setData] = useState();
-  const [message, setMessage] = useState();
+  const [datauser, setDataUser] = useState();
+  const [dataaddress, setDataAddress] = useState();
+  const [datademand, setDataDemand] = useState();
 
-  const [status, setStatus] = useState(true);
+  // Data Mensagens
+  const [message, setMessage] = useState();
+  const [messageaddress, setMessageAddress] = useState();
+  const [messagedemand, setMessageDemand] = useState();
+  const [status, setStatus] = useState();
+
+  function handlestatus(e) {
+    setStatus(!status);
+  }
+  useEffect(() => {
+    const attStatus = async id => {
+      await api
+        .put(`profile/${id}`, { status: status })
+        .catch(e => setMessage(e.response.data.message));
+    };
+    attStatus(id);
+  }, [id, status]);
 
   useEffect(() => {
     const handdleUser = async id => {
       await api
+        .get(`profile/${id}`)
+        .then(res => {
+          setData(res.data);
+          setStatus(res.data.status);
+        })
+        .catch(e => setMessage(e.response.data.message));
+      await api
         .get(`users/${id}`)
-        .then(res => setData(res.data))
-        .catch(error =>
-          setMessage("Não existe usuário cadastrado no sistema.")
-        );
+        .then(res => setDataUser(res.data))
+        .catch(e => setMessage(e.response.data.message));
+      await api
+        .get(`address/${id}`)
+        .then(res => setDataAddress(res.data))
+        .catch(e => setMessageAddress(e.response.data.message));
+      await api
+        .get(`demand/${id}`)
+        .then(res => setDataDemand(res.data))
+        .catch(e => setMessageDemand(e.response.data.message));
     };
     handdleUser(id);
-  }, []);
-
+  }, [id]);
   return (
     <Cliente className="animated fadeIn">
       <Row>
@@ -42,39 +133,78 @@ export default function User() {
                   <Button color="link">Editar</Button>
                 </CardHeader>
                 <CardBody className="d-flex">
-                  <img
-                    className="imagem_perfil"
-                    src={img_perfil}
-                    alt="Imagem de perfil"
-                  />
-                  <ul className="user_data">
-                    <li className="name">Nome do cliente</li>
-                    <li className="cpf">123.595.027.44</li>
-                    <li>
-                      <i className="fa icon-location-pin fa-lg mr-2" />
-                      <span>Empresa se tiver</span>
-                    </li>
-                    <li>
-                      <i className="fa icon-calendar fa-lg mr-2" />
-                      <span>Criado em 29/07/2019 - 13:11h</span>
-                    </li>
-                    <li>
-                      <i className="fa fa-lg mr-2 icon-envelope-letter" />
-                      <span>cleversonffaria@gmail.com</span>
-                    </li>
-                    <li>
-                      <i className="fa fa-lg mr-2 icon-screen-smartphone" />
-                      <span>(22)99734-9644</span>
-                    </li>
-                    <li>
-                      <i className="fa fa-lg mr-2 icon-people" />
-                      <span>Masculino</span>
-                    </li>
-                    <li>
-                      <i className="fa fa-lg mr-2 icons-gift1" />
-                      <span>27/06/1995 - 24 Anos</span>
-                    </li>
-                  </ul>
+                  {(message && (
+                    <Alert color="warning" className="m-auto">
+                      {message}
+                    </Alert>
+                  )) ||
+                    (data && (
+                      <>
+                        <img
+                          className="imagem_perfil"
+                          src={img_perfil}
+                          alt="Imagem de perfil"
+                        />
+                        <ul className="user_data">
+                          <li className="name">
+                            {titleize(data.firstname) +
+                              " " +
+                              titleize(data.lastname)}
+                          </li>
+                          <li className="cpf">{data.cpf}</li>
+                          <li>
+                            <i className="fa icon-location-pin fa-lg mr-2" />
+                            <span>
+                              Empresa:{" "}
+                              {(data.company && data.company) ||
+                                "Não informado"}
+                            </span>
+                          </li>
+                          <li>
+                            <i className="fa icon-calendar fa-lg mr-2" />
+                            {(data.created_at && (
+                              <span>
+                                Criado em{" "}
+                                {formatDate(new Date(data.created_at))}
+                              </span>
+                            )) || <span>Data de criação não informada</span>}
+                          </li>
+                          <li>
+                            <i className="fa fa-lg mr-2 icon-envelope-letter" />
+                            <span>
+                              Email:{" "}
+                              {(datauser && datauser.email && datauser.email) ||
+                                "Não cadastrado"}
+                            </span>
+                          </li>
+                          <li>
+                            <i className="fa fa-lg mr-2 icon-screen-smartphone" />
+                            <span>
+                              Contato:{" "}
+                              {(data.contact && data.contact) ||
+                                "Não informado"}
+                            </span>
+                          </li>
+                          <li>
+                            <i className="fa fa-lg mr-2 icon-people" />
+                            <span>
+                              Sexo:{" "}
+                              {(data.genre && titleize(data.genre)) ||
+                                "Não informado"}
+                            </span>
+                          </li>
+                          <li>
+                            <i className="fa fa-lg mr-2 icons-gift1" />
+                            <span>
+                              Nascimento:{" "}
+                              {(data.birth &&
+                                formatDate(new Date(data.birth))) ||
+                                "Não informado"}
+                            </span>
+                          </li>
+                        </ul>
+                      </>
+                    ))}
                 </CardBody>
               </Card>
             </Col>
@@ -85,6 +215,19 @@ export default function User() {
                     Pedidos
                   </span>
                 </CardHeader>
+                {datademand &&
+                  datademand.map(pedido => {
+                    if (
+                      pedido.status_payment === true &&
+                      pedido.status_delivery === 5
+                    ) {
+                      valorFinalizado += pedido.product.price * pedido.amount;
+                      totalFinalizado += 1;
+                    } else {
+                      valorPendente += pedido.product.price * pedido.amount;
+                      totalPendente += 1;
+                    }
+                  })}
                 <CardBody>
                   <Row>
                     <Col>
@@ -93,7 +236,7 @@ export default function User() {
                         <div>
                           <div className="demand_final">Pedidos Finalizado</div>
                           <div className="demand_open text-success">
-                            1 Pedido
+                            {totalFinalizado} Pedido
                           </div>
                         </div>
                       </div>
@@ -102,7 +245,7 @@ export default function User() {
                         <div>
                           <div className="demand_final">Pedidos Pendente</div>
                           <div className="demand_open text-danger">
-                            5 Pedido
+                            {totalPendente} Pedido
                           </div>
                         </div>
                       </div>
@@ -111,11 +254,19 @@ export default function User() {
                       <ul className="demand_info">
                         <li>
                           <i className="fa fa-line-chart font-lg mr-2" />
-                          <span>Total de compras finalizadas: </span>R$160,00
+                          <span>Total de compras finalizadas: </span>
+                          {valorFinalizado.toLocaleString("pt-br", {
+                            style: "currency",
+                            currency: "BRL"
+                          })}
                         </li>
                         <li>
                           <i className="icons-attach_money font-2xl mr-1" />
-                          <span>Total de compras pendente: </span>R$500,00
+                          <span>Total de compras pendente: </span>
+                          {valorPendente.toLocaleString("pt-br", {
+                            style: "currency",
+                            currency: "BRL"
+                          })}
                         </li>
                         <li>
                           <i className="fa fa-calendar-check-o font-xl mr-2" />
@@ -136,13 +287,15 @@ export default function User() {
               <Card>
                 <CardBody className="d-flex align-items-center justify-content-between">
                   <div className="d-flex align-items-center">
-                    <AppSwitch
-                      className={"mx-1"}
-                      variant={"3d"}
-                      color={"success"}
-                      defaultChecked
-                      onChange={e => setStatus(e.target.checked)}
-                    />
+                    {data && (
+                      <AppSwitch
+                        className={"mx-1"}
+                        variant={"3d"}
+                        color={"success"}
+                        checked={status}
+                        onChange={e => handlestatus(e)}
+                      />
+                    )}
                     {(status === true && (
                       <span className="font-lg font-weight-bold text-success ml-2">
                         Ativo
@@ -172,38 +325,73 @@ export default function User() {
                   </span>
                   <Button color="link">Editar</Button>
                 </CardHeader>
-                <CardBody>
-                  <ul className="user_address">
-                    <li className="address1">
-                      Rua Carlos Firmo - N 255 - Apto 215
-                    </li>
-                    <li className="address2">
-                      Belvedere Nordebert - Espirito Santo
-                    </li>
-                    <li className="cep">
-                      <span>Cep: </span>29460.000
-                    </li>
-                  </ul>
-                </CardBody>
+                {(messageaddress && (
+                  <Alert color="warning" className="m-auto">
+                    {messageaddress}
+                  </Alert>
+                )) ||
+                  (dataaddress && (
+                    <CardBody>
+                      <ul className="user_address">
+                        <li className="address1">
+                          Rua: {dataaddress.street} - Nº: {dataaddress.number} -
+                          Referência: {dataaddress.reference}
+                        </li>
+
+                        <li className="address2">
+                          {dataaddress.district} - {dataaddress.uf}
+                        </li>
+                        <li className="cep">
+                          <span>Cep: </span>
+                          {dataaddress.cep}
+                        </li>
+                      </ul>
+                    </CardBody>
+                  ))}
               </Card>
             </Col>
             <Col xl="12">
-              <Card>
-                <CardBody>
-                  <div className="font-weight-bold">Histórico</div>
-                  <div className="d-flex align-items-center">
-                    <i className="fa fa-history fa-lg"></i>
-                    <div className="ml-3">
-                      <div className="history_demand">
-                        Pedido #00145 - R$ 155,00
-                      </div>
-                      <div className="history_hrs">
-                        29/05/2019 às 14:55h - Pendente
-                      </div>
-                    </div>
-                  </div>
-                </CardBody>
-              </Card>
+              {(messagedemand && (
+                <Alert color="warning" className="m-auto">
+                  {messagedemand}
+                </Alert>
+              )) ||
+                (datademand && (
+                  <Card>
+                    <CardBody>
+                      <div className="font-weight-bold">Histórico</div>
+                      {datademand[0] && "Não existe pedidos para este usuário"}
+                      {datademand.map(pedido => (
+                        <div
+                          key={pedido.id}
+                          className="d-flex align-items-center mb-1 pb-1 border-bottom historyDemand"
+                        >
+                          <i className="fa fa-history fa-lg"></i>
+                          <div className="ml-3">
+                            <div className="history_demand">
+                              Pedido #{pedido.id} -{" "}
+                              {(
+                                pedido.product.price * pedido.amount
+                              ).toLocaleString("pt-br", {
+                                style: "currency",
+                                currency: "BRL"
+                              })}
+                            </div>
+                            <div className="history_hrs">
+                              {formatDate(new Date(pedido.created_at))}
+                              {" às " +
+                                new Date(pedido.created_at).getHours() +
+                                ":" +
+                                new Date(pedido.created_at).getMinutes() +
+                                "H"}
+                            </div>
+                            {deliveryStatus(pedido)}
+                          </div>
+                        </div>
+                      ))}
+                    </CardBody>
+                  </Card>
+                ))}
             </Col>
           </Row>
         </Col>

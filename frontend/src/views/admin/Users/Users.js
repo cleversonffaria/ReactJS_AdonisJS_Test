@@ -5,6 +5,7 @@ import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import { ptBR } from "@material-ui/core/locale";
 // Imports Internos
 import api from "../../../services/api";
+import { Container } from "./styles";
 
 // Fim imports
 const getMuiTheme = () =>
@@ -139,7 +140,7 @@ export default function Clients({ ...props }) {
   };
 
   return (
-    <div>
+    <Container>
       <MuiThemeProvider theme={getMuiTheme()}>
         <MUIDataTable
           title={"Lista de clientes"}
@@ -148,6 +149,6 @@ export default function Clients({ ...props }) {
           options={options}
         />
       </MuiThemeProvider>
-    </div>
+    </Container>
   );
 }

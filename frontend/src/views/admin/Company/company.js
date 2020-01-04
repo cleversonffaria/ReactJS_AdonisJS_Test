@@ -215,7 +215,7 @@ export default function Company() {
                             variant="outlined"
                             fullWidth
                             margin="dense"
-                            label="Cnpj"
+                            label="CNPJ"
                             format="##.###.###/####-##"
                           />
                         </Col>
@@ -232,14 +232,16 @@ export default function Company() {
                           />
                         </Col>
                         <Col sm="12" md="6">
-                          <TextField
+                          <NumberFormat
                             onChange={event => onChange(event)}
+                            name="whatzapp"
                             value={data.whatzapp === null ? "" : data.whatzapp}
+                            customInput={TextField}
+                            variant="outlined"
                             fullWidth
                             margin="dense"
-                            name="whatzapp"
                             label="Whatsapp"
-                            variant="outlined"
+                            format="(##)#####-####"
                           />
                         </Col>
                         <Col sm="12" md="6">
@@ -254,27 +256,40 @@ export default function Company() {
                           />
                         </Col>
                         <Col sm="12" md="6">
-                          <TextField
+                          <NumberFormat
                             onChange={event => onChange(event)}
+                            name="contact"
                             value={data.contact === null ? "" : data.contact}
+                            customInput={TextField}
+                            variant="outlined"
                             fullWidth
                             margin="dense"
-                            name="contact"
                             label="Contato 1"
-                            variant="outlined"
+                            format={
+                              data.contact && data.contact.indexOf("3") === 4
+                                ? "(##)####-####"
+                                : "(##)#####-####"
+                            }
                           />
                         </Col>
                         <Col sm="12" md="6">
-                          <TextField
+                          <NumberFormat
                             onChange={event => onChange(event)}
+                            name="contact_2"
                             value={
                               data.contact_2 === null ? "" : data.contact_2
                             }
+                            customInput={TextField}
+                            variant="outlined"
                             fullWidth
                             margin="dense"
-                            name="contact_2"
                             label="Contato 2"
-                            variant="outlined"
+                            format={
+                              data.contact_2 &&
+                              data.contact_2.indexOf("3") === 4
+                                ? "(##)####-####"
+                                : "(##)#####-####"
+                            }
                           />
                         </Col>
                         <Col sm="12" md="6">

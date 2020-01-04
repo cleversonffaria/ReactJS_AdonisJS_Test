@@ -51,12 +51,9 @@ class FavoriteController {
     if (favorite) {
       return response.status(200).send({ message: "Favorito excluido!" });
     } else {
-      return response
-        .status(404)
-        .send({
-          message:
-            "Este Usuário não possui o produto como favorito"
-        });
+      return response.status(404).send({
+        message: "Esse Usuário não possui o produto como favorito"
+      });
     }
   }
 }

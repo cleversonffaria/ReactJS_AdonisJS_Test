@@ -32,7 +32,7 @@ class CompanyController {
           .send({ message: "Empresa cadastrada com sucesso!" });
       } else if (auth.user.user_status != 1) {
         return response.status(403).send({
-          message: "Acesso negado para realizar esta tarefa!"
+          message: "Acesso negado para realizar essa tarefa!"
         });
       } else {
         company.merge(data);
@@ -67,7 +67,7 @@ class CompanyController {
     }
     return response
       .status(403)
-      .send({ message: "Acesso negado para realizar esta tarefa!" });
+      .send({ message: "Acesso negado para realizar essa tarefa!" });
   }
 }
 module.exports = CompanyController;

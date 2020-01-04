@@ -39,6 +39,10 @@ class DemandController {
             .send({ message: "Não existe nenhum pedido" });
         }
         return demand;
+      } else {
+        return response
+          .status(403)
+          .send({ message: "Não autorizado para realizar essa tarefa" });
       }
     } catch (error) {
       return response.status(401).send({
@@ -50,16 +54,16 @@ class DemandController {
   async show({ response, auth, params }) {
     try {
       if (auth.user.user_status === 1) {
-        const demand = await Database.table("demands").where(
-          "user_id",
-          params.id
-        );
-        if (!demand[0]) {
-          return response
-            .status(403)
-            .send({ message: "Nenhum pedido para este usuário" });
-        }
+        const demand = await Demand.query()
+          .where("user_id", params.id)
+          .orderBy("created_at", "asc")
+          .with("product")
+          .fetch();
         return demand;
+      } else {
+        return response
+          .status(403)
+          .send({ message: "Não autorizado para realizar essa tarefa" });
       }
     } catch (error) {
       return response.status(401).send({
@@ -77,7 +81,7 @@ class DemandController {
       if (!demand[0]) {
         return response
           .status(403)
-          .send({ message: "Nenhum pedido para este usuário" });
+          .send({ message: "Nenhum pedido para esse usuário" });
       }
       return demand;
     } catch (error) {
@@ -108,7 +112,7 @@ class DemandController {
         return response.status(200).send({ message: "Pedido editado!" });
       }
       return response.status(403).send({
-        message: "Acesso negado para editar este pedido!"
+        message: "Acesso negado para editar esse pedido!"
       });
     } catch (error) {
       return response.status(401).send({
@@ -137,7 +141,7 @@ class DemandController {
         }
       } else {
         return response.status(403).send({
-          message: "Acesso negado para deletar este pedido!"
+          message: "Acesso negado para deletar esse pedido!"
         });
       }
     } catch (error) {

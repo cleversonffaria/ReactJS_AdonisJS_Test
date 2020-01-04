@@ -47,12 +47,14 @@ Route.put("/subcategory/:id", "SubcategoryController.update")
 //Endereços
 Route.post("/address", "AddressController.store").middleware(["auth"]);
 Route.get("/address", "AddressController.index").middleware(["auth"]);
+Route.get("/address/:id", "AddressController.address").middleware(["auth"]);
 Route.put("/address", "AddressController.update").middleware(["auth"]);
 Route.delete("/address", "AddressController.destroy").middleware(["auth"]);
 //Profile
 Route.post("/profile", "ProfileController.store").middleware(["auth"]);
 Route.get("/profile", "ProfileController.index").middleware(["auth"]);
-Route.put("/profile", "ProfileController.update").middleware(["auth"]);
+Route.get("/profile/:id", "ProfileController.profile").middleware(["auth"]);
+Route.put("/profile/:id", "ProfileController.update").middleware(["auth"]);
 Route.delete("/profile", "ProfileController.destroy").middleware(["auth"]);
 //Pedidos
 Route.put("/demand/:id", "DemandController.update").middleware(["auth"]);

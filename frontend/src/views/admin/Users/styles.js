@@ -75,4 +75,12 @@ export const Cliente = styled.div`
     color: #303030;
     font-size: 14px;
   }
+  .historyDemand:last-child {
+    border: none !important;
+  }
+`;
+export const Container = styled.div`
+  .MuiTableRow-hover {
+    cursor: pointer !important;
+  }
 `;

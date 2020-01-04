@@ -6,6 +6,21 @@ class AddressController {
    * Show a list of all addresses.
    * GET addresses
    */
+  async address({ request, response, auth, params }) {
+    if (auth.user.user_status === 1 || auth.user.user_status === 2) {
+      const address = await Address.findBy("user_id", params.id);
+      if (!address) {
+        return response.status(401).send({
+          message: "Não existe endereço cadastrado para esse usuário!"
+        });
+      }
+      return address;
+    } else {
+      return response.status(403).send({
+        message: "Acesso não autorizado para esse usuário!"
+      });
+    }
+  }
   async index({ request, response, auth }) {
     const address = await Address.findBy("user_id", auth.user.id);
     if (!address) {
@@ -29,7 +44,7 @@ class AddressController {
       }
       return response
         .status(200)
-        .send({ messsage: "Este usuário já possui um endereço cadastrado!" });
+        .send({ messsage: "Esse usuário já possui um endereço cadastrado!" });
     } catch (error) {
       return response.status(500).send({
         message: "Ocorreu algum erro ao criar o endereço.",
@@ -75,12 +90,10 @@ class AddressController {
       await address.delete();
       return response.status(200).send({ message: "Endereço excluido!" });
     } catch (error) {
-      return response
-        .status(500)
-        .send({
-          message: "Ocorreu algum erro ao deletar endereço.",
-          error: `Erro:${error.message}`
-        });
+      return response.status(500).send({
+        message: "Ocorreu algum erro ao deletar endereço.",
+        error: `Erro:${error.message}`
+      });
     }
   }
 }

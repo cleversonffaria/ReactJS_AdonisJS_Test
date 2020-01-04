@@ -16,15 +16,13 @@ class CategoryController {
           .send({ message: "Categoria criada com sucesso!" });
       }
       return response.status(403).send({
-        message: "Acesso negado para realizar esta tarefa!"
+        message: "Acesso negado para realizar essa tarefa!"
       });
     } catch (error) {
-      return response
-        .status(500)
-        .send({
-          message: "Ocorreu algum erro ao criar a categoria.",
-          error: `Erro:${error.message}`
-        });
+      return response.status(500).send({
+        message: "Ocorreu algum erro ao criar a categoria.",
+        error: `Erro:${error.message}`
+      });
     }
   }
   async update({ request, response, auth, params }) {
@@ -42,7 +40,7 @@ class CategoryController {
         return response.status(200).send({ message: "Categoria editada!" });
       }
       return response.status(403).send({
-        message: "Acesso negado para realizar esta tarefa!"
+        message: "Acesso negado para realizar essa tarefa!"
       });
     } catch (error) {
       return response.status(500).send({
@@ -64,7 +62,7 @@ class CategoryController {
     }
     return response
       .status(403)
-      .send({ message: "Acesso negado para realizar esta tarefa!" });
+      .send({ message: "Acesso negado para realizar essa tarefa!" });
   }
 }
 

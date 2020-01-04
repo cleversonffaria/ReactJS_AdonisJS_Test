@@ -23,6 +23,7 @@ class ProfileSchema extends Schema {
       table.text("description");
       table.string("cnpj");
       table.string("cpf");
+      table.boolean("status");
       table.timestamps();
     });
   }
