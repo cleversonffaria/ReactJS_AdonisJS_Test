@@ -29,7 +29,7 @@ class ProductSchema extends Schema {
       table.string("image");
       table.text("description");
       table.string("brand");
-      table.integer("price");
+      table.float("price");
       table.integer("stock");
       table.integer("descont");
       table.integer("peso");

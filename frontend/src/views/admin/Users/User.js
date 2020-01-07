@@ -24,6 +24,11 @@ function titleize(text) {
   }
   return words.join(" ");
 }
+function dateDiferencaEmDias(a, b) {
+  var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+  var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+  return Math.floor((utc2 - utc1) / (1000 * 60 * 60 * 24));
+}
 function formatDate(date) {
   var monthNames = [
     "Janeiro",
@@ -46,28 +51,14 @@ function formatDate(date) {
 
   return day + " de " + monthNames[monthIndex] + " de " + year;
 }
-function deliveryStatus(pedido) {
-  switch (pedido.status_delivery) {
-    case 1:
-      return (
-        <div className="font-weight-bold text-black-50">Não visualizado</div>
-      );
-    case 2:
-      return <div className="font-weight-bold text-black-50">Visualizado</div>;
-    case 3:
-      return <div className="font-weight-bold text-danger">Preparando</div>;
-    case 4:
-      return <div className="font-weight-bold text-primary">Em Trânsito</div>;
-    case 5:
-      return <div className="font-weight-bold text-success">Entregue</div>;
+function paymentStatus(pedido) {
+  switch (pedido.status_payment) {
+    case true:
+      return <div className="font-weight-bold text-success">Pago</div>;
     default:
-      return <div className="font-weight-bold text-black-50">Indefinido</div>;
+      return <div className="font-weight-bold text-danger">Pendente</div>;
   }
 }
-var valorFinalizado = 0;
-var totalFinalizado = 0;
-var valorPendente = 0;
-var totalPendente = 0;
 // Fim imports
 export default function User() {
   const { id } = useParams();
@@ -83,6 +74,23 @@ export default function User() {
   const [messagedemand, setMessageDemand] = useState();
   const [status, setStatus] = useState();
 
+  const listaPedidos = {
+    valorFinalizado: 0,
+    totalFinalizado: 0,
+    valorPendente: 0,
+    totalPendente: 0,
+    ultimoPedido: 0
+  };
+
+  function handdlePedido(pedido) {
+    if (pedido.status_payment === true && pedido.status_delivery === 3) {
+      listaPedidos.valorFinalizado += pedido.price;
+      listaPedidos.totalFinalizado += 1;
+    } else {
+      listaPedidos.valorPendente += pedido.price;
+      listaPedidos.totalPendente += 1;
+    }
+  }
   function handlestatus(e) {
     setStatus(!status);
   }
@@ -130,16 +138,19 @@ export default function User() {
                   <span className="font-weight-bold font-lg header_edit">
                     Dados
                   </span>
-                  <Button color="link">Editar</Button>
+                  <span>Privilegio</span>
+                  <div>
+                    <Button color="link">Editar</Button>
+                  </div>
                 </CardHeader>
-                <CardBody className="d-flex">
-                  {(message && (
-                    <Alert color="warning" className="m-auto">
-                      {message}
-                    </Alert>
-                  )) ||
-                    (data && (
-                      <>
+                {(message && (
+                  <Alert color="warning" className="m-0">
+                    {message}
+                  </Alert>
+                )) ||
+                  (data && (
+                    <>
+                      <CardBody className="d-flex">
                         <img
                           className="imagem_perfil"
                           src={img_perfil}
@@ -203,9 +214,9 @@ export default function User() {
                             </span>
                           </li>
                         </ul>
-                      </>
-                    ))}
-                </CardBody>
+                      </CardBody>
+                    </>
+                  ))}
               </Card>
             </Col>
             <Col xl="12">
@@ -217,16 +228,9 @@ export default function User() {
                 </CardHeader>
                 {datademand &&
                   datademand.map(pedido => {
-                    if (
-                      pedido.status_payment === true &&
-                      pedido.status_delivery === 5
-                    ) {
-                      valorFinalizado += pedido.product.price * pedido.amount;
-                      totalFinalizado += 1;
-                    } else {
-                      valorPendente += pedido.product.price * pedido.amount;
-                      totalPendente += 1;
-                    }
+                    handdlePedido(pedido);
+                    listaPedidos.ultimoPedido = pedido.created_at;
+                    return "";
                   })}
                 <CardBody>
                   <Row>
@@ -236,7 +240,7 @@ export default function User() {
                         <div>
                           <div className="demand_final">Pedidos Finalizado</div>
                           <div className="demand_open text-success">
-                            {totalFinalizado} Pedido
+                            {listaPedidos.totalFinalizado} Pedido
                           </div>
                         </div>
                       </div>
@@ -245,7 +249,7 @@ export default function User() {
                         <div>
                           <div className="demand_final">Pedidos Pendente</div>
                           <div className="demand_open text-danger">
-                            {totalPendente} Pedido
+                            {listaPedidos.totalPendente} Pedido
                           </div>
                         </div>
                       </div>
@@ -255,15 +259,18 @@ export default function User() {
                         <li>
                           <i className="fa fa-line-chart font-lg mr-2" />
                           <span>Total de compras finalizadas: </span>
-                          {valorFinalizado.toLocaleString("pt-br", {
-                            style: "currency",
-                            currency: "BRL"
-                          })}
+                          {listaPedidos.valorFinalizado.toLocaleString(
+                            "pt-br",
+                            {
+                              style: "currency",
+                              currency: "BRL"
+                            }
+                          )}
                         </li>
                         <li>
                           <i className="icons-attach_money font-2xl mr-1" />
                           <span>Total de compras pendente: </span>
-                          {valorPendente.toLocaleString("pt-br", {
+                          {listaPedidos.valorPendente.toLocaleString("pt-br", {
                             style: "currency",
                             currency: "BRL"
                           })}
@@ -271,7 +278,23 @@ export default function User() {
                         <li>
                           <i className="fa fa-calendar-check-o font-xl mr-2" />
                           <span>Último pedido realizado: </span>
-                          <div> 29/07/2019 - 13:15h (24 dias atrás)</div>
+                          <div>
+                            {listaPedidos.ultimoPedido !== 0 &&
+                              formatDate(new Date(listaPedidos.ultimoPedido)) +
+                                " às " +
+                                new Date(listaPedidos.ultimoPedido).getHours() +
+                                ":" +
+                                new Date(
+                                  listaPedidos.ultimoPedido
+                                ).getMinutes() +
+                                "H" +
+                                " - Há " +
+                                dateDiferencaEmDias(
+                                  new Date(listaPedidos.ultimoPedido),
+                                  new Date()
+                                ) +
+                                " Dia(s)"}
+                          </div>
                         </li>
                       </ul>
                     </Col>
@@ -357,40 +380,50 @@ export default function User() {
                 </Alert>
               )) ||
                 (datademand && (
-                  <Card>
-                    <CardBody>
-                      <div className="font-weight-bold">Histórico</div>
-                      {datademand[0] && "Não existe pedidos para este usuário"}
-                      {datademand.map(pedido => (
-                        <div
-                          key={pedido.id}
-                          className="d-flex align-items-center mb-1 pb-1 border-bottom historyDemand"
-                        >
-                          <i className="fa fa-history fa-lg"></i>
-                          <div className="ml-3">
-                            <div className="history_demand">
-                              Pedido #{pedido.id} -{" "}
-                              {(
-                                pedido.product.price * pedido.amount
-                              ).toLocaleString("pt-br", {
-                                style: "currency",
-                                currency: "BRL"
-                              })}
-                            </div>
-                            <div className="history_hrs">
-                              {formatDate(new Date(pedido.created_at))}
-                              {" às " +
-                                new Date(pedido.created_at).getHours() +
-                                ":" +
-                                new Date(pedido.created_at).getMinutes() +
-                                "H"}
-                            </div>
-                            {deliveryStatus(pedido)}
-                          </div>
-                        </div>
-                      ))}
-                    </CardBody>
-                  </Card>
+                  <>
+                    {!datademand[0] && (
+                      <Alert color="warning" className="m-auto">
+                        Não existe pedidos para esse usuário
+                      </Alert>
+                    )}
+                    <Card>
+                      {datademand[0] && (
+                        <>
+                          <CardHeader>
+                            <div className="font-weight-bold">Histórico</div>
+                          </CardHeader>
+                          <CardBody>
+                            {datademand.map(pedido => (
+                              <div
+                                key={pedido.demand_id}
+                                className="d-flex align-items-center mb-1 pb-1 border-bottom historyDemand"
+                              >
+                                <i className="fa fa-history fa-lg"></i>
+                                <div className="ml-3">
+                                  <div className="history_demand">
+                                    Pedido #{pedido.demand_id} -{" "}
+                                    {pedido.price.toLocaleString("pt-br", {
+                                      style: "currency",
+                                      currency: "BRL"
+                                    })}
+                                  </div>
+                                  <div className="history_hrs">
+                                    {formatDate(new Date(pedido.created_at))}
+                                    {" às " +
+                                      new Date(pedido.created_at).getHours() +
+                                      ":" +
+                                      new Date(pedido.created_at).getMinutes() +
+                                      "H"}
+                                  </div>
+                                  {paymentStatus(pedido)}
+                                </div>
+                              </div>
+                            ))}
+                          </CardBody>
+                        </>
+                      )}
+                    </Card>
+                  </>
                 ))}
             </Col>
           </Row>

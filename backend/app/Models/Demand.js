@@ -4,8 +4,17 @@
 const Model = use("Model");
 
 class Demand extends Model {
-  product() {
-    return this.belongsTo("App/Models/product");
+  static get incrementing() {
+    return false;
+  }
+  static get primaryKey() {
+    return "demand_id";
+  }
+  static get demand_id() {
+    return "demand_id";
+  }
+  user() {
+    return this.belongsTo("App/Models/user");
   }
 }
 

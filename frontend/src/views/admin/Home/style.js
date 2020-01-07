@@ -31,4 +31,7 @@ export const Container = styled.div`
     color: #f86c6b;
     font-weight: bold;
   }
+  .MuiTableRow-hover {
+    cursor: pointer !important;
+  }
 `;

@@ -13,6 +13,7 @@ import {
 import { TextField, TextareaAutosize } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import NumberFormat from "react-number-format";
+import { Editor } from "@tinymce/tinymce-react";
 
 // Imports Internos
 import { Container, InfoCard } from "./style";
@@ -63,6 +64,11 @@ export default function Company() {
     const state = Object.assign({}, data);
     const campo = event.target.name;
     state[campo] = event.target.value;
+    setData(state);
+  };
+  const handleEditorChange = event => {
+    const state = Object.assign({}, data);
+    state["description"] = event.target.getContent();
     setData(state);
   };
   useEffect(() => {
@@ -186,26 +192,6 @@ export default function Company() {
                             variant="outlined"
                           />
                         </Col>
-                        <Col
-                          sm="12"
-                          md="4"
-                          xl="5"
-                          className="d-flex justify-content-center"
-                        ></Col>
-                        <Col sm="12" xl="12">
-                          <div className="title_info">Descrição Breve</div>
-                          <TextareaAutosize
-                            onChange={event => onChange(event)}
-                            value={
-                              data.description === null ? "" : data.description
-                            }
-                            name="description"
-                            className="description"
-                            rowsMax={3}
-                            aria-label="empty textarea"
-                            placeholder="Faça uma breve descrição do site"
-                          />
-                        </Col>
                         <Col sm="12" md="6">
                           <NumberFormat
                             onChange={event => onChange(event)}
@@ -266,9 +252,9 @@ export default function Company() {
                             margin="dense"
                             label="Contato 1"
                             format={
-                              data.contact && data.contact.indexOf("3") === 4
-                                ? "(##)####-####"
-                                : "(##)#####-####"
+                              data.contact && data.contact.indexOf("9") === 4
+                                ? "(##)#####-####"
+                                : "(##)####-####"
                             }
                           />
                         </Col>
@@ -286,9 +272,9 @@ export default function Company() {
                             label="Contato 2"
                             format={
                               data.contact_2 &&
-                              data.contact_2.indexOf("3") === 4
-                                ? "(##)####-####"
-                                : "(##)#####-####"
+                              data.contact_2.indexOf("9") === 4
+                                ? "(##)#####-####"
+                                : "(##)####-####"
                             }
                           />
                         </Col>
@@ -360,6 +346,42 @@ export default function Company() {
                             label="Cep"
                             format="#####-###"
                           />
+                        </Col>
+                        <Col sm="12" xl="12">
+                          <Editor
+                            apiKey="lq2rjs1hmbpujg9q86hedztzl6o1g0v3pd6h2u084uxbss5d"
+                            initialValue={
+                              data.description === null
+                                ? "<p>Pressione <strong>Enter</strong> para novo parágrafo ou <strong> Shift + Enter </strong> para quebra de linha simples.</p>"
+                                : data.description
+                            }
+                            init={{
+                              media_live_embeds: true,
+                              height: 250,
+                              menubar: false,
+                              plugins: [
+                                "advlist autolink lists link image charmap print preview anchor",
+                                "searchreplace visualblocks code fullscreen",
+                                "media",
+                                "insertdatetime media table paste code help wordcount"
+                              ],
+                              toolbar:
+                                // eslint-disable-next-line no-multi-str
+                                "newdocument | undo redo | formatselect | bold italic backcolor forecolor fontselect | \
+                            alignleft aligncenter alignright alignjustify | \
+                            bullist numlist outdent indent | removeformat preview media"
+                            }}
+                            onChange={event => handleEditorChange(event)}
+                          />
+                          {/* <div className="title_info">Descrição Breve</div>
+                          <TextareaAutosize
+                            onChange={event => onChange(event)}
+                            name="description"
+                            className="description"
+                            rowsMax={3}
+                            aria-label="empty textarea"
+                            placeholder="Faça uma breve descrição do site"
+                          /> */}
                         </Col>
                       </Row>
                     </InfoCard>

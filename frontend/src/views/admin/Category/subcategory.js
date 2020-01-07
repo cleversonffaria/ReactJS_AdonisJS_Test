@@ -4,30 +4,55 @@ import { Alert } from "reactstrap";
 import MaterialTable from "material-table";
 // Imports Internos
 import api from "../../../services/api";
+import { compose } from "redux";
 // Fim imports
 export default function Subcategoria(...props) {
   const [subcategory, setSubcategory] = useState();
+  const [category, setCategory] = useState();
   const [message, setMessage] = useState();
+  const [messageCategory, setMessageCategory] = useState();
+
   useEffect(() => {
     const categoria = async () => {
+      await api
+        .get("category")
+        .then(res => setCategory(res.data))
+        .catch(e => setMessageCategory(e.response.data.message));
+    };
+    const subcategory = async () => {
       await api
         .get("subcategory")
         .then(res => setSubcategory(res.data))
         .catch(e => setMessage(e.response.data.message));
     };
+    subcategory();
     categoria();
   }, []);
+
+  const [setCat] = React.useState({
+    categoria: {}
+  });
+  category &&
+    category.map(
+      categoria => (setCat.categoria[categoria.id] = categoria.name)
+    );
   const [state] = React.useState({
     columns: [
       { title: "Subcategoria", field: "name" },
-      { title: "Categoria", field: "category_id" },
-      { title: "Produtos", field: "description" }
+      {
+        title: "Categoria",
+        field: "category_id",
+        lookup: setCat.categoria
+      },
+      { title: "Descrição", field: "description" }
     ]
   });
+
   async function createCat(newData, message) {
     await api
       .post("subcategory", {
         name: newData.name,
+        category_id: newData.category_id,
         description: newData.description
       })
       .then(function(response) {
@@ -43,6 +68,7 @@ export default function Subcategoria(...props) {
     await api
       .put("subcategory/" + oldData.id, {
         name: newData.name,
+        category_id: newData.category_id,
         description: newData.description
       })
       .then(function(response) {
@@ -66,6 +92,7 @@ export default function Subcategoria(...props) {
       })
       .catch(e => setMessage(e.response.data.message));
   }
+
   const localizacao = {
     pagination: {
       labelRowsPerPage: "Linhas por página",
@@ -94,7 +121,8 @@ export default function Subcategoria(...props) {
         filterTooltip: "Filtrar"
       },
       editRow: {
-        deleteText: "Deletar",
+        deleteText:
+          "Aviso: Ao deletar essa subcategoria, todos os produtos e pedidos também serão excluídos.",
         cancelTooltip: "Cancelar",
         saveTooltip: "Salvar"
       },

@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
 import {
-  Badge,
   UncontrolledDropdown,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
-  Nav,
-  NavItem
+  Nav
 } from "reactstrap";
 import PropTypes from "prop-types";
 
@@ -49,30 +46,13 @@ function DefaultHeader({ ...props }) {
   return (
     <React.Fragment>
       <AppSidebarToggler className="d-lg-none" display="md" mobile />
-      <AppNavbarBrand
-        full={{ src: logo, width: 89, height: 25, alt: "Painel site logo" }}
-        minimized={{
-          src: sygnet,
-          width: 30,
-          height: 30,
-          alt: "Painel site logo"
-        }}
-      />
       <AppSidebarToggler className="d-md-down-none" display="lg" />
       <Nav className="ml-auto" navbar>
-        <NavItem className="d-md-down-none">
-          <NavLink to="#" className="nav-link">
-            <i className="icon-bell"></i>
-            <Badge pill color="danger">
-              5
-            </Badge>
-          </NavLink>
-        </NavItem>
         <UncontrolledDropdown nav direction="down">
           <DropdownToggle nav>
-            {data && titleize(data.username)}
+            {(message && "Sem usuário") || (data && titleize(data.username))}
             <img
-              src={"../../assets/img/avatars/6.jpg"}
+              src={"../../assets/img/avatars/perfil.jpg"}
               className="img-avatar"
               alt="alt da imagem"
             />
@@ -81,13 +61,25 @@ function DefaultHeader({ ...props }) {
             <DropdownItem header tag="div" className="text-center">
               <strong>Gerenciamento</strong>
             </DropdownItem>
-            <DropdownItem>
+            <DropdownItem
+              onClick={() => {
+                alert("ABRIR MODAL EDITAR PERFIL");
+              }}
+            >
               <i className="fa fa-user"></i> Perfil
             </DropdownItem>
-            <DropdownItem>
+            <DropdownItem
+              onClick={() => {
+                props.history.push("/admin/contributors");
+              }}
+            >
               <i className="icons-v-card"></i> Colaboradores
             </DropdownItem>
-            <DropdownItem>
+            <DropdownItem
+              onClick={() => {
+                props.history.push("/admin/registers");
+              }}
+            >
               <i className="icons-user-plus"></i> Cadastrar
             </DropdownItem>
             <DropdownItem onClick={e => props.onLogout(e)}>

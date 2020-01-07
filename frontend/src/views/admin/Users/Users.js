@@ -6,6 +6,7 @@ import { ptBR } from "@material-ui/core/locale";
 // Imports Internos
 import api from "../../../services/api";
 import { Container } from "./styles";
+import { Alert } from "reactstrap";
 
 // Fim imports
 const getMuiTheme = () =>
@@ -19,28 +20,6 @@ const getMuiTheme = () =>
     },
     ptBR
   );
-const getPrivilege = status => {
-  switch (status) {
-    case 1:
-      return "Administrador";
-    case 2:
-      return "Colaborador";
-    case 3:
-      return "Usuário";
-    default:
-      return "Indefinido";
-      break;
-  }
-};
-const getBadge = status => {
-  return status === "Ativo"
-    ? "success"
-    : status === "Bloqueado"
-    ? "danger"
-    : status === "Pendente"
-    ? "warning"
-    : "primary";
-};
 
 function formatDate(date) {
   var monthNames = [
@@ -64,7 +43,26 @@ function formatDate(date) {
 
   return day + " de " + monthNames[monthIndex] + " de " + year;
 }
-
+function user_Status(user) {
+  switch (user) {
+    case 1:
+      return <div className="font-weight-bold text-primary">Administrador</div>;
+    case 2:
+      return <div className="font-weight-bold text-danger">Colaborador</div>;
+    case 3:
+      return <div className="font-weight-bold text-success">Usuário</div>;
+    default:
+      return <div className="font-weight-bold text-black-50">Indefinido</div>;
+  }
+}
+function titleize(text) {
+  var words = text.toLowerCase().split(" ");
+  for (var a = 0; a < words.length; a++) {
+    var w = words[a];
+    words[a] = w[0].toUpperCase() + w.slice(1);
+  }
+  return words.join(" ");
+}
 export default function Clients({ ...props }) {
   const [data, setData] = useState();
   const [message, setMessage] = useState();
@@ -74,12 +72,12 @@ export default function Clients({ ...props }) {
         .get("users")
         .then(res => {
           res.data.map(user => {
-            user.user_status = getPrivilege(user.user_status);
             if (!user.created_at) {
               user.created_at = "Indefinido";
             } else {
               user.created_at = formatDate(new Date(user.created_at));
             }
+            return user;
           });
           setData(res.data);
         })
@@ -91,10 +89,25 @@ export default function Clients({ ...props }) {
   }, []);
 
   const columns = [
-    { name: "id", label: "id" },
-    { name: "username", label: "Nome" },
+    {
+      name: "id",
+      label: "id"
+    },
+    {
+      name: "username",
+      label: "Nome",
+      options: {
+        customBodyRender: value => <strong>{titleize(value)}</strong>
+      }
+    },
     { name: "email", label: "Email" },
-    { name: "user_status", label: "Privilégio" },
+    {
+      name: "user_status",
+      label: "Privilégio",
+      options: {
+        customBodyRender: value => user_Status(value)
+      }
+    },
     { name: "created_at", label: "Data do Cadastro" }
   ];
   // "imagem", "Nome", "Preço", "Categoria", "Estoque", "Marca"
@@ -138,17 +151,21 @@ export default function Clients({ ...props }) {
       }
     }
   };
-
+  function filterUser(value) {
+    return value.user_status === 3;
+  }
   return (
     <Container>
-      <MuiThemeProvider theme={getMuiTheme()}>
-        <MUIDataTable
-          title={"Lista de clientes"}
-          data={data}
-          columns={columns}
-          options={options}
-        />
-      </MuiThemeProvider>
+      {(message && <Alert color="info">{message}</Alert>) || (
+        <MuiThemeProvider theme={getMuiTheme()}>
+          <MUIDataTable
+            title={"Lista de clientes"}
+            data={data && data.filter(filterUser)}
+            columns={columns}
+            options={options}
+          />
+        </MuiThemeProvider>
+      )}
     </Container>
   );
 }

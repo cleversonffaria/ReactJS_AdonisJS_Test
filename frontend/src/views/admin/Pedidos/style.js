@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  .MuiTableRow-hover {
+    cursor: pointer !important;
+  }
   .cart_vendas {
     font-weight: bold;
     font-size: 25px;
@@ -24,10 +27,10 @@ export const Container = styled.div`
   .arrecad_valor {
     color: #8f8f8f;
   }
-  .cart-vendido{
-    width:550px;
+  .cart-vendido {
+    width: 550px;
   }
-  .al-center{
-  text-align: center !important;
+  .al-center {
+    text-align: center !important;
   }
 `;

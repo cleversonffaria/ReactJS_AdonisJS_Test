@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  .MuiTableRow-hover {
+    cursor: pointer !important;
+  }
   .cart_info {
     font-weight: bold;
     font-size: 25px;

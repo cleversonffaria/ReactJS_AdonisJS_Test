@@ -56,10 +56,18 @@ Route.get("/profile", "ProfileController.index").middleware(["auth"]);
 Route.get("/profile/:id", "ProfileController.profile").middleware(["auth"]);
 Route.put("/profile/:id", "ProfileController.update").middleware(["auth"]);
 Route.delete("/profile", "ProfileController.destroy").middleware(["auth"]);
+//Pedidos Products
+Route.post("/demand_products", "DemandProductController.store").middleware([
+  "auth"
+]);
+Route.get("/demand_products/:id", "DemandProductController.show").middleware([
+  "auth"
+]);
+
 //Pedidos
 Route.put("/demand/:id", "DemandController.update").middleware(["auth"]);
 Route.delete("/demand/:id", "DemandController.destroy").middleware(["auth"]);
-Route.post("/demand/:id", "DemandController.store").middleware(["auth"]);
+Route.post("/demand", "DemandController.store").middleware(["auth"]);
 Route.get("/demand/:id", "DemandController.show").middleware(["auth"]);
 Route.get("/demands", "DemandController.demands").middleware(["auth"]);
 Route.get("/demand", "DemandController.index").middleware(["auth"]);

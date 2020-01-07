@@ -1,81 +1,242 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // Imports Externos
-import { Link } from "react-router-dom";
-import { Badge, Card, CardBody, CardHeader, Col, Row, Table } from "reactstrap";
-
+import MUIDataTable from "mui-datatables";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { ptBR } from "@material-ui/core/locale";
+import { Alert, Badge } from "reactstrap";
 // Imports Internos
-import demandData from "./DemandData";
+import api from "../../../services/api";
 import { Container } from "./style";
-
 // Fim imports
-function UserRow(props) {
-  const user = props.user;
-  const userLink = `/admin/demand/${user.id}`;
-
-  const getBadge = status => {
-    return status === "Pago"
-      ? "success"
-      : status === "Pendente"
-        ? "warning"
-        : status === "Enviado"
-          ? "primary"
-          : "danger";
-  };
-
-  return (
-    <tr key={user.id.toString()}>
-      <th scope="row">
-        <Link to={userLink}>{user.id}</Link>
-      </th>
-      <td>
-        <Link to={userLink}>{user.name}</Link>
-      </td>
-      <td>{user.product}</td>
-      <td>{user.registered}</td>
-      <td className="al-center">{user.amount}</td>
-      <td>{user.price}</td>
-      <td>
-        <Link to={userLink}>
-          <Badge className="p-2" color={getBadge(user.status)}>{user.status}</Badge>
-        </Link>
-      </td>
-    </tr>
+const getMuiTheme = () =>
+  createMuiTheme(
+    {
+      overrides: {
+        MUIDataTableSelectCell: {
+          checkboxRoot: { "&$checked": { color: "#ff7c3e !important" } }
+        }
+      }
+    },
+    ptBR
   );
+const getBadge = status => {
+  return status === "Pago"
+    ? "success"
+    : status === "Pendente"
+    ? "warning"
+    : status === "Enviado"
+    ? "primary"
+    : "danger";
+};
+function deliveryStatus(pedido) {
+  switch (pedido) {
+    case 1:
+      return <div className="font-weight-bold text-danger">Preparando</div>;
+    case 2:
+      return <div className="font-weight-bold text-primary">Em Trânsito</div>;
+    case 3:
+      return <div className="font-weight-bold text-success">Entregue</div>;
+    default:
+      return <div className="font-weight-bold text-black-50">Indefinido</div>;
+  }
 }
-export default function Peding() {
-  const demandList = demandData.filter(user => user.id < 10);
+function titleize(text) {
+  var words = text.toLowerCase().split(" ");
+  for (var a = 0; a < words.length; a++) {
+    var w = words[a];
+    words[a] = w[0].toUpperCase() + w.slice(1);
+  }
+  return words.join(" ");
+}
+function formatDate(date) {
+  var monthNames = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro"
+  ];
+
+  var day = date.getDate();
+  var monthIndex = date.getMonth();
+  var year = date.getFullYear();
+
+  return day + " de " + monthNames[monthIndex] + " de " + year;
+}
+export default function Demand({ ...props }) {
+  const [demand, setDemand] = useState();
+  const [message, setMessage] = useState();
+  useEffect(() => {
+    const categoria = async () => {
+      await api
+        .get("demands")
+        .then(res => setDemand(res.data))
+        .catch(error =>
+          setMessage("Ocorreu um erro inesperado. Tente novamente mais tarde.")
+        );
+    };
+    categoria();
+  }, []);
+
+  const columns = [
+    {
+      name: "demand_id",
+      label: "ID",
+      options: {
+        customBodyRender: value => (
+          <strong className="text-danger">#{value}</strong>
+        )
+      }
+    },
+    {
+      name: "user.username",
+      label: "Nome do cliente",
+      options: {
+        customBodyRender: value => <strong>{titleize(value)}</strong>
+      }
+    },
+    {
+      name: "price",
+      label: "Valor Total",
+      options: {
+        customBodyRender: value =>
+          value.toLocaleString("pt-br", {
+            style: "currency",
+            currency: "BRL"
+          })
+      }
+    },
+    {
+      name: "status_payment",
+      label: "Pagamento",
+      options: {
+        customBodyRender: value =>
+          value === true ? (
+            <Badge className="p-2" color={getBadge("Pago")}>
+              Pago
+            </Badge>
+          ) : (
+            <Badge className="p-2" color={getBadge("Pendente")}>
+              Pendente
+            </Badge>
+          )
+      }
+    },
+    {
+      name: "status_delivery",
+      label: "Entrega",
+      options: {
+        customBodyRender: value => deliveryStatus(value)
+      }
+    },
+    {
+      name: "status_demand",
+      label: "Status",
+      options: {
+        customBodyRender: value =>
+          value === true ? (
+            <Badge className="p-2" color={getBadge("Enviado")}>
+              Visualizado
+            </Badge>
+          ) : (
+            <Badge className="p-2" color={getBadge("Pendente")}>
+              Não visualizado
+            </Badge>
+          )
+      }
+    },
+    {
+      name: "created_at",
+      label: "Data",
+      options: {
+        customBodyRender: value =>
+          formatDate(new Date(value)) +
+          " às " +
+          new Date(value).getHours() +
+          ":" +
+          new Date(value).getMinutes() +
+          "H"
+      }
+    }
+  ];
+  // "imagem", "Nome", "Preço", "Categoria", "Estoque", "Marca"
+  const options = {
+    filterType: "dropdown",
+    print: false,
+    download: false,
+    selectableRows: "none",
+    onRowsDelete: () => alert("deletei"),
+    onRowClick: res =>
+      props.history.push(`/admin/demand/${res[0].props.children[1]}`),
+    textLabels: {
+      body: {
+        noMatch: " Desculpe, nenhum registro correspondente encontrado ",
+        toolTip: "Ordenar",
+        columnHeaderTooltip: column => `Ordenar por ${column.label}`
+      },
+      pagination: {
+        next: "Próxima Página",
+        previous: "Página Anterior",
+        rowsPerPage: "Linhas por página:",
+        displayRows: "de"
+      },
+      toolbar: {
+        search: "Pesquisar",
+        print: "Imprimir",
+        viewColumns: "Ver Colunas",
+        filterTable: "Filtrar Tabela"
+      },
+      filter: {
+        all: "Todos",
+        title: "FILTRAR",
+        reset: "RESETAR"
+      },
+      viewColumns: {
+        title: "Exibir Colunas",
+        titleAria: "Exibir/Esconder Tabelas Colunas"
+      },
+      selectedRows: {
+        text: "Linha(s) selecionada(s)",
+        delete: "Deletar",
+        deleteAria: "Deletar linhas selecionada(s)"
+      }
+    }
+  };
+  function filterByPending(obj) {
+    if (
+      "status_delivery" in obj &&
+      (obj.status_delivery >= 4 || obj.status_delivery <= 0)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  if (demand) {
+    var demandPending = demand.filter(filterByPending);
+  }
   return (
-    <Container className="animated fadeIn">
-      <Row>
-        <Col xl="12">
-          <Card>
-            <CardHeader>
-              <i className="fa fa-align-justify"></i> Pedidos{" "}
-              <small className="text-muted">Pendentes</small>
-            </CardHeader>
-            <CardBody>
-              <Table responsive hover>
-                <thead>
-                  <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">Nome do cliente</th>
-                    <th scope="col">Produto</th>
-                    <th scope="col">Data</th>
-                    <th scope="col">Quantidade</th>
-                    <th scope="col">Valor Total</th>
-                    <th scope="col">Status do pagamento</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {demandList.map((user, index) => (
-                    <UserRow key={index} user={user} />
-                  ))}
-                </tbody>
-              </Table>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
+    <Container>
+      {(demandPending &&
+        demandPending[0] &&
+        ((message && <Alert color="info">{message}</Alert>) || (
+          <MuiThemeProvider theme={getMuiTheme()}>
+            <MUIDataTable
+              title={"Vendas de pendentes"}
+              data={demandPending}
+              columns={columns}
+              options={options}
+            />
+          </MuiThemeProvider>
+        ))) || <Alert color="info">Não existe vendas pendentes.</Alert>}
     </Container>
   );
 }

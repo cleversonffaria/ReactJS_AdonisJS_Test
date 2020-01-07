@@ -6,7 +6,11 @@ const Database = use("Database");
 
 class ProductController {
   async products({ response }) {
-    const products = await Product.query().fetch();
+    const products = await Product.query()
+      .with("category")
+      .with("subcategory")
+      .fetch();
+
     return products;
   }
   async index({ response, params }) {

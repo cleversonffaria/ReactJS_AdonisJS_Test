@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import MUIDataTable from "mui-datatables";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import { ptBR } from "@material-ui/core/locale";
+import { Alert } from "reactstrap";
 // Imports Internos
 import api from "../../../services/api";
-
+import { Container } from "./style";
 // Fim imports
 const getMuiTheme = () =>
   createMuiTheme(
@@ -19,7 +20,7 @@ const getMuiTheme = () =>
     ptBR
   );
 
-export default function Product() {
+export default function Product({ ...props }) {
   const [product, setProduct] = useState();
   const [message, setMessage] = useState();
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function Product() {
   }, []);
 
   const columns = [
+    { name: "id", label: "ID" },
     {
       name: "image",
       label: "Imagem",
@@ -52,8 +54,18 @@ export default function Product() {
       }
     },
     { name: "name", label: "Nome" },
-    { name: "price", label: "Preço" },
-    { name: "subcategory_id", label: "Categoria" },
+    {
+      name: "price",
+      label: "Preço",
+      options: {
+        customBodyRender: value =>
+          value.toLocaleString("pt-br", {
+            style: "currency",
+            currency: "BRL"
+          })
+      }
+    },
+    { name: "category.name", label: "Categoria" },
     { name: "stock", label: "Estoque" },
     { name: "brand", label: "Marca" }
   ];
@@ -62,7 +74,9 @@ export default function Product() {
     filterType: "dropdown",
     print: false,
     download: false,
+    selectableRows: "none",
     onRowsDelete: () => alert("deletei"),
+    onRowClick: res => props.history.push(`/admin/product/${res[0]}`),
     textLabels: {
       body: {
         noMatch: " Desculpe, nenhum registro correspondente encontrado ",
@@ -99,15 +113,17 @@ export default function Product() {
   };
 
   return (
-    <div>
-      <MuiThemeProvider theme={getMuiTheme()}>
-        <MUIDataTable
-          title={"Lista de Produtos"}
-          data={product}
-          columns={columns}
-          options={options}
-        />
-      </MuiThemeProvider>
-    </div>
+    <Container>
+      {(message && <Alert color="info">{message}</Alert>) || (
+        <MuiThemeProvider theme={getMuiTheme()}>
+          <MUIDataTable
+            title={"Lista de Produtos"}
+            data={product}
+            columns={columns}
+            options={options}
+          />
+        </MuiThemeProvider>
+      )}
+    </Container>
   );
 }

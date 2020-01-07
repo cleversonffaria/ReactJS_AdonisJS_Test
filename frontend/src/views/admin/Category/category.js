@@ -94,7 +94,8 @@ export default function Category(...props) {
         filterTooltip: "Filtrar"
       },
       editRow: {
-        deleteText: "Deletar",
+        deleteText:
+          "Aviso: Ao deletar essa categoria, todas subcategorias com os produtos e pedidos também serão excluídos.",
         cancelTooltip: "Cancelar",
         saveTooltip: "Salvar"
       },

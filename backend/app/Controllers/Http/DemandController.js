@@ -6,17 +6,15 @@ const Database = use("Database");
 class DemandController {
   async store({ request, response, auth, params }) {
     try {
-      const product = await Product.findBy("id", params.id);
-      if (!product) {
-        return response.status(401).send({
-          message: "Não foi possivel completar o pedido, produto indisponivel!"
-        });
-      }
-      const { status_demand, ...data } = request.all();
-      const demand = await Demand.create({
+      // const randomID =
+      //   auth.user.id +
+      //   "" +
+      //   Math.floor((new Date().getTime() / 1000) * Math.random());
+      const { ...data } = request.all();
+      await Demand.create({
         user_id: auth.user.id,
-        status_demand: true,
-        product_id: params.id,
+        status_demand: false,
+        status_delivery: 4,
         ...data
       });
       return response.status(200).send({
@@ -29,15 +27,12 @@ class DemandController {
       });
     }
   }
-  async demands({ response, auth, params }) {
+  async demands({ response, auth }) {
     try {
-      if (auth.user.user_status === 1) {
-        const demand = await Database.table("demands");
-        if (!demand[0]) {
-          return response
-            .status(403)
-            .send({ message: "Não existe nenhum pedido" });
-        }
+      if (auth.user.user_status === 1 || auth.user.user_status === 2) {
+        const demand = await Demand.query()
+          .with("user")
+          .fetch();
         return demand;
       } else {
         return response
@@ -56,8 +51,8 @@ class DemandController {
       if (auth.user.user_status === 1) {
         const demand = await Demand.query()
           .where("user_id", params.id)
+          .with("user")
           .orderBy("created_at", "asc")
-          .with("product")
           .fetch();
         return demand;
       } else {
@@ -93,21 +88,23 @@ class DemandController {
   }
   async update({ request, response, auth, params }) {
     try {
-      const demand = await Demand.findBy("id", params.id);
-      if (!demand) {
-        return response
-          .status(401)
-          .send({ message: "Nenhum registro localizado!" });
-      }
       if (auth.user.user_status === 1) {
+        const demand = await Demand.findBy("demand_id", params.id);
+        if (!demand) {
+          return response
+            .status(401)
+            .send({ message: "Nenhum registro localizado!" });
+        }
         const {
           status_demand,
           status_delivery,
-          status_payment
+          status_payment,
+          method_payment
         } = request.all();
         demand.status_delivery = status_delivery;
         demand.status_payment = status_payment;
         demand.status_demand = status_demand;
+        demand.method_payment = method_payment;
         demand.save();
         return response.status(200).send({ message: "Pedido editado!" });
       }
