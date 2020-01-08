@@ -10,7 +10,7 @@ import {
   Button,
   Alert
 } from "reactstrap";
-import { TextField, TextareaAutosize } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import NumberFormat from "react-number-format";
 import { Editor } from "@tinymce/tinymce-react";
@@ -81,18 +81,6 @@ export default function Company() {
     company();
   }, []);
 
-  const saveCompany = async newData => {
-    await api
-      .post("company", newData)
-      .then(response => {
-        if (response.data.message) {
-          setMessage(response.data.message);
-        } else if (response.data[0].message) {
-          setMessage(response.data[0].message);
-        }
-      })
-      .catch(e => setMessage(e.response.data.message));
-  };
   const deleteCompany = async () => {
     await api
       .delete("company")
@@ -106,9 +94,18 @@ export default function Company() {
       .catch(e => setMessage(e.response.data.message));
   };
 
-  function handleProduct(event) {
+  async function handleProduct(event) {
     event.preventDefault();
-    saveCompany(data);
+    await api
+      .post("company", data)
+      .then(response => {
+        if (response.data.message) {
+          setMessage(response.data.message);
+        } else if (response.data[0].message) {
+          setMessage(response.data[0].message);
+        }
+      })
+      .catch(e => setMessage(e.response.data.message));
   }
 
   const mensagem = successMessage => {
@@ -373,15 +370,6 @@ export default function Company() {
                             }}
                             onChange={event => handleEditorChange(event)}
                           />
-                          {/* <div className="title_info">Descrição Breve</div>
-                          <TextareaAutosize
-                            onChange={event => onChange(event)}
-                            name="description"
-                            className="description"
-                            rowsMax={3}
-                            aria-label="empty textarea"
-                            placeholder="Faça uma breve descrição do site"
-                          /> */}
                         </Col>
                       </Row>
                     </InfoCard>

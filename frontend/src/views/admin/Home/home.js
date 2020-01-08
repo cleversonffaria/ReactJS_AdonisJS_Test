@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Bar } from "react-chartjs-2";
 import { CustomTooltips } from "@coreui/coreui-plugin-chartjs-custom-tooltips";
 import { Card, CardBody, FormText, Col, Row, Alert } from "reactstrap";
+import Modals from "./modalPerfil";
 
 // Imports Internos
 import Widget01 from "./Widget01";
@@ -17,17 +18,12 @@ function calcula_porcent(a, b) {
     return 0;
   }
 }
+// INICIO DO COMPONENTE
 export default function Home({ ...props }) {
   const [data, setData] = useState();
-  const [demand, setDemand] = useState({});
+  const [modal, setModal] = useState(false);
+  const [modalinfo, setModalinfo] = useState();
 
-  var listaPedidos = {
-    aprovado: 0,
-    valor_aprovado: 0,
-    reprovado: 0,
-    valor_reprovado: 0,
-    total: 0
-  };
   useEffect(() => {
     const haddleData = async () => {
       await api
@@ -37,7 +33,14 @@ export default function Home({ ...props }) {
     };
     haddleData();
   }, []);
-
+  // ##########   LISTAS  ###########
+  var listaPedidos = {
+    aprovado: 0,
+    valor_aprovado: 0,
+    reprovado: 0,
+    valor_reprovado: 0,
+    total: 0
+  };
   const listaPedidosMensal = {
     jan: 0,
     fev: 0,
@@ -52,6 +55,55 @@ export default function Home({ ...props }) {
     nov: 0,
     dez: 0
   };
+  const bar = {
+    labels: [
+      `Janeiro`,
+      `Fevereiro`,
+      `Março`,
+      `Abril`,
+      `Maio`,
+      `Junho`,
+      `Julho`,
+      `Agosto`,
+      `Setembro`,
+      `Outubro`,
+      `Novembro`,
+      `Dezembro`
+    ],
+    datasets: [
+      {
+        label: `Pedidos de ${new Date().getFullYear()}`,
+        backgroundColor: "rgba(255,99,132,0.2)",
+        borderColor: "rgba(255,99,132,1)",
+        borderWidth: 1,
+        hoverBackgroundColor: "rgba(255,99,132,0.4)",
+        hoverBorderColor: "rgba(255,99,132,1)",
+        data: [
+          listaPedidosMensal.jan,
+          listaPedidosMensal.fev,
+          listaPedidosMensal.mar,
+          listaPedidosMensal.abr,
+          listaPedidosMensal.mai,
+          listaPedidosMensal.jun,
+          listaPedidosMensal.jul,
+          listaPedidosMensal.ago,
+          listaPedidosMensal.set,
+          listaPedidosMensal.out,
+          listaPedidosMensal.nov,
+          listaPedidosMensal.dez
+        ]
+      }
+    ]
+  };
+  const options = {
+    tooltips: {
+      enabled: false,
+      custom: CustomTooltips
+    },
+    maintainAspectRatio: false
+  };
+  // ##########   FIM  LISTAS  ###########
+  // ##########   Funções  ###########
   data &&
     data.map(pedido => {
       if (pedido.status_payment) {
@@ -130,54 +182,12 @@ export default function Home({ ...props }) {
       }
       return "";
     });
-  const bar = {
-    labels: [
-      `Janeiro`,
-      `Fevereiro`,
-      `Março`,
-      `Abril`,
-      `Maio`,
-      `Junho`,
-      `Julho`,
-      `Agosto`,
-      `Setembro`,
-      `Outubro`,
-      `Novembro`,
-      `Dezembro`
-    ],
-    datasets: [
-      {
-        label: `Pedidos de ${new Date().getFullYear()}`,
-        backgroundColor: "rgba(255,99,132,0.2)",
-        borderColor: "rgba(255,99,132,1)",
-        borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
-        hoverBorderColor: "rgba(255,99,132,1)",
-        data: [
-          listaPedidosMensal.jan,
-          listaPedidosMensal.fev,
-          listaPedidosMensal.mar,
-          listaPedidosMensal.abr,
-          listaPedidosMensal.mai,
-          listaPedidosMensal.jun,
-          listaPedidosMensal.jul,
-          listaPedidosMensal.ago,
-          listaPedidosMensal.set,
-          listaPedidosMensal.out,
-          listaPedidosMensal.nov,
-          listaPedidosMensal.dez
-        ]
-      }
-    ]
-  };
-  const options = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips
-    },
-    maintainAspectRatio: false
+
+  const toggle = () => {
+    setModal(!modal);
   };
 
+  // ##########  Fim Funções  ###########
   return (
     <Container className="animated fadeIn">
       <Row>
@@ -293,7 +303,8 @@ export default function Home({ ...props }) {
                 <CardBody
                   className="cursor-pointer config_user"
                   onClick={() => {
-                    console.log("ABRIR MODAL");
+                    toggle();
+                    setModalinfo({ title: "Informações Pessoais" });
                   }}
                 >
                   <i className="fa fa-user fa-lg d-block font-5xl mb-2"></i>
@@ -301,6 +312,12 @@ export default function Home({ ...props }) {
                   <FormText className="help-block">
                     Visualizar, editar o perfil logado no sistema.
                   </FormText>
+                  <Modals
+                    title={modalinfo && modalinfo}
+                    modal={modal}
+                    {...props}
+                    setmodal={() => setModal()}
+                  />
                 </CardBody>
               </Card>
             </Col>

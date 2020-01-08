@@ -8,9 +8,14 @@ import {
   Row,
   Col,
   Button,
-  Alert
+  Alert,
+  DropdownToggle,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem
 } from "reactstrap";
 import { AppSwitch } from "@coreui/react";
+
 // Imports Internos
 import api from "../../../services/api";
 import img_perfil from "../../../assets/perfil.jpg";
@@ -74,6 +79,9 @@ export default function User() {
   const [messagedemand, setMessageDemand] = useState();
   const [status, setStatus] = useState();
 
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [privilegio, setPrivilegio] = useState();
+
   const listaPedidos = {
     valorFinalizado: 0,
     totalFinalizado: 0,
@@ -82,6 +90,34 @@ export default function User() {
     ultimoPedido: 0
   };
 
+  function toggle(index) {
+    setDropdownOpen(!index);
+  }
+  function user_Status(user) {
+    switch (user) {
+      case 1:
+        return (
+          <div className="font-weight-bold text-primary">Administrador</div>
+        );
+      case 2:
+        return <div className="font-weight-bold text-danger">Colaborador</div>;
+      case 3:
+        return <div className="font-weight-bold text-success">Usuário</div>;
+      default:
+        return (
+          <div className="font-weight-bold text-black-50">{privilegio}</div>
+        );
+    }
+  }
+  async function updateStatus(user, status) {
+    setPrivilegio(status);
+    await api
+      .put(`user/${user.id}`, {
+        user_status: status
+      })
+      .then(res => res.data)
+      .catch(erro => setPrivilegio(erro.response.data.message));
+  }
   function handdlePedido(pedido) {
     if (pedido.status_payment === true && pedido.status_delivery === 3) {
       listaPedidos.valorFinalizado += pedido.price;
@@ -114,7 +150,9 @@ export default function User() {
         .catch(e => setMessage(e.response.data.message));
       await api
         .get(`users/${id}`)
-        .then(res => setDataUser(res.data))
+        .then(
+          res => (setDataUser(res.data), setPrivilegio(res.data.user_status))
+        )
         .catch(e => setMessage(e.response.data.message));
       await api
         .get(`address/${id}`)
@@ -138,10 +176,29 @@ export default function User() {
                   <span className="font-weight-bold font-lg header_edit">
                     Dados
                   </span>
-                  <span>Privilegio</span>
-                  <div>
-                    <Button color="link">Editar</Button>
-                  </div>
+                  <Dropdown
+                    isOpen={dropdownOpen}
+                    toggle={() => {
+                      toggle(dropdownOpen);
+                    }}
+                    size="sm"
+                  >
+                    <DropdownToggle tag="span" className="cursor-pointer">
+                      {user_Status(privilegio)}
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem onClick={() => updateStatus(datauser, 3)}>
+                        Usuário
+                      </DropdownItem>
+                      <DropdownItem onClick={() => updateStatus(datauser, 2)}>
+                        Colaborador
+                      </DropdownItem>
+                      <DropdownItem onClick={() => updateStatus(datauser, 1)}>
+                        Administrador
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                  <Button color="link">Editar</Button>
                 </CardHeader>
                 {(message && (
                   <Alert color="warning" className="m-0">

@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 export const Cliente = styled.div`
+  .cursor-pointer {
+    cursor: pointer;
+  }
   .header_edit {
     color: #23282c;
   }

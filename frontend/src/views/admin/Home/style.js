@@ -1,5 +1,14 @@
 import styled from "styled-components";
-
+export const ModalStyle = styled.div`
+  .form-control {
+    height: calc(1.5em + 1.1rem + 2px) !important;
+    margin-top: 0.5rem;
+    border: 1px solid #c5c5c5;
+  }
+  .form-control:focus {
+    box-shadow: none;
+  }
+`;
 export const Container = styled.div`
   text-align: center;
   .welcome {
