@@ -50,6 +50,11 @@ adonis migration:run
 Para rodar a aplicação alterar duplique o arquivo e renomeie de .env.example para .env e configurare as variaveis de acordo com seu banco de dados.
 
 ```js
+adonis serve --dev
+```
+ ou 
+
+ ```js
 yarn start
 ```
 
