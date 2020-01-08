@@ -58,6 +58,7 @@ class UserController {
         "username.required": "Esse campo é obrigatório",
         "username.unique": "Esse usuário já existe",
         "username.min": "O usuário deve ter mais que 5 caracteres",
+        "email.min": "Esse email não e válido",
         "email.required": "Email é obrigatório",
         "email.unique": "Esse email já existe",
         "email.email": "Esse email não é valido",
@@ -73,7 +74,6 @@ class UserController {
       if (validation.fails()) {
         return response.status(202).send(validation.messages());
       }
-
       const user = await User.create({
         password,
         email,
@@ -134,6 +134,10 @@ class UserController {
       }
       if (user.id != auth.user.id && auth.user.user_status === 1) {
         user.user_status = user_status;
+      } else {
+        return response
+          .status(404)
+          .send({ message: "Não é possivel editar o próprio usuário" });
       }
       const username = toLower(name);
       const email = toLower(mail);

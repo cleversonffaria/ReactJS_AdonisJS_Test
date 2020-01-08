@@ -74,7 +74,7 @@ class ProfileController {
       }
       return response
         .status(200)
-        .send({ message: "esse usuário já possui perfil cadastrado!" });
+        .send({ message: "Esse usuário já possui perfil cadastrado!" });
     } catch (error) {
       return response.status(500).send({
         message: `Ocorreu algum erro ao criar esse perfil.`,
