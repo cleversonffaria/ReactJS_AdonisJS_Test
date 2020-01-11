@@ -11,22 +11,25 @@ class AddressController {
       const address = await Address.findBy("user_id", params.id);
       if (!address) {
         return response.status(401).send({
-          message: "Não existe endereço cadastrado para esse usuário!"
+          message: "Não existe endereço cadastrado para esse usuário!",
+          err: "info"
         });
       }
       return address;
     } else {
       return response.status(403).send({
-        message: "Acesso não autorizado para esse usuário!"
+        message: "Acesso não autorizado para esse usuário!",
+        err: "danger"
       });
     }
   }
   async index({ request, response, auth }) {
     const address = await Address.findBy("user_id", auth.user.id);
     if (!address) {
-      return response
-        .status(401)
-        .send({ message: "Não existe endereço cadastrado para esse usuário!" });
+      return response.status(401).send({
+        message: "Não existe endereço cadastrado para esse usuário!",
+        err: "info"
+      });
     }
     return address;
   }
@@ -40,15 +43,19 @@ class AddressController {
       const address = await Address.findBy("user_id", auth.user.id);
       if (!address) {
         await Address.create({ user_id: auth.user.id, ...data });
-        return response.status(200).send({ messsage: "Endereço cadastrado!" });
+        return response
+          .status(200)
+          .send({ message: "Endereço cadastrado!", err: "success" });
       }
-      return response
-        .status(200)
-        .send({ messsage: "Esse usuário já possui um endereço cadastrado!" });
+      return response.status(200).send({
+        message: "Esse usuário já possui um endereço cadastrado!",
+        err: "info"
+      });
     } catch (error) {
       return response.status(500).send({
         message: "Ocorreu algum erro ao criar o endereço.",
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }
@@ -63,15 +70,18 @@ class AddressController {
       if (!address) {
         return response
           .status(401)
-          .send({ message: "Nenhum registro localizado" });
+          .send({ message: "Nenhum registro localizado", err: "warning" });
       }
       await address.merge(data);
       await address.save();
-      return response.status(200).send({ messsage: "Endereço editado!" });
+      return response
+        .status(200)
+        .send({ message: "Endereço editado!", err: "success" });
     } catch (error) {
       return response.status(500).send({
         message: "Ocorreu algum erro ao editar endereço.",
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }
@@ -85,14 +95,17 @@ class AddressController {
       if (!address) {
         return response
           .status(401)
-          .send({ message: "Nenhum registro localizado" });
+          .send({ message: "Nenhum registro localizado", err: "warning" });
       }
       await address.delete();
-      return response.status(200).send({ message: "Endereço excluido!" });
+      return response
+        .status(200)
+        .send({ message: "Endereço excluido!", err: "success" });
     } catch (error) {
       return response.status(500).send({
         message: "Ocorreu algum erro ao deletar endereço.",
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }

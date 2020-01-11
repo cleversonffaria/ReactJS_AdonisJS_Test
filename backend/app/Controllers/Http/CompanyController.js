@@ -13,7 +13,7 @@ class CompanyController {
     if (!company) {
       return response
         .status(401)
-        .send({ message: "Nenhum registro localizado" });
+        .send({ message: "Nenhum registro localizado", err: "warning" });
     }
     return company;
   }
@@ -29,22 +29,24 @@ class CompanyController {
         await Company.create(data);
         return response
           .status(200)
-          .send({ message: "Empresa cadastrada com sucesso!" });
+          .send({ message: "Empresa cadastrada com sucesso!", err: "success" });
       } else if (auth.user.user_status != 1) {
         return response.status(403).send({
-          message: "Acesso negado para realizar essa tarefa!"
+          message: "Acesso negado para realizar essa tarefa!",
+          err: "danger"
         });
       } else {
         company.merge(data);
         company.save();
         return response
           .status(200)
-          .send({ message: "Empresa editada com sucesso!" });
+          .send({ message: "Empresa editada com sucesso!", err: "success" });
       }
     } catch (error) {
       return response.status(500).send({
         message: `Ocorreu algum erro ao cadastrar a empresa.`,
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }
@@ -57,17 +59,18 @@ class CompanyController {
     if (!company) {
       return response
         .status(401)
-        .send({ message: "Nenhum registro localizado" });
+        .send({ message: "Nenhum registro localizado", err: "warning" });
     }
     if (auth.user.user_status === 1) {
       await company.delete();
       return response
         .status(200)
-        .send({ message: "Empresa deletada com sucesso!" });
+        .send({ message: "Empresa deletada com sucesso!", err: "success" });
     }
-    return response
-      .status(403)
-      .send({ message: "Acesso negado para realizar essa tarefa!" });
+    return response.status(403).send({
+      message: "Acesso negado para realizar essa tarefa!",
+      err: "danger"
+    });
   }
 }
 module.exports = CompanyController;

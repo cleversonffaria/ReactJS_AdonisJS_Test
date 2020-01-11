@@ -59,17 +59,20 @@ class ProductController {
           name: `${new Date().getTime()}-${img.clientName}`
         });
         if (img.error()[0]) {
-          if (img.error()[0].type === "extname") {
+          if (img.error().type === "extname") {
             return response.status(404).send({
-              message: "Somente os formatos (png, jpg, jpeg) são aceitos."
+              message: "Somente os formatos (png, jpg, jpeg) são aceitos.",
+              err: "info"
             });
-          } else if (img.error()[0].type === "size") {
+          } else if (img.error().type === "size") {
             return response.status(404).send({
-              message: "O tamanho da imagem deve ser inferior a 5 MB"
+              message: "O tamanho da imagem deve ser inferior a 5 MB",
+              err: "warning"
             });
           }
           return response.status(404).send({
-            message: "Ocorreu algum erro ao enviar a imagem do produto"
+            message: "Ocorreu algum erro ao enviar a imagem do produto",
+            err: "danger"
           });
         }
         await Product.create({
@@ -79,15 +82,17 @@ class ProductController {
 
         return response
           .status(200)
-          .send({ message: `Produto cadastrado com sucesso!` });
+          .send({ message: `Produto cadastrado com sucesso!`, err: "success" });
       }
       return response.status(403).send({
-        message: `Acesso negado para cadastrar esse produtos!`
+        message: `Acesso negado para cadastrar esse produtos!`,
+        err: "danger"
       });
     } catch (error) {
       return response.status(401).send({
         message: `Erro ao criar produto.`,
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }
@@ -104,7 +109,8 @@ class ProductController {
     } catch (error) {
       return response.status(401).send({
         message: `Erro na visualização do produto.`,
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }
@@ -116,7 +122,7 @@ class ProductController {
       if (!product) {
         return response
           .status(401)
-          .send({ message: "Nenhum registro localizado" });
+          .send({ message: "Nenhum registro localizado", err: "info" });
       }
       if (auth.user.user_status <= 2) {
         // DELETAR
@@ -133,17 +139,20 @@ class ProductController {
           name: `${new Date().getTime()}-${img.clientName}`
         });
         if (img.error()[0]) {
-          if (img.error()[0].type === "extname") {
+          if (img.error().type === "extname") {
             return response.status(404).send({
-              message: "Somente os formatos (png, jpg, jpeg) são aceitos."
+              message: "Somente os formatos (png, jpg, jpeg) são aceitos.",
+              err: "info"
             });
-          } else if (img.error()[0].type === "size") {
+          } else if (img.error().type === "size") {
             return response.status(404).send({
-              message: "O tamanho da imagem deve ser inferior a 5 MB"
+              message: "O tamanho da imagem deve ser inferior a 5 MB",
+              err: "warning"
             });
           }
           return response.status(404).send({
-            message: "Ocorreu algum erro ao enviar a imagem do produto"
+            message: "Ocorreu algum erro ao enviar a imagem do produto",
+            err: "danger"
           });
         }
         await product.merge({
@@ -153,16 +162,18 @@ class ProductController {
         await product.save();
         return response
           .status(200)
-          .send({ message: "Produto editado com sucesso!" });
+          .send({ message: "Produto editado com sucesso!", err: "success" });
       } else {
-        return response
-          .status(403)
-          .send({ message: "Acesso negado para editar esse produtos!" });
+        return response.status(403).send({
+          message: "Acesso negado para editar esse produtos!",
+          err: "danger"
+        });
       }
     } catch (error) {
       return response.status(500).send({
         message: `Erro ao editar produto.`,
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }
@@ -172,7 +183,7 @@ class ProductController {
     if (!product) {
       return response
         .status(401)
-        .send({ message: "Nenhum registro localizado" });
+        .send({ message: "Nenhum registro localizado", err: "info" });
     }
     if (auth.user.user_status <= 2) {
       const fs = Helpers.promisify(require("fs"));
@@ -182,11 +193,12 @@ class ProductController {
       await product.delete();
       return response
         .status(200)
-        .send({ message: "Produto deletado com sucesso!" });
+        .send({ message: "Produto deletado com sucesso!", err: "success" });
     }
-    return response
-      .status(403)
-      .send({ message: "Acesso negado para para deletar esse produtos!" });
+    return response.status(403).send({
+      message: "Acesso negado para para deletar esse produtos!",
+      err: "danger"
+    });
   }
 }
 

@@ -9,12 +9,14 @@ class DemandProductController {
         ...data
       });
       return response.status(200).send({
-        message: `Pedido realizado`
+        message: `Pedido realizado`,
+        err: "success"
       });
     } catch (error) {
       return response.status(401).send({
         message: `Ocorreu algum erro ao realizar o pedido!`,
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }
@@ -30,7 +32,8 @@ class DemandProductController {
     } catch (error) {
       return response.status(401).send({
         message: `Ocorreu algum erro ao visualizar os pedidos.`,
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }

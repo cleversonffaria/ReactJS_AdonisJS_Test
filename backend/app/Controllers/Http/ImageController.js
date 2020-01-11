@@ -25,9 +25,10 @@ class ImageController {
       if (auth.user.user_status === 1 || auth.user.user_status === 2) {
         const product = await Product.findBy("id", params.id);
         if (!product) {
-          return response
-            .status(403)
-            .send({ message: "Não foi possivel localizar esse produto!" });
+          return response.status(403).send({
+            message: "Não foi possivel localizar esse produto!",
+            err: "info"
+          });
         }
         const img = request.file("img", {
           types: ["image"],
@@ -42,16 +43,19 @@ class ImageController {
         if (img.errors()[0]) {
           if (img.errors()[0].type === "extname") {
             return response.status(404).send({
-              message: "Somente os formatos (png, jpg, jpeg) são aceitos."
+              message: "Somente os formatos (png, jpg, jpeg) são aceitos.",
+              err: "info"
             });
           } else if (img.errors()[0].type === "size") {
             return response.status(404).send({
-              message: "O tamanho da imagem deve ser inferior a 5 MB"
+              message: "O tamanho da imagem deve ser inferior a 5 MB",
+              err: "warning"
             });
           }
-          return response
-            .status(404)
-            .send({ message: "Ocorreu algum erro ao enviar a imagem" });
+          return response.status(404).send({
+            message: "Ocorreu algum erro ao enviar a imagem",
+            err: "danger"
+          });
         }
         await Promise.all(
           img.movedList().map(item =>
@@ -63,15 +67,17 @@ class ImageController {
         );
         return response
           .status(200)
-          .send({ message: "Imagens inseridas com sucesso" });
+          .send({ message: "Imagens inseridas com sucesso", err: "success" });
       }
       return response.status(403).send({
-        message: `Acesso negado para realizar essa tarefa!`
+        message: `Acesso negado para realizar essa tarefa!`,
+        err: "danger"
       });
     } catch (error) {
       return response.status(401).send({
         message: `Ocorreu algum erro ao cadastrar imagens.`,
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
       // .send({ message: "Ocorreu algum erro ao fazer o upload" });
     }
@@ -81,23 +87,28 @@ class ImageController {
       if (auth.user.user_status === 1 || auth.user.user_status === 2) {
         const imgProduct = await Images.findBy("path", params.image);
         if (!imgProduct) {
-          return response
-            .status(404)
-            .send({ message: "Erro ao deletar, essa imagem não existe!" });
+          return response.status(404).send({
+            message: "Erro ao deletar, essa imagem não existe!",
+            err: "danger"
+          });
         }
         const fs = Helpers.promisify(require("fs"));
         const img = Helpers.tmpPath(`uploads/${params.image}`);
         await fs.unlink(img);
         imgProduct.delete();
-        return response.status(200).send({ message: "Imagem Deletada!" });
+        return response
+          .status(200)
+          .send({ message: "Imagem Deletada!", err: "success" });
       }
       return response.status(403).send({
-        message: "Acesso negado para realizar essa tarefa!"
+        message: "Acesso negado para realizar essa tarefa!",
+        err: "danger"
       });
     } catch (error) {
       return response.status(401).send({
         message: `Ocorreu algum erro ao deletar.`,
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }

@@ -13,15 +13,17 @@ class CategoryController {
         await Category.create(data);
         return response
           .status(200)
-          .send({ message: "Categoria criada com sucesso!" });
+          .send({ message: "Categoria criada com sucesso!", err: "success" });
       }
       return response.status(403).send({
-        message: "Acesso negado para realizar essa tarefa!"
+        message: "Acesso negado para realizar essa tarefa!",
+        err: "danger"
       });
     } catch (error) {
       return response.status(500).send({
         message: "Ocorreu algum erro ao criar a categoria.",
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }
@@ -32,20 +34,24 @@ class CategoryController {
       if (!category) {
         return response
           .status(401)
-          .send({ message: "Nenhum registro localizado" });
+          .send({ message: "Nenhum registro localizado", err: "warning" });
       }
       if (auth.user.user_status <= 2) {
         category.merge(data);
         category.save();
-        return response.status(200).send({ message: "Categoria editada!" });
+        return response
+          .status(200)
+          .send({ message: "Categoria editada!", err: "success" });
       }
       return response.status(403).send({
-        message: "Acesso negado para realizar essa tarefa!"
+        message: "Acesso negado para realizar essa tarefa!",
+        err: "danger"
       });
     } catch (error) {
       return response.status(500).send({
         message: "Ocorreu algum erro ao editar a categoria.",
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }
@@ -54,15 +60,18 @@ class CategoryController {
     if (!category) {
       return response
         .status(401)
-        .send({ message: "Nenhum registro localizado" });
+        .send({ message: "Nenhum registro localizado", err: "warning" });
     }
     if (auth.user.user_status <= 2) {
       await category.delete();
-      return response.status(200).send({ message: "Categoria excluida!" });
+      return response
+        .status(200)
+        .send({ message: "Categoria excluida!", err: "success" });
     }
-    return response
-      .status(403)
-      .send({ message: "Acesso negado para realizar essa tarefa!" });
+    return response.status(403).send({
+      message: "Acesso negado para realizar essa tarefa!",
+      err: "danger"
+    });
   }
 }
 

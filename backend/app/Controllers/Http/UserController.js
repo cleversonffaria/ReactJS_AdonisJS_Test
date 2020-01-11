@@ -128,16 +128,18 @@ class UserController {
       } = request.all();
       const user = await User.findBy("id", params.id);
       if (!user) {
-        return response
-          .status(404)
-          .send({ message: "Não foi possivel editar o usuário" });
+        return response.status(404).send({
+          message: "Não foi possivel editar o usuário",
+          err: "warning"
+        });
       }
       if (user.id != auth.user.id && auth.user.user_status === 1) {
         user.user_status = user_status;
       } else {
-        return response
-          .status(404)
-          .send({ message: "Não é possivel editar o próprio usuário" });
+        return response.status(404).send({
+          message: "Não é possivel editar o próprio usuário",
+          err: "warning"
+        });
       }
       const username = toLower(name);
       const email = toLower(mail);
@@ -170,15 +172,17 @@ class UserController {
         user.save();
         return response
           .status(200)
-          .send({ message: "Usuário atualizado com sucesso!" });
+          .send({ message: "Usuário atualizado com sucesso!", err: "success" });
       }
-      return response
-        .status(404)
-        .send({ message: "Acesso negado para editar este usuário" });
+      return response.status(404).send({
+        message: "Acesso negado para editar este usuário",
+        err: "danger"
+      });
     } catch (error) {
       return response.status(500).send({
         message: `Ocorreu algum erro ao editar este usuário.`,
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }

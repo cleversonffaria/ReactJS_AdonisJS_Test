@@ -18,12 +18,14 @@ class DemandController {
         ...data
       });
       return response.status(200).send({
-        message: `Pedido realizado`
+        message: `Pedido realizado`,
+        err: "success"
       });
     } catch (error) {
       return response.status(401).send({
         message: `Ocorreu algum erro ao realizar o pedido!`,
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }
@@ -35,14 +37,16 @@ class DemandController {
           .fetch();
         return demand;
       } else {
-        return response
-          .status(403)
-          .send({ message: "Não autorizado para realizar essa tarefa" });
+        return response.status(403).send({
+          message: "Não autorizado para realizar essa tarefa",
+          err: "warning"
+        });
       }
     } catch (error) {
       return response.status(401).send({
         message: `Ocorreu algum erro ao visualizar os pedidos.`,
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }
@@ -56,14 +60,16 @@ class DemandController {
           .fetch();
         return demand;
       } else {
-        return response
-          .status(403)
-          .send({ message: "Não autorizado para realizar essa tarefa" });
+        return response.status(403).send({
+          message: "Não autorizado para realizar essa tarefa",
+          err: "warning"
+        });
       }
     } catch (error) {
       return response.status(401).send({
         message: `Ocorreu algum erro ao visualizar os pedidos.`,
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }
@@ -76,13 +82,14 @@ class DemandController {
       if (!demand[0]) {
         return response
           .status(403)
-          .send({ message: "Nenhum pedido para esse usuário" });
+          .send({ message: "Nenhum pedido para esse usuário", err: "info" });
       }
       return demand;
     } catch (error) {
       return response.status(401).send({
         message: `Ocorreu algum erro ao visualizar os pedidos.`,
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }
@@ -93,7 +100,7 @@ class DemandController {
         if (!demand) {
           return response
             .status(401)
-            .send({ message: "Nenhum registro localizado!" });
+            .send({ message: "Nenhum registro localizado!", err: "info" });
         }
         const {
           status_demand,
@@ -106,15 +113,19 @@ class DemandController {
         demand.status_demand = status_demand;
         demand.method_payment = method_payment;
         demand.save();
-        return response.status(200).send({ message: "Pedido editado!" });
+        return response
+          .status(200)
+          .send({ message: "Pedido editado!", err: "success" });
       }
       return response.status(403).send({
-        message: "Acesso negado para editar esse pedido!"
+        message: "Acesso negado para editar esse pedido!",
+        err: "danger"
       });
     } catch (error) {
       return response.status(401).send({
         message: `Ocorreu algum erro ao editar o pedido.`,
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }
@@ -124,27 +135,32 @@ class DemandController {
       if (!demand) {
         return response
           .status(401)
-          .send({ message: "Nenhum registro localizado!" });
+          .send({ message: "Nenhum registro localizado!", err: "info" });
       }
       if (auth.user.id === demand.user_id || auth.user.user_status === 1) {
         if (demand.status_payment === false || auth.user.user_status === 1) {
           await demand.delete();
-          return response.status(200).send({ message: "Pedido Deletado!" });
+          return response
+            .status(200)
+            .send({ message: "Pedido Deletado!", err: "success" });
         } else {
           return response.status(403).send({
             message:
-              "Desculpe: O pagamento já foi realizado! Por favor entre em contato conosco para cancelar o pedido."
+              "Desculpe: O pagamento já foi realizado! Por favor entre em contato conosco para cancelar o pedido.",
+            err: "info"
           });
         }
       } else {
         return response.status(403).send({
-          message: "Acesso negado para deletar esse pedido!"
+          message: "Acesso negado para deletar esse pedido!",
+          err: "danger"
         });
       }
     } catch (error) {
       return response.status(401).send({
         message: "Ocorreu algum erro ao deletar o pedido.",
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }

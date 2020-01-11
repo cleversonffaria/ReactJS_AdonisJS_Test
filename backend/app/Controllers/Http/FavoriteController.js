@@ -9,7 +9,8 @@ class FavoriteController {
       if (!product) {
         return response.status(401).send({
           message:
-            "Não é possivel adicionar como favorito, produto indisponivel!"
+            "Não é possivel adicionar como favorito, produto indisponivel!",
+          err: "info"
         });
       }
       const favorite = await Favorite.create({
@@ -18,11 +19,12 @@ class FavoriteController {
       });
       return response
         .status(200)
-        .send({ message: "Produto adicionado aos favoritos!" });
+        .send({ message: "Produto adicionado aos favoritos!", err: "success" });
     } catch (error) {
       return response.status(401).send({
         message: "Erro ao adicionar aos favorito.",
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }
@@ -33,13 +35,16 @@ class FavoriteController {
         auth.user.id
       );
       if (!favorite[0]) {
-        return response.status(401).send({ message: "Não há favoritos" });
+        return response
+          .status(401)
+          .send({ message: "Não há favoritos", err: "info" });
       }
       return favorite;
     } catch (error) {
       return response.status(401).send({
         message: `Ocorreu algum erro ao visualizar favoritos`,
-        error: `Erro:${error.message}`
+        error: `Erro:${error.message}`,
+        err: "danger"
       });
     }
   }
@@ -52,7 +57,8 @@ class FavoriteController {
       return response.status(200).send({ message: "Favorito excluido!" });
     } else {
       return response.status(404).send({
-        message: "Esse Usuário não possui o produto como favorito"
+        message: "Esse Usuário não possui o produto como favorito",
+        err: "info"
       });
     }
   }
